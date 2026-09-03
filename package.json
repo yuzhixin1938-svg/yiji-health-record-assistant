@@ -1,0 +1,71 @@
+{
+  "name": "yiji",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build:site": "npm run build && node scripts/build-site.mjs",
+    "build": "tsc -p apps/api/tsconfig.json",
+    "start:dev": "npm run build && node dist/main.js",
+    "start": "node dist/main.js",
+    "test": "tsx --test apps/api/test/**/*.test.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:validate": "prisma validate",
+    "prisma:migrate": "prisma migrate deploy",
+    "ocr:report": "node scripts/ocr-accuracy-report.mjs",
+    "ocr:batch:local": "tsx scripts/ocr-batch-check.ts",
+    "ocr:batch:online": "tsx scripts/ocr-online-batch-test.ts",
+    "oss:smoke": "tsx scripts/oss-storage-smoke-test.ts",
+    "accounts:purge": "tsx scripts/purge-deleted-accounts.ts",
+    "check": "npm run prisma:validate && npm run build && tsc -p tsconfig.json && npm test"
+  },
+  "dependencies": {
+    "@alicloud/dysmsapi20170525": "^4.6.0",
+    "@alicloud/openapi-client": "^0.4.15",
+    "@alicloud/tea-util": "^1.4.11",
+    "@nestjs/common": "11.1.27",
+    "@nestjs/core": "11.1.27",
+    "@nestjs/platform-express": "11.1.27",
+    "@prisma/adapter-pg": "7.9.1",
+    "@prisma/client": "7.9.1",
+    "@vercel/blob": "^2.8.0",
+    "ali-oss": "^6.23.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "pdf-parse": "^2.4.5",
+    "pdfkit": "^0.19.1",
+    "pg": "8.22.0",
+    "reflect-metadata": "0.2.2",
+    "resend": "^6.17.2",
+    "rxjs": "7.8.2",
+    "sharp": "^0.35.3",
+    "tesseract.js": "^7.0.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.10.0",
+    "@types/pdfkit": "^0.17.6",
+    "@types/pg": "^8.15.6",
+    "prisma": "7.9.1",
+    "tsx": "4.23.0",
+    "typescript": "6.0.3"
+  },
+  "overrides": {
+    "@hono/node-server": "2.0.12",
+    "ajv": "8.18.0",
+    "deepmerge-ts": "8.0.2",
+    "js-yaml": "5.4.1",
+    "minimatch": "10.2.6",
+    "mysql2": "3.24.3",
+    "multer": "2.2.0",
+    "path-to-regexp": "6.3.0",
+    "smol-toml": "1.7.1",
+    "undici": "6.28.0"
+  }
+}

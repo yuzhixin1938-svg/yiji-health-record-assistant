@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>医记文档｜测试场景</title>
+<style>
+:root{--bg:#f7f1e7;--panel:#fffdf8;--ink:#20322c;--muted:#6f7a74;--line:#eadfce;--brand:#176d5c;--soft:#e8f4ee;--shadow:0 18px 50px rgba(75,55,30,.1)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0,#fff8e9 0,#f7f1e7 34%,#edf6f1 100%);color:var(--ink);font:16px/1.75 "PingFang SC","Microsoft YaHei",system-ui,sans-serif}.wrap{width:min(980px,100%);margin:auto;padding:30px 18px 70px}.top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:18px}.back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--brand);text-decoration:none;font-weight:850}.card{border:1px solid var(--line);border-radius:24px;background:rgba(255,253,248,.96);box-shadow:var(--shadow);overflow:hidden}.hero{padding:28px}.eyebrow{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:13px;font-weight:850}h1{margin:12px 0 4px;font-size:clamp(30px,4vw,44px);line-height:1.12;letter-spacing:-.04em}.muted{margin:0;color:var(--muted)}.content{padding:8px 30px 36px}.content h1{font-size:34px}.content h2{margin:30px 0 10px;font-size:25px;line-height:1.28;color:var(--brand)}.content h3{margin:24px 0 8px;font-size:20px}.content h4{margin:18px 0 6px;font-size:17px}.content p{margin:10px 0}.content ul,.content ol{margin:10px 0 14px;padding-left:24px}.content li{margin:6px 0}.content strong{font-weight:850}.content code{padding:2px 6px;border-radius:7px;background:var(--soft);color:#124a3f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.content pre{overflow:auto;padding:16px;border-radius:16px;background:#173e35;color:#eef9f5}.content pre code{padding:0;background:transparent;color:inherit}.content blockquote{margin:14px 0;padding:12px 16px;border-left:4px solid var(--brand);border-radius:0 14px 14px 0;background:#edf7f2;color:#315c50}.content table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}.content td{padding:10px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top}.content tr:last-child td{border-bottom:0}.content td:last-child{border-right:0}.content hr{border:0;border-top:1px solid var(--line);margin:24px 0}@media(max-width:640px){.top{align-items:flex-start;flex-direction:column}.wrap{padding:20px 12px 48px}.hero,.content{padding:20px}.content table{display:block;overflow:auto}.content h1{font-size:28px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a class="back" href="../project-story.html">← 返回项目复盘</a></div>
+  <article class="card">
+    <header class="hero"><span class="eyebrow">医记产品文档</span><h1>测试场景</h1></header>
+    <section class="content"><h1>医记测试场景</h1>
+<p><strong>Source</strong>：新版 PRD 和用户故事 <strong>Coverage</strong>：happy path / edge cases / errors / security / privacy</p>
+<h2>Scenario 1：新用户完成本人建档</h2>
+<p><strong>Tests</strong>：邮箱登录、本人档案 <strong>Preconditions</strong>：用户邮箱未注册 <strong>User role</strong>：患者本人</p>
+<table><tbody>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>输入邮箱并获取验证码</td><td>验证码发送成功</td></tr>
+<tr><td>2</td><td>输入正确验证码</td><td>登录成功并进入建档流程</td></tr>
+<tr><td>3</td><td>填写昵称、性别、出生年月</td><td>表单校验通过</td></tr>
+<tr><td>4</td><td>保存档案</td><td>创建本人档案，进入档案补全任务</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 2：验证码异常处理</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>输入错误验证码</td><td>返回错误提示，不创建会话</td></tr>
+<tr><td>2</td><td>输入过期验证码</td><td>返回过期提示</td></tr>
+<tr><td>3</td><td>连续多次请求验证码</td><td>触发限流提示</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：High</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 3：上传并手动归档病历资料</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>上传一张检查报告图片</td><td>文件上传成功，状态为待归档</td></tr>
+<tr><td>2</td><td>填写资料类型、医院、日期、标签</td><td>字段保存成功</td></tr>
+<tr><td>3</td><td>点击归档</td><td>资料进入对应成员时间线</td></tr>
+<tr><td>4</td><td>查看归档反馈</td><td>显示“已归档到 [成员] &gt; [类型] &gt; [日期]”</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 4：上传失败</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>上传超大文件</td><td>阻止上传并提示大小限制</td></tr>
+<tr><td>2</td><td>上传不支持格式</td><td>阻止上传并提示支持格式</td></tr>
+<tr><td>3</td><td>上传中断</td><td>不生成可见的完整资料，允许重试</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：High</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 5：搜索和时间线</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>上传多份不同医院资料</td><td>多条资料归档成功</td></tr>
+<tr><td>2</td><td>搜索医院名</td><td>返回匹配资料</td></tr>
+<tr><td>3</td><td>按资料类型筛选</td><td>只展示该类型资料</td></tr>
+<tr><td>4</td><td>查看时间线</td><td>按日期倒序展示</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：High</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 6：添加药品和用药提醒</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>添加药品名称、规格和用法用量原文</td><td>药品保存成功</td></tr>
+<tr><td>2</td><td>设置每日提醒时间</td><td>今日待办出现对应用药事项</td></tr>
+<tr><td>3</td><td>停用药品</td><td>后续提醒停止</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 7：药品安全边界</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>用户查看药品详情</td><td>显示“不提供用药建议”边界提示</td></tr>
+<tr><td>2</td><td>用户未填写用法用量</td><td>系统不自动生成剂量</td></tr>
+<tr><td>3</td><td>用户添加多个药品</td><td>系统不判断相互作用或替代关系</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 8：记录指标</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>记录血压 128/82</td><td>保存为血压记录</td></tr>
+<tr><td>2</td><td>选择来源为手动记录</td><td>来源显示正确</td></tr>
+<tr><td>3</td><td>查看历史记录</td><td>按时间展示，不给出诊断判断</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：High</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 9：生成就诊资料包 PDF</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>点击“我要去看医生”</td><td>进入资料包生成流程</td></tr>
+<tr><td>2</td><td>选择本人和本次就诊目的</td><td>进入资料选择</td></tr>
+<tr><td>3</td><td>勾选相关资料、药品、指标</td><td>进入近期情况补充</td></tr>
+<tr><td>4</td><td>填写近期症状和想问医生的问题</td><td>可预览资料包</td></tr>
+<tr><td>5</td><td>导出 PDF</td><td>PDF 生成成功且包含完整资料</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 10：家庭成员数据隔离</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>创建家庭成员 A 和 B</td><td>成员创建成功</td></tr>
+<tr><td>2</td><td>给 A 上传资料</td><td>资料只出现在 A 名下</td></tr>
+<tr><td>3</td><td>切换到 B</td><td>不展示 A 的资料</td></tr>
+<tr><td>4</td><td>直接请求 A 的资料 ID</td><td>未授权用户返回 403 或 404</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 11：授权撤销</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>授权家人查看资料</td><td>家人可按授权范围查看</td></tr>
+<tr><td>2</td><td>撤销授权</td><td>家人立即失去访问权限</td></tr>
+<tr><td>3</td><td>家人刷新旧页面</td><td>访问失败</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</tbody></table>
+</tbody></table>
+<h2>Scenario 12：数据导出和删除</h2>
+</tbody></table>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+<tr><td>1</td><td>用户请求导出数据</td><td>生成结构化数据和原文件导出</td></tr>
+<tr><td>2</td><td>用户删除单份资料</td><td>资料不再可见，相关待办/资料包引用更新</td></tr>
+<tr><td>3</td><td>用户申请注销账号</td><td>进入二次确认和删除流程</td></tr>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</tbody></table>
+</tbody></table>
+<h2>Coverage Matrix</h2>
+</tbody></table>
+<tr><td>Requirement</td><td>Happy Path</td><td>Edge Cases</td><td>Error Handling</td><td>Security/Privacy Notes</td></tr>
+<tr><td>邮箱登录</td><td>Scenario 1</td><td>Scenario 2</td><td>验证码错误/过期/限流</td><td>不展示生产验证码</td></tr>
+<tr><td>本人建档</td><td>Scenario 1</td><td>缺少可选信息</td><td>表单校验</td><td>默认本人归属</td></tr>
+<tr><td>病历上传</td><td>Scenario 3</td><td>Scenario 4</td><td>上传失败/格式错误</td><td>原文件私有存储</td></tr>
+<tr><td>分类归档</td><td>Scenario 3</td><td>字段修改</td><td>保存失败重试</td><td>修改写审计</td></tr>
+<tr><td>搜索时间线</td><td>Scenario 5</td><td>多成员筛选</td><td>无结果提示</td><td>不跨成员泄露</td></tr>
+<tr><td>药品提醒</td><td>Scenario 6</td><td>停用药品</td><td>无提醒权限</td><td>不自动建议剂量</td></tr>
+<tr><td>指标记录</td><td>Scenario 8</td><td>不同单位</td><td>输入错误</td><td>不做诊断</td></tr>
+<tr><td>就诊资料包</td><td>Scenario 9</td><td>无资料状态</td><td>PDF 失败重试</td><td>导出前鉴权</td></tr>
+<tr><td>家庭权限</td><td>Scenario 10/11</td><td>授权撤销</td><td>403/404</td><td>默认拒绝</td></tr>
+<tr><td>数据权利</td><td>Scenario 12</td><td>删除后恢复</td><td>异步失败重试</td><td>删除证明不含正文</td></tr>
+</tbody></table>
+</tbody></table>
+</tbody></table></section>
+  </article>
+</main>
+</body>
+</html>

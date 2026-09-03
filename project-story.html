@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>医记项目复盘｜从病历整理痛点到线上应用</title>
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --bg:#f7f1e7;
+  --bg-2:#edf6f1;
+  --surface:#fffaf2;
+  --surface-strong:#fffdf8;
+  --surface-soft:#f3eadc;
+  --ink:#20322c;
+  --muted:#6f7a74;
+  --soft-text:#8a7f72;
+  --line:#eadfce;
+  --brand:#176d5c;
+  --brand-2:#0f5548;
+  --brand-deep:#153f36;
+  --mint:#dff2eb;
+  --mint-2:#e8f4ee;
+  --orange:#e78b4f;
+  --orange-soft:#fde9d9;
+  --blue:#6c91bd;
+  --blue-soft:#dfeaf7;
+  --red:#e66d63;
+  --cream:#fff6e9;
+  --shadow:0 18px 50px rgba(75,55,30,.11);
+  --shadow-lift:0 24px 70px rgba(51,71,59,.16);
+  --radius-lg:28px;
+  --radius-md:18px;
+  --max:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  font:16px/1.72 "PingFang SC","Microsoft YaHei",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 11% 2%,rgba(255,248,233,.95) 0,rgba(255,248,233,.55) 24%,transparent 42%),
+    radial-gradient(circle at 88% 0,rgba(223,242,235,.95) 0,rgba(223,242,235,.48) 30%,transparent 50%),
+    linear-gradient(135deg,var(--bg) 0%,#f5eadb 46%,var(--bg-2) 100%);
+  min-height:100vh;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.28;
+  background-image:
+    linear-gradient(rgba(23,109,92,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(23,109,92,.08) 1px,transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(to bottom,black,transparent 72%);
+}
+a{color:inherit}
+button,input,select,textarea{font:inherit}
+.read-progress{
+  position:fixed;
+  left:0;
+  top:0;
+  z-index:100;
+  height:4px;
+  width:calc(var(--progress,0) * 1%);
+  background:linear-gradient(90deg,var(--brand),#5bd0af,var(--orange));
+  box-shadow:0 0 16px rgba(23,109,92,.24);
+}
+.wrap{width:min(var(--max),100%);margin:auto;padding:34px 22px 78px}
+.hero{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(340px,.94fr);gap:22px;align-items:stretch}
+.card{
+  border:1px solid rgba(234,223,206,.86);
+  border-radius:var(--radius-lg);
+  background:rgba(255,250,242,.9);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(16px);
+}
+.card,.doc-link,.btn,.node,.story,.metric,.check,.pain-card{transition:transform .26s ease,box-shadow .26s ease,border-color .26s ease,background .26s ease}
+.card:hover,.doc-link:hover,.metric:hover,.pain-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift);border-color:rgba(23,109,92,.25)}
+.hero-main{position:relative;overflow:hidden;padding:48px}
+.hero-main:after{
+  content:"";
+  position:absolute;
+  right:-70px;
+  bottom:-110px;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(23,109,92,.16),transparent 66%);
+}
+.eyebrow,.kicker,.mini-label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  width:max-content;
+  max-width:100%;
+  padding:7px 12px;
+  border-radius:999px;
+  background:var(--mint);
+  color:var(--brand);
+  font-size:13px;
+  font-weight:850;
+  letter-spacing:.02em;
+}
+.hero h1{position:relative;margin:20px 0 14px;font-size:clamp(36px,5.2vw,60px);line-height:1.08;letter-spacing:-.055em;max-width:880px}
+.hero p{position:relative;margin:0;color:var(--muted);font-size:18px;max-width:760px}
+.hero strong{color:var(--brand-deep)}
+.hero-actions{position:relative;display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:28px}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  line-height:1;
+  padding:0 18px;
+  border-radius:15px;
+  border:1px solid var(--line);
+  background:rgba(255,253,248,.88);
+  color:var(--ink);
+  text-decoration:none;
+  font-weight:850;
+}
+.btn:hover{transform:translateY(-2px);border-color:rgba(23,109,92,.28);box-shadow:0 12px 28px rgba(75,55,30,.1)}
+.btn.primary{border-color:transparent;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;box-shadow:0 14px 28px rgba(23,109,92,.22)}
+.btn.primary:hover{box-shadow:0 18px 34px rgba(23,109,92,.3)}
+.hero-side{position:relative;overflow:hidden;padding:24px;background:linear-gradient(160deg,#fffdf8 0%,#edf7f2 58%,#fff6e9 100%);color:var(--ink)}
+.hero-side:before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  background:radial-gradient(circle at 90% 12%,#dff2eb 0,transparent 34%);
+  opacity:.75;
+}
+.product-loop{position:relative;display:grid;gap:12px}
+.loop-head{position:relative;padding:14px 16px;border-radius:18px;background:#153f36;color:#fff;border:1px solid #153f36}
+.loop-head b{display:block;font-size:22px;letter-spacing:-.02em}.loop-head span{display:block;color:#dff2eb;font-size:15px}
+.loop-step{
+  position:relative;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  padding:15px;
+  border-radius:18px;
+  background:#fffdf8;
+  border:1px solid #d6e6df;
+}
+.loop-step:not(:last-child):after{content:"";position:absolute;left:34px;bottom:-13px;width:2px;height:12px;background:#176d5c}
+.loop-num{display:flex;align-items:center;justify-content:center;flex:0 0 38px;width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;font-weight:950;font-size:16px;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:0;box-shadow:0 0 0 3px #dff2eb}
+.loop-copy{display:block;color:#465850;font-size:15px;line-height:1.62;padding-top:1px}.loop-copy b{display:block;color:var(--ink);font-size:18px;line-height:1.22;margin-bottom:3px}
+.story-nav{
+  position:sticky;
+  top:12px;
+  z-index:50;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  overflow:auto;
+  margin:18px 0 0;
+  padding:10px;
+  border:1px solid rgba(234,223,206,.82);
+  border-radius:999px;
+  background:rgba(255,250,242,.78);
+  box-shadow:0 14px 40px rgba(75,55,30,.08);
+  backdrop-filter:blur(18px);
+  scrollbar-width:none;
+}
+.story-nav::-webkit-scrollbar{display:none}
+.story-nav a{flex:0 0 auto;padding:9px 13px;border-radius:999px;color:#596862;text-decoration:none;font-weight:850;font-size:14px;white-space:nowrap}
+.story-nav a:hover,.story-nav a.active{background:var(--brand);color:#fff}
+.section{margin-top:30px;scroll-margin-top:94px}
+.panel{padding:28px}
+.section-head{margin-bottom:18px}.section-head h2{margin:9px 0 6px;font-size:clamp(27px,3vw,36px);line-height:1.18;letter-spacing:-.035em}.section-lead{margin:0;max-width:760px;color:var(--muted);font-size:17px}.section h2{margin:0 0 14px;font-size:clamp(27px,3vw,36px);line-height:1.18;letter-spacing:-.035em}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.mini{padding:18px;border-radius:20px;background:#fffdf8;border:1px solid var(--line)}.mini b{display:block;font-size:21px;line-height:1.24}.mini span{display:block;margin-top:8px;color:var(--muted);font-size:15px;line-height:1.65}.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.proof-card{position:relative;overflow:hidden}.proof-title{display:flex;align-items:center;gap:10px;margin-bottom:8px}.proof-num{display:inline-grid;place-items:center;flex:0 0 auto;width:34px;height:34px;border-radius:12px;background:var(--mint);color:var(--brand);font-weight:950}.quote{position:relative;padding:28px;border-left:5px solid var(--brand);background:linear-gradient(135deg,#edf7f2,#fffdf8);border-radius:0 22px 22px 0}.quote b{display:block;max-width:880px;font-size:23px;line-height:1.45;letter-spacing:-.02em}.quote p{margin:10px 0 0;color:var(--muted)}
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}.metric{position:relative;overflow:hidden;padding:18px;border:1px solid var(--line);border-radius:18px;background:#fffdf8}.metric b{display:block;font-size:18px;line-height:1.28;color:var(--brand);letter-spacing:-.02em}.metric span{display:block;margin-top:7px;color:var(--muted);font-size:15px;line-height:1.58}.metric:after{content:"";position:absolute;right:-22px;bottom:-22px;width:70px;height:70px;border-radius:50%;background:#edf7f2}
+.pain-card{position:relative;min-height:226px;padding:24px;border:1px solid var(--line);border-radius:24px;background:rgba(255,250,242,.9);box-shadow:var(--shadow);overflow:hidden}.pain-card:before{content:attr(data-index);display:grid;place-items:center;width:46px;height:46px;border-radius:16px;background:var(--mint);color:var(--brand);font-weight:950}.pain-card h3{margin:18px 0 8px;font-size:23px}.pain-card p{margin:0;color:var(--muted)}.pain-card:after{content:"";position:absolute;right:18px;top:18px;width:74px;height:74px;border-radius:28px;background:linear-gradient(135deg,rgba(23,109,92,.08),rgba(231,139,79,.09));transform:rotate(12deg)}
+.definition-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.definition-card{padding:20px;border:1px solid var(--line);border-radius:22px;background:rgba(255,253,248,.88)}.definition-card b{display:block;color:var(--brand);font-size:18px}.definition-card p{margin:8px 0 0;color:var(--muted)}.tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.tag{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:#f0eadf;color:#5d554c;font-size:13px;font-weight:760}.tag.green{background:var(--mint);color:var(--brand)}.tag.blue{background:var(--blue-soft);color:#385b83}.tag.orange{background:var(--orange-soft);color:#99522b}
+.map{display:grid;grid-template-columns:1fr 58px 1fr 58px 1fr;gap:10px;align-items:center}.node{position:relative;min-height:176px;padding:20px;border:1px solid var(--line);border-radius:22px;background:rgba(255,253,248,.9)}.node:hover{transform:translateY(-4px);border-color:rgba(23,109,92,.28);box-shadow:var(--shadow-lift)}.node small{display:inline-flex;margin-bottom:10px;padding:5px 9px;border-radius:999px;background:var(--mint);color:var(--brand);font-weight:850}.node h3{margin:0 0 7px;font-size:22px}.node p{margin:0;color:var(--muted)}.node ul{margin:10px 0 0;padding-left:18px;color:var(--muted);font-size:14px}.flow-arrow{position:relative;height:2px;background:linear-gradient(90deg,rgba(23,109,92,.2),var(--brand));border-radius:999px}.flow-arrow:after{content:"";position:absolute;right:-1px;top:50%;width:12px;height:12px;border-right:2px solid var(--brand);border-top:2px solid var(--brand);transform:translateY(-50%) rotate(45deg)}
+.plain-list{margin:14px 0 0;padding-left:20px;color:var(--muted)}.plain-list li{margin:6px 0}.evidence{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}.check{padding:17px;border:1px solid var(--line);border-radius:18px;background:rgba(255,253,248,.9)}.check:hover{transform:translateY(-3px);border-color:rgba(23,109,92,.24)}.check b{display:block;margin-bottom:5px;font-size:16px}.check small{color:var(--muted);line-height:1.55}.doc-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:16px}.doc-link{position:relative;display:block;min-height:112px;padding:18px;border:1px solid var(--line);border-radius:18px;background:rgba(255,253,248,.9);text-decoration:none;overflow:hidden}.doc-link b{display:block;margin-bottom:5px;font-size:17px}.doc-link small{display:block;color:var(--muted);line-height:1.55}.doc-link.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-color:transparent}.doc-link.primary small{color:#dff2eb}.doc-link:after{content:"↗";position:absolute;right:16px;top:14px;color:rgba(23,109,92,.58);font-weight:950}.doc-link.primary:after{color:rgba(255,255,255,.72)}.note{margin-top:16px;padding:16px 18px;border-left:4px solid var(--brand);border-radius:0 18px 18px 0;background:#edf7f2;color:#315c50}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:20px;background:rgba(255,253,248,.9)}.compare{width:100%;min-width:740px;border-collapse:separate;border-spacing:0}.compare th,.compare td{padding:15px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.compare tr:last-child td{border-bottom:0}.compare th{position:sticky;top:0;background:#edf7f2;color:var(--brand);font-size:14px}.compare tbody tr:hover{background:rgba(223,242,235,.38)}.tech-pill{display:inline-flex;padding:4px 9px;border-radius:999px;background:#f0eadf;color:#4e5b55;font-weight:800;font-size:13px}
+.focus-card{display:grid;grid-template-columns:220px 1fr;gap:22px;align-items:center}.donut{--a:42%;--b:66%;--c:84%;position:relative;width:198px;height:198px;margin:auto;border-radius:50%;background:conic-gradient(var(--brand) 0 var(--a),var(--orange) var(--a) var(--b),var(--blue) var(--b) var(--c),#d9c8ad var(--c) 100%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.78),0 18px 44px rgba(75,55,30,.12)}.donut:after{content:"MVP\A侧重点";white-space:pre;position:absolute;inset:43px;display:grid;place-items:center;border-radius:50%;background:var(--surface-strong);color:var(--ink);font-size:18px;line-height:1.25;font-weight:950;text-align:center;box-shadow:0 0 0 2px rgba(255,250,242,.95)}.legend{display:grid;gap:10px}.legend span{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;color:var(--muted)}.legend i{display:inline-block;width:12px;height:12px;margin-top:8px;border-radius:50%;box-shadow:0 0 0 3px rgba(255,255,255,.9)}.legend b{color:var(--ink)}.legend em{font-style:normal;color:var(--soft-text);font-size:13px}.chart-note{margin:12px 0 0;color:var(--muted);font-size:13px}.timeline{position:relative;display:grid;gap:14px;margin-top:10px}.timeline:before{content:"";position:absolute;left:113px;top:10px;bottom:10px;width:2px;background:linear-gradient(var(--mint),rgba(23,109,92,.48),var(--orange-soft))}.step{position:relative;display:grid;grid-template-columns:96px 1fr;gap:34px;align-items:start}.date{position:relative;z-index:1;padding:9px 10px;border-radius:14px;background:var(--brand);color:#fff;text-align:center;font-weight:900;box-shadow:0 10px 22px rgba(23,109,92,.18)}.date.next{background:var(--orange);color:#fff}.story{position:relative;padding:19px;border:1px solid var(--line);border-radius:20px;background:rgba(255,253,248,.9)}.story:before{content:"";position:absolute;left:-25px;top:21px;width:14px;height:14px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 6px var(--mint)}.story h3{margin:0 0 5px;font-size:19px}.story p{margin:0;color:var(--muted)}.footer-cta{margin-top:32px;padding:28px;text-align:center;background:linear-gradient(135deg,var(--brand-deep),var(--brand));color:#fff;overflow:hidden}.footer-cta p{margin:8px auto 0;max-width:720px;color:#d7efe8}.footer{margin-top:18px;text-align:center;color:var(--muted);font-size:14px}
+.js .reveal{opacity:0;transform:translateY(18px)}.js .reveal.is-visible{opacity:1;transform:none;transition:opacity .58s ease,transform .58s ease}.js .reveal[data-delay="1"]{transition-delay:.08s}.js .reveal[data-delay="2"]{transition-delay:.16s}.js .reveal[data-delay="3"]{transition-delay:.24s}
+@media(max-width:940px){.hero,.two,.grid,.proof-grid,.definition-grid,.evidence,.doc-grid,.metrics,.focus-card{grid-template-columns:1fr}.hero-side{min-height:0}.map{grid-template-columns:1fr}.flow-arrow{width:2px;height:34px;margin:auto;background:linear-gradient(180deg,rgba(23,109,92,.2),var(--brand))}.flow-arrow:after{right:auto;left:50%;top:auto;bottom:0;transform:translateX(-50%) rotate(135deg)}.timeline:before{left:18px}.step{grid-template-columns:1fr;gap:10px;padding-left:42px}.date{width:max-content}.story:before{left:-31px}.story{padding:18px}.wrap{padding:24px 14px 58px}.hero-main{padding:34px}.story-nav{border-radius:22px}.hero h1{letter-spacing:-.045em}}
+@media(max-width:560px){body{font-size:15px}.hero-main{padding:28px 22px}.hero h1{font-size:34px}.hero p{font-size:16px}.hero-actions{display:grid}.btn{width:100%}.panel{padding:22px}.metrics{grid-template-columns:1fr}.loop-step{gap:12px}.loop-num{flex-basis:36px;width:36px;height:36px;font-size:15px}.legend span{grid-template-columns:auto 1fr}.legend em{grid-column:2}.doc-link{min-height:auto}.section{scroll-margin-top:104px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.card:hover,.doc-link:hover,.metric:hover,.pain-card:hover,.node:hover,.check:hover,.btn:hover{transform:none}}
+</style>
+</head>
+<body>
+<div class="read-progress" aria-hidden="true"></div>
+<main class="wrap">
+  <section class="hero reveal" id="overview">
+    <div class="card hero-main">
+      <span class="eyebrow">医记项目复盘 · 隐私优先的健康档案 Web 应用</span>
+      <h1>把看病前找资料的混乱，做成一个可登录、可归档、可导出资料包的线上产品。</h1>
+      <p>医记面向患者本人。它不做诊断、不提供治疗或用药建议，也不承诺 OCR 识别效果。当前 MVP 只解决一个确定问题：把病历、处方、药品、指标和待办整理好，在就诊前生成一份可导出的 <strong>PDF 就诊资料包</strong>。</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="/app.html">打开线上网页</a>
+        <a class="btn" href="docs/prd-package.html">查看产品文档</a>
+        <a class="btn" href="/prototype.html">查看早期产品原型</a>
+        <a class="btn" href="/privacy.html">查看隐私说明</a>
+      </div>
+    </div>
+    <aside class="card hero-side" aria-label="医记产品闭环">
+      <div class="product-loop">
+        <div class="loop-head">
+          <b>产品闭环</b>
+          <span>从建档到就诊使用，每一步都要能被用户理解。</span>
+        </div>
+        <div class="loop-step"><span class="loop-num">1</span><span class="loop-copy"><b>建档</b>先建立本人健康档案，只收最必要的信息。</span></div>
+        <div class="loop-step"><span class="loop-num">2</span><span class="loop-copy"><b>补全</b>上传病历、处方和检查报告，再手动分类归档。</span></div>
+        <div class="loop-step"><span class="loop-num">3</span><span class="loop-copy"><b>维护</b>记录药品、指标、提醒和复查待办。</span></div>
+        <div class="loop-step"><span class="loop-num">4</span><span class="loop-copy"><b>就诊使用</b>生成 PDF 资料包，导出前由本人核对。</span></div>
+      </div>
+    </aside>
+  </section>
+
+  <nav class="story-nav" aria-label="页面导航">
+    <a href="#overview">快速看点</a>
+    <a href="#problem">真实痛点</a>
+    <a href="#solution">产品方案</a>
+    <a href="#architecture">系统结构</a>
+    <a href="#implementation">技术落地</a>
+    <a href="#tradeoffs">关键取舍</a>
+    <a href="#timeline">项目历程</a>
+  </nav>
+
+  <section class="section card panel reveal" id="highlights">
+    <div class="section-head">
+      <span class="kicker">00 / 快速看懂</span>
+      <h2>这个项目最值得看的三件事</h2>
+      <p class="section-lead">它不是一个只会展示页面的静态作品，而是围绕真实上线、真实边界和真实产品文档搭起来的 MVP。</p>
+    </div>
+    <div class="proof-grid">
+      <article class="mini proof-card"><div class="proof-title"><span class="proof-num">1</span><b>产品边界清楚</b></div><span>先解决资料保存、手动归档和就诊前导出，不做诊断、不提供用药建议。</span></article>
+      <article class="mini proof-card"><div class="proof-title"><span class="proof-num">2</span><b>工程已经落地</b></div><span>线上网页接入登录、后端 API、数据库、Redis、文件存储、邮箱服务和自有域名。</span></article>
+      <article class="mini proof-card"><div class="proof-title"><span class="proof-num">3</span><b>方法论可追溯</b></div><span>PRD、MVP 范围、用户故事、验收标准、埋点、风险预演和上线清单都已整理成文档。</span></article>
+    </div>
+  </section>
+
+  <section class="section card panel reveal" id="context">
+    <div class="section-head">
+      <span class="kicker">01 / 项目背景</span>
+      <h2>资料不是没有，而是用的时候找不到</h2>
+    </div>
+    <div class="quote">
+      <b>很多人的健康资料散在相册、微信、纸袋和各家医院 App 里。平时看起来都在，真正复诊时却很难马上拿出来。</b>
+      <p>医记不做医疗判断。它做的是更基础但高频的事：把资料放好、把药品记清、把看病前需要给医生看的信息整理出来。</p>
+    </div>
+    <div class="metrics">
+      <div class="metric reveal" data-delay="1"><b>患者本人优先</b><span>先把“我自己的健康档案”闭环跑通，再扩展到家庭成员。</span></div>
+      <div class="metric reveal" data-delay="2"><b>就诊资料包</b><span>核心交付是一份就诊前可核对、可导出的 PDF。</span></div>
+      <div class="metric reveal" data-delay="3"><b>不做医疗判断</b><span>MVP 不提供诊断、治疗建议、用药建议或 OCR 识别承诺。</span></div>
+      <div class="metric reveal" data-delay="3"><b>隐私可控制</b><span>导出、删除、授权和审计从一开始作为产品能力设计。</span></div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="problem">
+    <div class="section-head">
+      <span class="kicker">02 / 真实痛点</span>
+      <h2>我先确认了三个真实问题</h2>
+      <p class="section-lead">用户不一定需要复杂系统，很多时候只需要在就诊前把关键资料快速整理好。</p>
+    </div>
+    <div class="grid">
+      <article class="pain-card" data-index="01"><h3>资料散</h3><p>检查报告、处方、微信图片、PDF、纸质病历分散在不同地方。真正要看病时，用户很难快速找到。</p></article>
+      <article class="pain-card" data-index="02"><h3>药品乱</h3><p>家里有哪些药、给谁用、还剩多少、什么时候过期，靠记忆很容易出错。</p></article>
+      <article class="pain-card" data-index="03"><h3>看病说不清</h3><p>医生问起时间、检查、用药和症状变化时，用户经常只能现场翻手机。</p></article>
+    </div>
+  </section>
+
+  <section class="section card panel reveal" id="solution">
+    <div class="section-head">
+      <span class="kicker">03 / 产品方案</span>
+      <h2>医记先做一个可靠的健康资料整理工具</h2>
+      <p class="section-lead">MVP 的重点不是“大而全”，而是让患者本人能完成从上传资料到导出就诊资料包的完整闭环。</p>
+    </div>
+    <div class="definition-grid">
+      <article class="definition-card"><b>医记是什么</b><p>一个面向患者本人的健康资料整理工具，帮助用户保存病历、药品、指标和待办。</p></article>
+      <article class="definition-card"><b>医记不是什么</b><p>不是 AI 医生，不提供诊断、治疗建议或用药推荐，所有医疗事实都来自用户录入或原始资料。</p></article>
+      <article class="definition-card"><b>当前 MVP 做什么</b><p>登录后上传资料，手动分类归档，维护药品、指标和待办，并在就诊前生成 PDF 资料包。</p></article>
+    </div>
+    <div class="tagrow" aria-label="当前功能标签">
+      <span class="tag green">病历上传</span>
+      <span class="tag green">手动分类</span>
+      <span class="tag blue">搜索和时间线</span>
+      <span class="tag blue">用药提醒</span>
+      <span class="tag orange">指标记录</span>
+      <span class="tag orange">就诊资料包 PDF</span>
+      <span class="tag">数据导出</span>
+      <span class="tag">隐私授权</span>
+    </div>
+  </section>
+
+  <section class="section card panel reveal" id="architecture">
+    <div class="section-head">
+      <span class="kicker">04 / 系统结构</span>
+      <h2>从用户动作到数据落点，路径要清楚</h2>
+      <p class="section-lead">健康资料很敏感，所以页面、API、数据库和文件存储各自承担清晰职责。</p>
+    </div>
+    <div class="map">
+      <div class="node"><small>01 用户网页</small><h3>让用户知道下一步做什么</h3><p>把复杂流程拆成明确入口。</p><ul><li>邮箱登录</li><li>上传并归档资料</li><li>生成就诊资料包</li></ul></div>
+      <div class="flow-arrow" aria-hidden="true"></div>
+      <div class="node"><small>02 后端 API</small><h3>把操作变成可靠记录</h3><p>处理身份、权限、导出和审计。</p><ul><li>身份校验</li><li>权限隔离</li><li>上传、导出和关键写操作审计</li></ul></div>
+      <div class="flow-arrow" aria-hidden="true"></div>
+      <div class="node"><small>03 数据与文件</small><h3>不同数据放在合适位置</h3><p>敏感内容不进入分析埋点。</p><ul><li>PostgreSQL 存结构化数据</li><li>Redis 存短期状态</li><li>Blob 存原始文件</li></ul></div>
+    </div>
+  </section>
+
+  <section class="section two reveal" id="implementation">
+    <div class="card panel">
+      <div class="section-head">
+        <span class="kicker">05 / 前端</span>
+        <h2>原生页面，先把核心流程跑顺</h2>
+      </div>
+      <p>线上网页采用原生 HTML/CSS/JavaScript。选择原生实现，是为了在早期更快验证交互、文案和部署路径。</p>
+      <div class="tagrow">
+        <span class="tag green">app.html 线上网页</span><span class="tag">index.html 原型保留</span><span class="tag blue">响应式页面</span><span class="tag orange">移动端可用</span>
+      </div>
+      <ul class="plain-list">
+        <li>已覆盖登录、建档、今日首页、上传资料、药箱、提醒、家庭成员、就诊资料包和设置页。</li>
+        <li>把“系统能力说明”改成“用户下一步该做什么”。</li>
+        <li>早期原型展示产品设想；线上网页展示真实登录、数据保存和后端能力。</li>
+      </ul>
+    </div>
+    <div class="card panel">
+      <div class="section-head">
+        <span class="kicker">06 / 后端</span>
+        <h2>后端负责权限、文件和可追溯</h2>
+      </div>
+      <p>后端使用 NestJS + TypeScript，配合 Prisma 管理数据库，支撑登录、会话、家庭成员权限、资料、药品、指标、待办、资料包导出和关键写操作审计。</p>
+      <div class="tagrow">
+        <span class="tag green">NestJS</span><span class="tag blue">TypeScript</span><span class="tag">Prisma</span><span class="tag orange">PDF 导出</span>
+      </div>
+      <ul class="plain-list">
+        <li>邮箱验证码登录：Resend 发验证码。</li>
+        <li>文件长期保存：Vercel Blob 保存原始资料。</li>
+        <li>权限隔离：本人、家庭成员、授权访问分开处理。</li>
+        <li>数据分析：用埋点观察注册、建档、上传、归档和导出过程，判断用户在哪一步流失。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section card panel reveal" id="docs">
+    <div class="section-head">
+      <span class="kicker">07 / 产品文档中心</span>
+      <h2>不是只做页面，也把产品定义补齐</h2>
+      <p class="section-lead">这些文档把 PRD、范围、用户故事、测试、数据指标、风险和上线检查接到同一个复盘页里。</p>
+    </div>
+    <div class="doc-grid">
+      <a class="doc-link primary" href="docs/prd-package.html"><b>整合版产品包</b><small>带目录，适合一次性评审完整成果。</small></a>
+      <a class="doc-link" href="docs/prd-mvp.html"><b>主 PRD</b><small>定位、目标、P0/P1/P2 和开放问题。</small></a>
+      <a class="doc-link" href="docs/analytics-events.html"><b>数据埋点</b><small>北极星指标、漏斗、事件字典和隐私边界。</small></a>
+      <a class="doc-link" href="docs/mvp-roadmap.html"><b>MVP 与路线图</b><small>当前范围、后续验证和国内化路径。</small></a>
+      <a class="doc-link" href="docs/user-stories.html"><b>用户故事</b><small>开发和验收可以直接使用的 backlog。</small></a>
+      <a class="doc-link" href="docs/test-scenarios.html"><b>测试场景</b><small>核心路径、异常、权限和隐私测试。</small></a>
+      <a class="doc-link" href="docs/risk-launch.html"><b>风险与上线</b><small>Pre-mortem、权限基线和 Go/No-Go。</small></a>
+      <a class="doc-link" href="docs/deliverables-index.html"><b>交付物索引</b><small>所有文档和关键产品决策汇总。</small></a>
+    </div>
+    <div class="note">早期产品原型不是严格意义上的 MVP。原型用于展示产品设想；线上网页才承接真实登录、数据保存、后端接口和部署。两者有差异，代表从方案到上线的正常迭代。</div>
+  </section>
+
+  <section class="section card panel reveal" id="stack">
+    <div class="section-head">
+      <span class="kicker">08 / 技术栈</span>
+      <h2>技术选择服务于登录、权限、文件和导出</h2>
+      <p class="section-lead">这里不堆名词，只解释每一层为什么和产品可信度有关。</p>
+    </div>
+    <div class="table-wrap">
+      <table class="compare">
+        <thead><tr><th>层级</th><th>使用技术</th><th>通俗解释</th></tr></thead>
+        <tbody>
+          <tr><td>前端页面</td><td><span class="tech-pill">HTML / CSS / JavaScript</span></td><td>用户实际看到、点击和完成任务的界面。</td></tr>
+          <tr><td>后端服务</td><td><span class="tech-pill">NestJS 11 / TypeScript</span></td><td>处理登录、权限、资料保存、PDF 导出等后端逻辑。</td></tr>
+          <tr><td>数据库</td><td><span class="tech-pill">PostgreSQL + Prisma</span></td><td>保存用户、家庭成员、病历、药品、指标和提醒等结构化数据。</td></tr>
+          <tr><td>临时状态</td><td><span class="tech-pill">Redis</span></td><td>保存验证码、会话这类有时效的数据。</td></tr>
+          <tr><td>文件存储</td><td><span class="tech-pill">Vercel Blob</span></td><td>保存用户上传的图片、PDF 和原始资料。</td></tr>
+          <tr><td>邮件登录</td><td><span class="tech-pill">Resend</span></td><td>给用户邮箱发送验证码，是短信资质不足时的上线替代方案。</td></tr>
+          <tr><td>部署</td><td><span class="tech-pill">Vercel + 自有域名</span></td><td>把网站发布到线上，让别人可以真实访问和测试。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section two reveal" id="tradeoffs">
+    <div class="card panel">
+      <div class="section-head">
+        <span class="kicker">09 / 关键取舍</span>
+        <h2>我没有把它做成“大而全”的医疗产品</h2>
+        <p class="section-lead">这个项目最有价值的部分，不是页面数量，而是每一步都在处理“用户到底怎么用”和“上线后能不能负责”。</p>
+      </div>
+      <div class="evidence">
+        <div class="check"><b>先整理，不诊断</b><small>健康数据很敏感，所以产品边界定在保存、分类、提醒和导出。</small></div>
+        <div class="check"><b>先手动归档，再谈识别</b><small>当前 MVP 不承诺 OCR 识别效果。先保证用户能可靠上传、分类、搜索和导出。</small></div>
+        <div class="check"><b>敏感内容不进埋点</b><small>用漏斗衡量闭环，但不采集病历正文、诊断名、药品名、指标数值或文件 URL。</small></div>
+        <div class="check"><b>原型和正式网页分开</b><small>原型展示设想；线上网页承接真实登录、数据保存和后端 API。</small></div>
+        <div class="check"><b>上线必须能被衡量</b><small>用事件字典观察注册、建档、上传、归档、资料包和 PDF 导出。</small></div>
+      </div>
+    </div>
+    <div class="card panel">
+      <div class="section-head">
+        <span class="kicker">10 / 投入侧重点</span>
+        <h2>更多精力放在闭环和可信度上</h2>
+        <p class="section-lead">这不是精确工时统计，而是复盘时对主要投入方向的概括。</p>
+      </div>
+      <figure class="focus-card" aria-label="医记 MVP 投入侧重点：产品与交互约42%，后端与数据约24%，上线配置约18%，合规准备约16%。">
+        <div class="donut" role="img" aria-label="投入侧重点环形图"></div>
+        <figcaption>
+          <div class="legend">
+            <span><i style="background:var(--brand)"></i><b>产品与交互</b><em>约 42%</em></span>
+            <span><i style="background:var(--orange)"></i><b>后端与数据</b><em>约 24%</em></span>
+            <span><i style="background:var(--blue)"></i><b>上线配置</b><em>约 18%</em></span>
+            <span><i style="background:#d9c8ad"></i><b>合规准备</b><em>约 16%</em></span>
+          </div>
+          <p class="chart-note">用颜色区分方向，同时保留文字和比例，避免只靠颜色理解。</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section card panel reveal" id="timeline">
+    <div class="section-head">
+      <span class="kicker">11 / 项目历程</span>
+      <h2>从原型到线上，再到可信和可衡量</h2>
+      <p class="section-lead">这条时间线展示的不是“做完了”，而是一个产品如何不断收敛边界、补齐工程和上线条件。</p>
+    </div>
+    <div class="timeline">
+      <div class="step"><div class="date">第 1 阶段</div><div class="story"><h3>产品原型</h3><p>根据 PRD 做出网页版原型，确认医记不是医生工作台，而是给患者本人和家庭使用的记录工具。</p></div></div>
+      <div class="step"><div class="date">第 2 阶段</div><div class="story"><h3>交互打磨</h3><p>调整首页、时间线、分类、药箱、指标趋势、就诊资料包和导出打印等页面，去掉不合适的医生视角。</p></div></div>
+      <div class="step"><div class="date">第 3 阶段</div><div class="story"><h3>后端搭建</h3><p>搭建 NestJS API，接入 PostgreSQL、Redis、权限模型、文件上传、药品、指标、待办和资料包导出。</p></div></div>
+      <div class="step"><div class="date">第 4 阶段</div><div class="story"><h3>正式登录</h3><p>由于短信资质限制，先改成邮箱验证码登录；接入 Resend，并完成域名 DNS 验证。</p></div></div>
+      <div class="step"><div class="date">第 5 阶段</div><div class="story"><h3>上线准备</h3><p>绑定 yijijiankang.cn，加入隐私政策、服务协议、安全响应头、长期文件存储和生产环境检查。</p></div></div>
+      <div class="step"><div class="date next">下一步</div><div class="story"><h3>从“可用”到“可信、可衡量”</h3><p>继续补齐核心埋点、国内备案/合规评估、错误监控、付费意愿验证、文件删除恢复、后台运营和更稳定的国内通知通道。</p></div></div>
+    </div>
+  </section>
+
+  <section class="footer-cta card reveal">
+    <span class="eyebrow">医记项目复盘</span>
+    <h2>用一个真实产品，讲清楚产品判断、工程实现和上线意识。</h2>
+    <p>它的重点不是替用户做医疗决定，而是把散落的资料整理成就诊前真正能用、能核对、能导出的信息。</p>
+    <div class="hero-actions" style="justify-content:center">
+      <a class="btn primary" href="/app.html">体验线上网页</a>
+      <a class="btn" href="docs/prd-package.html">查看完整产品包</a>
+    </div>
+  </section>
+
+  <p class="footer">医记 · 隐私优先的健康资料整理 Web 应用</p>
+</main>
+<script>
+(function(){
+  var root=document.documentElement;
+  var progress=document.querySelector('.read-progress');
+  function updateProgress(){
+    var max=document.documentElement.scrollHeight-window.innerHeight;
+    var value=max>0?Math.min(100,Math.max(0,window.scrollY/max*100)):0;
+    root.style.setProperty('--progress',value.toFixed(2));
+    if(progress){progress.setAttribute('aria-valuenow',Math.round(value));}
+  }
+  updateProgress();
+  window.addEventListener('scroll',updateProgress,{passive:true});
+
+  var reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealItems=[].slice.call(document.querySelectorAll('.reveal,.card,.pain-card,.node,.doc-link,.step'));
+  revealItems.forEach(function(el){el.classList.add('reveal');});
+  if(reduce || !('IntersectionObserver' in window)){
+    revealItems.forEach(function(el){el.classList.add('is-visible');});
+  }else{
+    var revealObserver=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+    revealItems.forEach(function(el){revealObserver.observe(el);});
+  }
+
+  var navLinks=[].slice.call(document.querySelectorAll('.story-nav a'));
+  var sections=navLinks.map(function(link){return document.querySelector(link.getAttribute('href'));}).filter(Boolean);
+  function updateActiveNav(){
+    if(!sections.length){return;}
+    var current=sections[0];
+    var marker=window.scrollY+Math.min(220,window.innerHeight*.34);
+    sections.forEach(function(section){
+      if(section.offsetTop<=marker){current=section;}
+    });
+    navLinks.forEach(function(link){
+      link.classList.toggle('active',link.getAttribute('href')==='#'+current.id);
+    });
+  }
+  updateActiveNav();
+  window.addEventListener('scroll',updateActiveNav,{passive:true});
+  window.addEventListener('resize',updateActiveNav);
+})();
+</script>
+</body>
+</html>

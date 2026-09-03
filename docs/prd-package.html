@@ -1,0 +1,2758 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>医记文档｜整合版产品包</title>
+<style>
+:root{--bg:#f7f1e7;--panel:#fffdf8;--ink:#20322c;--muted:#6f7a74;--line:#eadfce;--brand:#176d5c;--soft:#e8f4ee;--shadow:0 18px 50px rgba(75,55,30,.1)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0,#fff8e9 0,#f7f1e7 34%,#edf6f1 100%);color:var(--ink);font:16px/1.75 "PingFang SC","Microsoft YaHei",system-ui,sans-serif}.wrap{width:min(980px,100%);margin:auto;padding:30px 18px 70px}.top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:18px}.back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--brand);text-decoration:none;font-weight:850}.card{border:1px solid var(--line);border-radius:24px;background:rgba(255,253,248,.96);box-shadow:var(--shadow);overflow:hidden}.hero{padding:28px}.eyebrow{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:13px;font-weight:850}h1{margin:12px 0 4px;font-size:clamp(30px,4vw,44px);line-height:1.12;letter-spacing:-.04em}.muted{margin:0;color:var(--muted)}.content{padding:8px 30px 36px}.content h1{font-size:34px}.content h2{margin:30px 0 10px;font-size:25px;line-height:1.28;color:var(--brand)}.content h3{margin:24px 0 8px;font-size:20px}.content h4{margin:18px 0 6px;font-size:17px}.content p{margin:10px 0}.content ul,.content ol{margin:10px 0 14px;padding-left:24px}.content li{margin:6px 0}.content strong{font-weight:850}.content code{padding:2px 6px;border-radius:7px;background:var(--soft);color:#124a3f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.content pre{overflow:auto;padding:16px;border-radius:16px;background:#173e35;color:#eef9f5}.content pre code{padding:0;background:transparent;color:inherit}.content blockquote{margin:14px 0;padding:12px 16px;border-left:4px solid var(--brand);border-radius:0 14px 14px 0;background:#edf7f2;color:#315c50}.content table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}.content td{padding:10px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top}.content tr:last-child td{border-bottom:0}.content td:last-child{border-right:0}.content hr{border:0;border-top:1px solid var(--line);margin:24px 0}@media(max-width:640px){.top{align-items:flex-start;flex-direction:column}.wrap{padding:20px 12px 48px}.hero,.content{padding:20px}.content table{display:block;overflow:auto}.content h1{font-size:28px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a class="back" href="../project-story.html">← 返回项目复盘</a></div>
+  <article class="card">
+    <header class="hero"><span class="eyebrow">医记产品文档</span><h1>整合版产品包</h1></header>
+    <section class="content"><h1>医记 PRD 产品包（整合版）</h1>
+<p><strong>日期</strong>：2026-07-10 <strong>状态</strong>：Draft <strong>说明</strong>：本文件整合各个单独交付物，便于一次性评审；原始单文件仍保留。</p>
+<h2>目录</h2>
+<ol>
+<li><a href="#一主-prd">一、主 PRD</a></li>
+<li><a href="#二mvp-范围与路线图">二、MVP 范围与路线图</a></li>
+<li><a href="#三用户故事与验收标准">三、用户故事与验收标准</a></li>
+<li><a href="#四测试场景">四、测试场景</a></li>
+<li><a href="#五数据指标与埋点方案">五、数据指标与埋点方案</a></li>
+<li><a href="#六风险预演数据权限与上线清单">六、风险预演、数据权限与上线清单</a></li>
+<li><a href="#七交付物索引">七、交付物索引</a></li>
+</ol>
+</ol>
+<hr>
+</ol>
+</ol>
+<h2>一、主 PRD</h2>
+</ol>
+</ol>
+<blockquote>来源文件：<code>医记_PRD_上线网页MVP_2026-07-10.md</code></blockquote>
+</ol>
+</ol>
+<h1>医记 PRD：上线网页 MVP</h1>
+</ol>
+<p><strong>版本</strong>：MVP / V1.0 产品定义稿 <strong>日期</strong>：2026-07-10 <strong>状态</strong>：Draft <strong>产品形态</strong>：已上线的移动端优先响应式网页 <strong>核心原则</strong>：隐私优先</p>
+</ol>
+</ol>
+<h2>1. Executive Summary</h2>
+</ol>
+<p>医记是一款帮助患者本人管理病历和药物的网页产品。它解决的核心问题是：用户的病历、检查报告、处方、用药记录和就诊资料散落在相册、纸质文件、医院网站和不同平台里，真正看病时很难快速整理成一份医生能看懂的资料。</p>
+</ol>
+<p>本版本的目标不是做 AI 医生，也不做 OCR 自动识别，而是先把“手动上传、分类整理、日常维护、就诊前生成完整资料包”的闭环跑通。成功标准是：用户在一次就诊前，可以生成一份完整、可导出的就诊资料包。</p>
+</ol>
+</ol>
+<h2>2. Background &amp; Context</h2>
+</ol>
+<p>旧版文档中，医记曾包含 OCR、AI 归类、摘要生成、药品扫描等能力。但当前产品决策明确：MVP 暂不引入 AI/OCR，因为识别能力不稳定且医疗场景风险高。</p>
+</ol>
+<p>因此，新版 PRD 将产品重心调整为：</p>
+</ol>
+</ol>
+<ul>
+<li>用户自己上传原始资料。</li>
+<li>用户自己填写或核对结构化字段。</li>
+<li>系统负责安全保存、分类、搜索、时间线、提醒和导出。</li>
+<li>所有医疗事实必须可追溯到用户录入或原始资料。</li>
+<li>产品不提供诊断、治疗建议、药品替代建议或剂量调整建议。</li>
+</ul>
+<p>旧版 V1.3 的主线仍然保留：</p>
+</ul>
+</ul>
+<pre><code>
+建档 -&gt; 补全 -&gt; 维护 -&gt; 就诊使用
+</ul>
+</code></pre>
+</ul>
+<p>但其中“AI 识别”改为“用户手动录入 / 用户核对归档”。</p>
+</ul>
+</ul>
+<h2>3. Objectives &amp; Success Metrics</h2>
+</ul>
+</ul>
+<h3>Goals</h3>
+</ul>
+</ul>
+<ol>
+<li>让患者本人能够把散落在不同医院网站、相册、纸质材料中的病历资料集中保存和分类。</li>
+<li>让用户能够维护当前用药、健康指标、复查和资料处理待办。</li>
+<li>让用户在就诊前选择相关资料，生成一份完整的 PDF 就诊资料包。</li>
+<li>建立隐私优先的数据权限、授权、删除和导出机制。</li>
+<li>验证订阅会员家庭版是否有付费价值。</li>
+</ol>
+</ol>
+<h3>Non-Goals</h3>
+</ol>
+<li>不做 AI 诊断、疾病概率预测、治疗方案推荐。</li>
+<li>不做 OCR 自动识别作为 MVP 必需能力。</li>
+<li>不自动推荐用药、改变剂量或判断药品替代关系。</li>
+<li>不接入医院 HIS、电子病历平台或医保系统。</li>
+<li>不做医生工作台、问诊社区、药品交易或导流问诊。</li>
+<li>不默认允许家庭成员读取成年人的病历，必须经过明确授权。</li>
+</ol>
+</ol>
+<h3>Success Metrics</h3>
+</ol>
+</ol>
+<table><tbody>
+<tr><td>Metric</td><td>Current</td><td>MVP Target</td><td>Measurement</td></tr>
+</ol>
+</ol>
+<tr><td>首次建档完成率</td><td>待测</td><td>&gt;= 70%</td><td>登录后完成本人档案</td></tr>
+</ol>
+<tr><td>首份病历上传完成率</td><td>待测</td><td>&gt;= 60%</td><td>建档后 24 小时内上传至少 1 份资料</td></tr>
+</ol>
+<tr><td>首次归档时间</td><td>待测</td><td>&lt;= 3 分钟</td><td>从上传到完成分类归档</td></tr>
+</ol>
+<tr><td>就诊资料包生成成功率</td><td>待测</td><td>&gt;= 50%</td><td>上传资料用户中生成资料包比例</td></tr>
+</ol>
+<tr><td>资料包可用性</td><td>待测</td><td>用户认为“能直接给医生看”&gt;= 70%</td><td>封闭测试问卷</td></tr>
+</ol>
+<tr><td>第二份资料上传率</td><td>待测</td><td>&gt;= 25%</td><td>30-60 天内再次上传</td></tr>
+</ol>
+<tr><td>用药提醒使用率</td><td>待测</td><td>&gt;= 20%</td><td>创建药品且设置提醒</td></tr>
+</ol>
+<tr><td>订阅转化率</td><td>待测</td><td>&gt;= 3%</td><td>试用用户转家庭订阅</td></tr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Data Instrumentation</h3>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>MVP 必须同步建设最小埋点能力，否则无法判断产品是否跑通。第一批埋点以核心闭环为准：注册、建档、上传、归档、药品、指标、待办、资料包创建、PDF 导出、数据导出、删除请求。</p>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>埋点不得采集病历正文、药品名称、诊断名称、医院名称原文、指标具体数值、原始搜索词、文件 URL、分享 token、验证码、Cookie 或访问令牌。详细方案见 <code>医记_数据指标与埋点方案_2026-07-10.md</code>。</p>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h2>4. Target Users &amp; Segments</h2>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Primary User</h3>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>患者本人。</p>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Initial Segment</h3>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>20-45 岁、有跨医院就诊、体检、慢病复诊或长期用药经历的用户。他们能独立使用网页、邮箱验证和文件上传，也更可能为家庭版订阅付费。</p>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Secondary Users</h3>
+</ol>
+</tbody></table>
+</tbody></table>
+</ol>
+<ul>
+<li>替父母整理病历和药物的子女。</li>
+</tbody></table>
+<li>替孩子管理病历、用药和复查的父母。</li>
+</tbody></table>
+<li>慢病患者或长期复查人群。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>MVP 以患者本人为第一优先用户，家庭成员能力保留，但不得压过本人闭环。</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>5. Core User Journey</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+邮箱验证登录
+-&gt; 创建本人健康档案
+-&gt; 上传病历、检查报告、处方或其他资料
+-&gt; 选择资料类型、医院、日期、关联问题和所属成员
+-&gt; 添加当前用药和服药提醒
+-&gt; 记录关键指标
+-&gt; 创建复查、用药、资料补全等待办
+-&gt; 通过搜索或时间线持续维护
+-&gt; 就诊前选择相关资料
+-&gt; 补充本次就诊目的和近期情况
+-&gt; 生成并核对就诊资料包
+-&gt; 导出 PDF
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>6. Requirements</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>P0 - Must Have</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>#</td><td>Requirement</td><td>Acceptance Criteria</td></tr>
+</ul>
+</ul>
+<tr><td>P0-1</td><td>邮箱验证登录</td><td>用户可通过邮箱验证码注册/登录；验证码不在生产环境明文展示；可退出登录</td></tr>
+</ul>
+<tr><td>P0-2</td><td>本人健康档案</td><td>用户首次进入后创建本人档案；至少支持姓名/昵称、性别、出生年月、过敏史、长期疾病</td></tr>
+</ul>
+<tr><td>P0-3</td><td>家庭成员管理</td><td>支持创建家庭成员并切换；每份资料必须归属于一个成员；默认以本人为主</td></tr>
+</ul>
+<tr><td>P0-4</td><td>病历上传</td><td>支持图片、PDF、常见文档上传；保存原始文件；记录文件名、类型、上传时间、所属成员</td></tr>
+</ul>
+<tr><td>P0-5</td><td>病历分类</td><td>用户可手动选择资料类型、就诊日期、医院/机构、科室、健康问题标签</td></tr>
+</ul>
+<tr><td>P0-6</td><td>搜索</td><td>支持按成员、资料类型、医院、日期、关键词搜索</td></tr>
+</ul>
+<tr><td>P0-7</td><td>时间线</td><td>按成员展示就诊和资料时间线；支持按类型筛选</td></tr>
+</ul>
+<tr><td>P0-8</td><td>用药管理与提醒</td><td>支持药品名称、规格、用途备注、用法用量原文、开始/结束日期、提醒时间</td></tr>
+</ul>
+<tr><td>P0-9</td><td>指标记录</td><td>支持体重、血压、血糖、心率、体温；每条指标必须有日期和来源</td></tr>
+</ul>
+<tr><td>P0-10</td><td>待办事项</td><td>支持复查、用药、资料补全、资料核对等类型；可完成/延期</td></tr>
+</ul>
+<tr><td>P0-11</td><td>就诊资料包 PDF</td><td>用户选择成员、就诊目的、相关资料和近期情况后生成 PDF</td></tr>
+</ul>
+<tr><td>P0-12</td><td>隐私授权</td><td>敏感健康信息处理、家庭成员访问、导出和分享需要明确授权记录</td></tr>
+</ul>
+<tr><td>P0-13</td><td>数据导出与删除</td><td>用户可导出结构化数据和原始文件；可删除单份资料；可申请账号注销</td></tr>
+</ul>
+<tr><td>P0-14</td><td>安全审计</td><td>登录、上传、查看、修改、删除、导出、授权等关键操作写入审计</td></tr>
+</ul>
+<tr><td>P0-15</td><td>数据埋点</td><td>支持核心闭环漏斗、PDF 导出成功率、错误码和隐私相关操作分析；不得采集医疗正文和直接身份信息</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>P1 - Should Have</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>#</td><td>Requirement</td><td>Acceptance Criteria</td></tr>
+</ul>
+</ul>
+<tr><td>P1-1</td><td>指标趋势</td><td>支持按指标查看简单趋势图和异常备注；不做医学判断</td></tr>
+</ul>
+<tr><td>P1-2</td><td>药品库存</td><td>支持剩余数量、存放位置、有效期、低库存/临期提醒</td></tr>
+</ul>
+<tr><td>P1-3</td><td>限时分享链接</td><td>资料包可生成限时只读链接，支持撤销和访问记录</td></tr>
+</ul>
+<tr><td>P1-4</td><td>家庭成员授权细分</td><td>支持查看者、协助录入者、管理者等不同权限</td></tr>
+</ul>
+<tr><td>P1-5</td><td>订阅套餐页</td><td>展示免费版与家庭订阅权益；不得锁死用户已有数据</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>P2 - Future</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>#</td><td>Requirement</td><td>Notes</td></tr>
+</ul>
+</ul>
+<tr><td>P2-1</td><td>OCR / AI 结构化提取</td><td>仅在合规、稳定、可追溯后作为可插拔能力</td></tr>
+</ul>
+<tr><td>P2-2</td><td>微信登录 / 微信小程序</td><td>网页验证成立后再做</td></tr>
+</ul>
+<tr><td>P2-3</td><td>分享口令或短信验证</td><td>用于高敏感分享</td></tr>
+</ul>
+<tr><td>P2-4</td><td>更多指标类型</td><td>血脂、尿酸、肝肾功能等</td></tr>
+</ul>
+<tr><td>P2-5</td><td>年度健康资料报告</td><td>只能做资料整理，不做诊断或建议</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>7. Solution Overview</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Information Architecture</h3>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+医记
+├── 今日
+│   ├── 当前成员档案状态
+│   ├── 今日待办
+│   ├── 快捷操作：上传资料 / 添加药品 / 记录指标
+│   └── 我要去看医生：生成就诊资料包
+├── 病历资料
+│   ├── 上传
+│   ├── 分类归档
+│   ├── 搜索
+│   └── 时间线
+├── 药品
+│   ├── 当前用药
+│   ├── 服药提醒
+│   └── 停用记录
+├── 指标
+│   ├── 新增记录
+│   └── 基础趋势
+├── 待办
+│   ├── 复查
+│   ├── 用药
+│   ├── 资料补全
+│   └── 资料核对
+├── 家庭成员
+│   ├── 成员档案
+│   └── 授权
+└── 设置
+    ├── 隐私中心
+    ├── 数据导出/删除
+    ├── 订阅
+    └── 协议与隐私政策
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Product Boundary Copy</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>关键页面必须展示一致边界：</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+医记仅用于整理和提醒，不提供诊断、治疗建议或用药调整建议。
+用法用量请以医生处方或本人记录为准。
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>8. Open Questions</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Question</td><td>Owner</td><td>Deadline</td></tr>
+</ul>
+</ul>
+<tr><td>是否继续使用 Vercel 作为正式中国大陆长期生产环境？</td><td>Founder/Product</td><td>上线前</td></tr>
+</ul>
+<tr><td>是否必须迁移到中国大陆云和备案域名后再公开推广？</td><td>Founder/Legal/Engineering</td><td>公开推广前</td></tr>
+</ul>
+<tr><td>邮箱验证是否足够，还是需要手机号/微信登录？</td><td>Product</td><td>封闭测试后</td></tr>
+</ul>
+<tr><td>家庭版成员上限是 3 人还是 7 人？</td><td>Product/Business</td><td>定价页前</td></tr>
+</ul>
+<tr><td>成年家庭成员是否允许管理者导出其全部档案？</td><td>Product/Legal</td><td>家庭授权开发前</td></tr>
+</ul>
+<tr><td>数据删除承诺期限如何写入隐私政策？</td><td>Legal/Engineering</td><td>公开上线前</td></tr>
+</ul>
+<tr><td>PDF 资料包是否包含原始附件，还是只包含摘要索引？</td><td>Product</td><td>PDF 开发前</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>9. Timeline &amp; Phasing</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Phase 0 - 已上线网页梳理</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>明确当前线上版本与 PRD 的差距。</li>
+</tbody></table>
+<li>移除或隐藏 AI/OCR 承诺文案。</li>
+</tbody></table>
+<li>将首页主线调整为“今日”和“我要去看医生”。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Phase 1 - MVP 闭环</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>邮箱登录、本人与家庭成员、病历上传/分类、用药、指标、待办、搜索、时间线、PDF 资料包、隐私授权。</li>
+</tbody></table>
+<li>完成真实用户端到端测试：注册、建档、上传、分类、添加药品、记录指标、生成 PDF、删除。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Phase 2 - 家庭订阅验证</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>家庭成员授权、订阅套餐、容量/成员限制、导出与撤销能力。</li>
+</tbody></table>
+<li>观察是否愿意为家庭版付费。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Phase 3 - 合规与国内化</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>ICP/公安备案评估。</li>
+</tbody></table>
+<li>中国大陆可访问、可搜索、可收信的生产方案。</li>
+</tbody></table>
+<li>敏感个人信息处理影响评估和第三方服务清单。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+</tbody></table>
+<hr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>二、MVP 范围与路线图</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<blockquote>来源文件：<code>医记_MVP范围与路线图_2026-07-10.md</code></blockquote>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h1>医记 MVP 范围与结果型路线图</h1>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>MVP Scope</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>MVP 一句话</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>医记 MVP 要让患者本人把散落的病历和药物资料整理成一个隐私优先的个人健康档案，并在就诊前生成完整 PDF 资料包。</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>In Scope</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>邮箱验证码登录。</li>
+</tbody></table>
+<li>本人健康档案。</li>
+</tbody></table>
+<li>家庭成员创建和切换。</li>
+</tbody></table>
+<li>病历/检查/处方/图片/PDF 上传。</li>
+</tbody></table>
+<li>手动分类归档。</li>
+</tbody></table>
+<li>搜索和时间线。</li>
+</tbody></table>
+<li>当前用药和用药提醒。</li>
+</tbody></table>
+<li>基础指标记录。</li>
+</tbody></table>
+<li>复查、用药、资料补全、资料核对待办。</li>
+</tbody></table>
+<li>就诊资料包 PDF。</li>
+</tbody></table>
+<li>隐私授权、数据导出、资料删除、账号注销入口。</li>
+</tbody></table>
+<li>家庭订阅会员的基础权益定义。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Out of Scope</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>AI/OCR 自动识别。</li>
+</tbody></table>
+<li>AI 诊断、治疗建议、用药建议。</li>
+</tbody></table>
+<li>医院系统接口。</li>
+</tbody></table>
+<li>微信小程序。</li>
+</tbody></table>
+<li>付费问诊或药品购买。</li>
+</tbody></table>
+<li>自动健康风险判断。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Outcome-Focused Roadmap</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Strategic themes</strong>：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li>就诊前资料可用。</li>
+</tbody></table>
+<li>隐私优先的数据可信。</li>
+</tbody></table>
+<li>家庭订阅价值验证。</li>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Now：上线网页 MVP 闭环</h3>
+</ol>
+</tbody></table>
+</ol>
+<tr><td>Outcome</td><td>Success Metric</td><td>Key Initiatives</td><td>Status</td></tr>
+</ol>
+</ol>
+<tr><td>用户完成本人健康档案并上传首份资料</td><td>首份资料上传完成率 &gt;= 60%</td><td>建档、上传、手动分类、归档反馈</td><td>当前重点</td></tr>
+</ol>
+<tr><td>用户能在看病前生成 PDF 资料包</td><td>资料包生成成功率 &gt;= 50%</td><td>就诊目的、资料选择、近期情况、PDF 导出</td><td>当前重点</td></tr>
+</ol>
+<tr><td>用户相信资料安全可控</td><td>删除/导出入口可用；授权记录完整</td><td>隐私中心、审计、成员数据隔离</td><td>当前重点</td></tr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Next：家庭版订阅验证</h3>
+</ol>
+</tbody></table>
+</ol>
+<tr><td>Outcome</td><td>Success Metric</td><td>Key Initiatives</td><td>Confidence</td></tr>
+</ol>
+</ol>
+<tr><td>家庭成员管理带来付费动机</td><td>试用转订阅 &gt;= 3%</td><td>家庭成员上限、授权、家庭药箱、订阅页</td><td>Medium</td></tr>
+</ol>
+<tr><td>用户持续维护资料</td><td>第二份资料上传率 &gt;= 25%</td><td>待办、资料补全提示、时间线回访</td><td>Medium</td></tr>
+</ol>
+<tr><td>用药提醒形成复访</td><td>用药提醒使用率 &gt;= 20%</td><td>当前用药、提醒、停用记录</td><td>Medium</td></tr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Later：国内化与智能能力</h3>
+</ol>
+</tbody></table>
+</ol>
+<tr><td>Outcome</td><td>Success Metric</td><td>Key Initiatives</td><td>Dependencies</td></tr>
+</ol>
+</ol>
+<tr><td>产品可面向中国大陆公众长期运行</td><td>备案、合规评审、国内服务可用</td><td>ICP/公安备案、国内云、邮件/短信服务</td><td>法务和云服务</td></tr>
+</ol>
+<tr><td>自动结构化降低录入成本</td><td>识别准确率和用户纠错率达标</td><td>OCR/AI 可插拔能力</td><td>合规、供应商、质量验证</td></tr>
+</ol>
+<tr><td>分享更适合真实就诊</td><td>分享撤销成功率 100%</td><td>限时链接、口令、访问记录</td><td>权限与审计</td></tr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h2>Transformation Notes</h2>
+</ol>
+</tbody></table>
+</ol>
+<tr><td>Old Feature Framing</td><td>New Outcome Framing</td><td>Why</td></tr>
+</ol>
+</ol>
+<tr><td>OCR 识别病历</td><td>用户能可靠归档资料</td><td>当前不做 AI/OCR，先保证可控闭环</td></tr>
+</ol>
+<tr><td>AI 摘要</td><td>就诊前资料包</td><td>医疗风险更低，用户可核对</td></tr>
+</ol>
+<tr><td>概览 Dashboard</td><td>今日和我要去看医生</td><td>首页要驱动下一步行动</td></tr>
+</ol>
+<tr><td>提醒中心</td><td>待办</td><td>不只提醒服药，也推动资料补全</td></tr>
+</ol>
+<tr><td>家庭病历管理</td><td>先把患者本人闭环跑通</td><td>第一优先用户是患者本人</td></tr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+</tbody></table>
+</ol>
+</tbody></table>
+<hr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h2>三、用户故事与验收标准</h2>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<blockquote>来源文件：<code>医记_用户故事与验收标准_2026-07-10.md</code></blockquote>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h1>医记用户故事与验收标准</h1>
+</ol>
+</tbody></table>
+</tbody></table>
+</tbody></table>
+<p><strong>Format</strong>：User Stories <strong>Source</strong>：新版 PRD + 旧版医记文档 + 用户确认需求</p>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h2>Stories</h2>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Story 1：邮箱登录</h3>
+</ol>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 用邮箱验证码登录医记，<strong>so that</strong> 我可以安全访问自己的健康资料。</p>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ol>
+</tbody></table>
+</tbody></table>
+</ol>
+<ul>
+<li>[ ] 用户输入邮箱后可收到验证码。</li>
+</tbody></table>
+<li>[ ] 验证码过期、错误、重复使用时有明确提示。</li>
+</tbody></table>
+<li>[ ] 生产环境不展示测试验证码。</li>
+</tbody></table>
+<li>[ ] 用户可退出当前会话。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: M | Dependencies: 邮件服务、会话管理</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 2：创建本人健康档案</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 首次进入时创建本人健康档案，<strong>so that</strong> 后续资料都能归到正确的人名下。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 首次登录后引导创建本人档案。</li>
+</tbody></table>
+<li>[ ] 必填项尽量少，过敏史和长期疾病可选。</li>
+</tbody></table>
+<li>[ ] 完成后进入档案补全任务页。</li>
+</tbody></table>
+<li>[ ] 后续上传资料默认归属本人。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: M | Dependencies: 成员模型</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 3：上传病历资料</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 上传病历、报告、处方、PDF 或照片，<strong>so that</strong> 我不用在各个医院网站和相册里反复查找。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 支持图片和 PDF 上传。</li>
+</tbody></table>
+<li>[ ] 上传后保存原始文件和文件哈希。</li>
+</tbody></table>
+<li>[ ] 用户可填写资料类型、医院、日期、科室、标签。</li>
+</tbody></table>
+<li>[ ] 上传失败、文件过大、格式不支持时有明确提示。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: L | Dependencies: 文件存储、权限鉴权</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 4：手动分类归档</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 手动把资料分类归档，<strong>so that</strong> 即使没有 AI/OCR 也能形成可查的病历库。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 支持门诊记录、检查报告、处方、体检报告、其他资料。</li>
+</tbody></table>
+<li>[ ] 用户可修改分类和关联健康问题。</li>
+</tbody></table>
+<li>[ ] 保存后显示“已归档到谁的哪个分类”。</li>
+</tbody></table>
+<li>[ ] 每次修改保留审计记录。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: M | Dependencies: 资料模型、审计</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 5：搜索和时间线</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 按关键词、医院、日期、类型搜索资料，并按时间线查看，<strong>so that</strong> 就诊前能快速找到相关材料。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 支持按成员筛选。</li>
+</tbody></table>
+<li>[ ] 支持关键词搜索标题、医院、备注。</li>
+</tbody></table>
+<li>[ ] 时间线按日期倒序展示。</li>
+</tbody></table>
+<li>[ ] 可按资料类型筛选。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: M | Dependencies: 病历资料</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 6：添加当前用药</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 记录正在使用的药品和服药要求，<strong>so that</strong> 看病时能准确告诉医生当前用药。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 支持药品名称、规格、用途备注、用法用量原文。</li>
+</tbody></table>
+<li>[ ] 用法用量只能由用户填写或来自处方原文。</li>
+</tbody></table>
+<li>[ ] 支持开始日期、结束日期、停用。</li>
+</tbody></table>
+<li>[ ] 页面提示医记不提供用药建议。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: M | Dependencies: 药品模型</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 7：用药提醒</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 为药品设置服药提醒，<strong>so that</strong> 我能按计划服药。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 用户可设置每天一次或多次提醒时间。</li>
+</tbody></table>
+<li>[ ] 用户可关闭提醒。</li>
+</tbody></table>
+<li>[ ] 提醒只基于用户输入，不自动推断剂量。</li>
+</tbody></table>
+<li>[ ] 今日页展示当天用药待办。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: M | Dependencies: 待办/提醒</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 8：记录关键指标</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 记录血压、血糖、体重、心率、体温，<strong>so that</strong> 就诊前能展示近期状态。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 每条指标包含类型、数值、单位、日期、来源。</li>
+</tbody></table>
+<li>[ ] 来源可选手动记录、检查报告、体检报告、门诊记录。</li>
+</tbody></table>
+<li>[ ] 不自动判断异常或给出医学建议。</li>
+</tbody></table>
+<li>[ ] 可按时间查看历史记录。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: M | Dependencies: 指标模型</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 9：待办事项</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 管理复查、用药和资料补全待办，<strong>so that</strong> 我知道下一步要处理什么。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 支持复查、用药、资料补全、资料核对类型。</li>
+</tbody></table>
+<li>[ ] 今日页展示优先级最高的待办。</li>
+</tbody></table>
+<li>[ ] 待办可完成、延期、取消。</li>
+</tbody></table>
+<li>[ ] 系统可创建资料缺失类待办，但不做医学判断。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: M | Dependencies: 首页、资料、药品、指标</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 10：生成就诊资料包 PDF</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 就诊前选择相关资料并生成 PDF，<strong>so that</strong> 我可以直接交给医生查看。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 用户选择就诊成员和本次就诊目的。</li>
+</tbody></table>
+<li>[ ] 用户选择要包含的病历、指标和当前用药。</li>
+</tbody></table>
+<li>[ ] 用户填写近期情况和想问医生的问题。</li>
+</tbody></table>
+<li>[ ] PDF 包含本次目的、近期情况、相关资料列表、当前用药、关键指标、过敏史、原始资料索引。</li>
+</tbody></table>
+<li>[ ] 用户生成前可预览和核对。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: L | Dependencies: 病历、药品、指标、PDF 导出</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 11：隐私授权</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 明确控制谁能看我的资料，<strong>so that</strong> 家庭管理不会侵犯我的隐私。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 敏感健康信息处理有单独同意记录。</li>
+</tbody></table>
+<li>[ ] 成年成员授权必须主动确认。</li>
+</tbody></table>
+<li>[ ] 默认客服和后台不能读取病历正文或原文件。</li>
+</tbody></table>
+<li>[ ] 撤销授权后立即失效。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: L | Dependencies: 权限模型、审计</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Story 12：数据导出和删除</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 导出和删除我的资料，<strong>so that</strong> 我始终拥有数据控制权。</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Acceptance Criteria:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 用户可下载结构化数据和原始文件。</li>
+</tbody></table>
+<li>[ ] 用户可删除单份资料。</li>
+</tbody></table>
+<li>[ ] 用户可申请注销账号。</li>
+</tbody></table>
+<li>[ ] 删除过程撤销相关分享和会话。</li>
+</tbody></table>
+<li>[ ] 删除结果写入必要审计，不保留病历正文。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Priority: P0 | Effort: L | Dependencies: 文件存储、异步任务、审计</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Story Map</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Must-have:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>登录 -&gt; 本人建档 -&gt; 上传资料 -&gt; 分类归档 -&gt; 搜索/时间线 -&gt; 资料包 PDF</li>
+</tbody></table>
+<li>添加药品 -&gt; 用药提醒 -&gt; 今日待办</li>
+</tbody></table>
+<li>记录指标 -&gt; 资料包引用</li>
+</tbody></table>
+<li>隐私授权 -&gt; 数据导出/删除</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Should-have:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>药品库存、临期提醒、指标趋势、限时分享、家庭授权细分。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Nice-to-have:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>OCR/AI、微信登录、小程序、年度报告、更多指标。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+</tbody></table>
+<hr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>四、测试场景</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<blockquote>来源文件：<code>医记_测试场景_2026-07-10.md</code></blockquote>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h1>医记测试场景</h1>
+</ul>
+</tbody></table>
+</tbody></table>
+</tbody></table>
+<p><strong>Source</strong>：新版 PRD 和用户故事 <strong>Coverage</strong>：happy path / edge cases / errors / security / privacy</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 1：新用户完成本人建档</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+</tbody></table>
+</tbody></table>
+<p><strong>Tests</strong>：邮箱登录、本人档案 <strong>Preconditions</strong>：用户邮箱未注册 <strong>User role</strong>：患者本人</p>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>输入邮箱并获取验证码</td><td>验证码发送成功</td></tr>
+</ul>
+<tr><td>2</td><td>输入正确验证码</td><td>登录成功并进入建档流程</td></tr>
+</ul>
+<tr><td>3</td><td>填写昵称、性别、出生年月</td><td>表单校验通过</td></tr>
+</ul>
+<tr><td>4</td><td>保存档案</td><td>创建本人档案，进入档案补全任务</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 2：验证码异常处理</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>输入错误验证码</td><td>返回错误提示，不创建会话</td></tr>
+</ul>
+<tr><td>2</td><td>输入过期验证码</td><td>返回过期提示</td></tr>
+</ul>
+<tr><td>3</td><td>连续多次请求验证码</td><td>触发限流提示</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：High</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 3：上传并手动归档病历资料</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>上传一张检查报告图片</td><td>文件上传成功，状态为待归档</td></tr>
+</ul>
+<tr><td>2</td><td>填写资料类型、医院、日期、标签</td><td>字段保存成功</td></tr>
+</ul>
+<tr><td>3</td><td>点击归档</td><td>资料进入对应成员时间线</td></tr>
+</ul>
+<tr><td>4</td><td>查看归档反馈</td><td>显示“已归档到 [成员] &gt; [类型] &gt; [日期]”</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 4：上传失败</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>上传超大文件</td><td>阻止上传并提示大小限制</td></tr>
+</ul>
+<tr><td>2</td><td>上传不支持格式</td><td>阻止上传并提示支持格式</td></tr>
+</ul>
+<tr><td>3</td><td>上传中断</td><td>不生成可见的完整资料，允许重试</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：High</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 5：搜索和时间线</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>上传多份不同医院资料</td><td>多条资料归档成功</td></tr>
+</ul>
+<tr><td>2</td><td>搜索医院名</td><td>返回匹配资料</td></tr>
+</ul>
+<tr><td>3</td><td>按资料类型筛选</td><td>只展示该类型资料</td></tr>
+</ul>
+<tr><td>4</td><td>查看时间线</td><td>按日期倒序展示</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：High</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 6：添加药品和用药提醒</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>添加药品名称、规格和用法用量原文</td><td>药品保存成功</td></tr>
+</ul>
+<tr><td>2</td><td>设置每日提醒时间</td><td>今日待办出现对应用药事项</td></tr>
+</ul>
+<tr><td>3</td><td>停用药品</td><td>后续提醒停止</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 7：药品安全边界</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>用户查看药品详情</td><td>显示“不提供用药建议”边界提示</td></tr>
+</ul>
+<tr><td>2</td><td>用户未填写用法用量</td><td>系统不自动生成剂量</td></tr>
+</ul>
+<tr><td>3</td><td>用户添加多个药品</td><td>系统不判断相互作用或替代关系</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 8：记录指标</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>记录血压 128/82</td><td>保存为血压记录</td></tr>
+</ul>
+<tr><td>2</td><td>选择来源为手动记录</td><td>来源显示正确</td></tr>
+</ul>
+<tr><td>3</td><td>查看历史记录</td><td>按时间展示，不给出诊断判断</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：High</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 9：生成就诊资料包 PDF</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>点击“我要去看医生”</td><td>进入资料包生成流程</td></tr>
+</ul>
+<tr><td>2</td><td>选择本人和本次就诊目的</td><td>进入资料选择</td></tr>
+</ul>
+<tr><td>3</td><td>勾选相关资料、药品、指标</td><td>进入近期情况补充</td></tr>
+</ul>
+<tr><td>4</td><td>填写近期症状和想问医生的问题</td><td>可预览资料包</td></tr>
+</ul>
+<tr><td>5</td><td>导出 PDF</td><td>PDF 生成成功且包含完整资料</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 10：家庭成员数据隔离</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>创建家庭成员 A 和 B</td><td>成员创建成功</td></tr>
+</ul>
+<tr><td>2</td><td>给 A 上传资料</td><td>资料只出现在 A 名下</td></tr>
+</ul>
+<tr><td>3</td><td>切换到 B</td><td>不展示 A 的资料</td></tr>
+</ul>
+<tr><td>4</td><td>直接请求 A 的资料 ID</td><td>未授权用户返回 403 或 404</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 11：授权撤销</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>授权家人查看资料</td><td>家人可按授权范围查看</td></tr>
+</ul>
+<tr><td>2</td><td>撤销授权</td><td>家人立即失去访问权限</td></tr>
+</ul>
+<tr><td>3</td><td>家人刷新旧页面</td><td>访问失败</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Scenario 12：数据导出和删除</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Action</td><td>Expected Result</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>用户请求导出数据</td><td>生成结构化数据和原文件导出</td></tr>
+</ul>
+<tr><td>2</td><td>用户删除单份资料</td><td>资料不再可见，相关待办/资料包引用更新</td></tr>
+</ul>
+<tr><td>3</td><td>用户申请注销账号</td><td>进入二次确认和删除流程</td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>Priority</strong>：Critical</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Coverage Matrix</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Requirement</td><td>Happy Path</td><td>Edge Cases</td><td>Error Handling</td><td>Security/Privacy Notes</td></tr>
+</ul>
+</ul>
+<tr><td>邮箱登录</td><td>Scenario 1</td><td>Scenario 2</td><td>验证码错误/过期/限流</td><td>不展示生产验证码</td></tr>
+</ul>
+<tr><td>本人建档</td><td>Scenario 1</td><td>缺少可选信息</td><td>表单校验</td><td>默认本人归属</td></tr>
+</ul>
+<tr><td>病历上传</td><td>Scenario 3</td><td>Scenario 4</td><td>上传失败/格式错误</td><td>原文件私有存储</td></tr>
+</ul>
+<tr><td>分类归档</td><td>Scenario 3</td><td>字段修改</td><td>保存失败重试</td><td>修改写审计</td></tr>
+</ul>
+<tr><td>搜索时间线</td><td>Scenario 5</td><td>多成员筛选</td><td>无结果提示</td><td>不跨成员泄露</td></tr>
+</ul>
+<tr><td>药品提醒</td><td>Scenario 6</td><td>停用药品</td><td>无提醒权限</td><td>不自动建议剂量</td></tr>
+</ul>
+<tr><td>指标记录</td><td>Scenario 8</td><td>不同单位</td><td>输入错误</td><td>不做诊断</td></tr>
+</ul>
+<tr><td>就诊资料包</td><td>Scenario 9</td><td>无资料状态</td><td>PDF 失败重试</td><td>导出前鉴权</td></tr>
+</ul>
+<tr><td>家庭权限</td><td>Scenario 10/11</td><td>授权撤销</td><td>403/404</td><td>默认拒绝</td></tr>
+</ul>
+<tr><td>数据权利</td><td>Scenario 12</td><td>删除后恢复</td><td>异步失败重试</td><td>删除证明不含正文</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+</tbody></table>
+<hr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>五、数据指标与埋点方案</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<blockquote>来源文件：<code>医记_数据指标与埋点方案_2026-07-10.md</code></blockquote>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h1>医记数据指标与埋点方案</h1>
+</ul>
+</tbody></table>
+</tbody></table>
+</tbody></table>
+</tbody></table>
+<p><strong>版本</strong>：MVP Draft <strong>日期</strong>：2026-07-10 <strong>原则</strong>：隐私优先、最小必要、只采集产品决策需要的数据</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>1. 为什么需要埋点</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>医记当前最需要回答的不是“用户点击了多少按钮”，而是这些业务问题：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li>用户是否能完成从注册到首份资料归档？</li>
+</tbody></table>
+<li>用户是否理解“手动整理 + 就诊资料包”的产品价值？</li>
+</tbody></table>
+<li>用户是否愿意持续维护病历、用药、指标和待办？</li>
+</tbody></table>
+<li>用户是否真的在就诊前生成资料包？</li>
+</tbody></table>
+<li>家庭成员和订阅是否带来增量价值？</li>
+</tbody></table>
+<li>哪些步骤让用户流失、失败或不信任？</li>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>因此，MVP 埋点必须围绕业务闭环设计：</p>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<pre><code>
+访问 -&gt; 注册/登录 -&gt; 本人建档 -&gt; 上传资料 -&gt; 分类归档
+-&gt; 添加药品/指标/待办 -&gt; 搜索/时间线查看
+-&gt; 生成就诊资料包 -&gt; 导出 PDF -&gt; 留存/订阅
+</ol>
+</tbody></table>
+</code></pre>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h2>2. 合规和隐私边界</h2>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>医疗健康信息属于敏感个人信息范畴。埋点不得采集病历正文、药品名称、诊断名称、检查结果原文、医院名称原文、文件名原文、邮箱明文、身份证号、手机号、原始文件 URL、分享 token、验证码、Cookie、访问令牌。</p>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>埋点只允许采集以下类型：</p>
+</ol>
+</tbody></table>
+</tbody></table>
+</ol>
+<ul>
+<li>匿名或伪匿名用户 ID。</li>
+</tbody></table>
+<li>成员数量、资料数量、药品数量、指标数量等计数。</li>
+</tbody></table>
+<li>文件类型、资料类型、操作结果、耗时、错误码等产品行为数据。</li>
+</tbody></table>
+<li>是否完成某步骤、是否开启提醒、是否导出 PDF 等布尔或枚举数据。</li>
+</tbody></table>
+<li>经白名单处理的页面、功能、按钮、套餐类型。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>禁止采集字段</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Category</td><td>Examples</td><td>Rule</td></tr>
+</ul>
+</ul>
+<tr><td>病历正文</td><td>主诉、诊断、检查结论、医嘱原文</td><td>禁止</td></tr>
+</ul>
+<tr><td>药品敏感信息</td><td>药品名称、剂量、用法用量原文</td><td>禁止</td></tr>
+</ul>
+<tr><td>原始资料信息</td><td>文件名、文件 URL、图片/PDF 内容、分享 token</td><td>禁止</td></tr>
+</ul>
+<tr><td>直接身份标识</td><td>邮箱明文、手机号、身份证号、姓名</td><td>禁止</td></tr>
+</ul>
+<tr><td>精确健康数值</td><td>血压具体值、血糖具体值、体重具体值</td><td>默认禁止；如确需分析，只采区间或是否填写</td></tr>
+</ul>
+<tr><td>医院/医生</td><td>医院名、科室名、医生名</td><td>默认禁止；如确需分析，只采“是否填写”</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>可采集替代字段</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Need</td><td>Do Not Collect</td><td>Collect Instead</td></tr>
+</ul>
+</ul>
+<tr><td>判断上传了什么资料</td><td>文件名、报告内容</td><td><code>record_type</code>, <code>file_mime_group</code>, <code>file_size_bucket</code></td></tr>
+</ul>
+<tr><td>判断分类质量</td><td>医院名、诊断名</td><td><code>has_hospital</code>, <code>has_record_date</code>, <code>has_tags</code>, <code>required_fields_completed_count</code></td></tr>
+</ul>
+<tr><td>判断用药功能使用</td><td>药品名称、剂量</td><td><code>medicine_created</code>, <code>has_reminder</code>, <code>schedule_frequency_bucket</code></td></tr>
+</ul>
+<tr><td>判断指标功能使用</td><td>具体血压/血糖值</td><td><code>metric_type</code>, <code>has_value=true</code>, <code>source_type</code></td></tr>
+</ul>
+<tr><td>判断资料包可用性</td><td>PDF 内容</td><td><code>visit_pack_sections_count</code>, <code>included_records_count</code>, <code>export_result</code></td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>参考边界：个人信息处理应有明确合理目的、与目的直接相关，并采取对个人权益影响最小的方式；医疗健康信息属于敏感个人信息，应按更高标准处理。正式上线前需由合规律师复核。</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>3. 北极星指标</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>North Star Metric</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>每月生成过至少 1 次就诊资料包的活跃用户数。</strong></p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>定义：</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+Monthly Visit-Pack Active Users =
+在自然月内完成 visit_pack_export_succeeded &gt;= 1 的去重用户数
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>为什么不用“上传资料数”作为北极星：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>上传资料只是中间行为。</li>
+</tbody></table>
+<li>医记的最终价值是就诊前可用，而不是存文件。</li>
+</tbody></table>
+<li>资料包能同时验证资料整理、药品、指标、搜索、分类和 PDF 导出是否成立。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Supporting Metrics</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Metric</td><td>Definition</td><td>Target</td></tr>
+</ul>
+</ul>
+<tr><td>首次建档完成率</td><td><code>profile_created / signup_completed</code></td><td>&gt;= 70%</td></tr>
+</ul>
+<tr><td>首份资料归档率</td><td><code>first_record_archived / profile_created</code></td><td>&gt;= 60%</td></tr>
+</ul>
+<tr><td>首次归档耗时</td><td><code>record_archived_at - record_upload_started_at</code></td><td>P50 &lt;= 3 min</td></tr>
+</ul>
+<tr><td>资料包生成率</td><td><code>visit_pack_created / users_with_archived_record</code></td><td>&gt;= 50%</td></tr>
+</ul>
+<tr><td>PDF 导出成功率</td><td><code>visit_pack_export_succeeded / visit_pack_export_started</code></td><td>&gt;= 95%</td></tr>
+</ul>
+<tr><td>第二份资料上传率</td><td>30-60 天内上传第 2 份资料用户占比</td><td>&gt;= 25%</td></tr>
+</ul>
+<tr><td>用药提醒使用率</td><td><code>medicine_reminder_enabled / medicine_created</code></td><td>&gt;= 20%</td></tr>
+</ul>
+<tr><td>家庭成员创建率</td><td>创建 &gt;= 2 个成员的活跃用户占比</td><td>&gt;= 15%</td></tr>
+</ul>
+<tr><td>试用转订阅率</td><td><code>subscription_started / trial_started</code></td><td>&gt;= 3%</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>4. MVP 漏斗</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Activation Funnel</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Event</td><td>Success Definition</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td><code>signup_completed</code></td><td>用户完成邮箱验证并创建会话</td></tr>
+</ul>
+<tr><td>2</td><td><code>profile_created</code></td><td>创建本人健康档案</td></tr>
+</ul>
+<tr><td>3</td><td><code>record_upload_succeeded</code></td><td>首份文件上传成功</td></tr>
+</ul>
+<tr><td>4</td><td><code>record_archived</code></td><td>填写基础分类并归档</td></tr>
+</ul>
+<tr><td>5</td><td><code>visit_pack_created</code></td><td>创建就诊资料包</td></tr>
+</ul>
+<tr><td>6</td><td><code>visit_pack_export_succeeded</code></td><td>PDF 导出成功</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Care Loop Funnel</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Event</td><td>Success Definition</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td><code>medicine_created</code></td><td>添加当前用药</td></tr>
+</ul>
+<tr><td>2</td><td><code>medicine_reminder_enabled</code></td><td>开启服药提醒</td></tr>
+</ul>
+<tr><td>3</td><td><code>metric_created</code></td><td>记录指标</td></tr>
+</ul>
+<tr><td>4</td><td><code>todo_created</code></td><td>创建复查/用药/资料待办</td></tr>
+</ul>
+<tr><td>5</td><td><code>todo_completed</code></td><td>完成待办</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Family Subscription Funnel</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Event</td><td>Success Definition</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td><code>member_created</code></td><td>创建家庭成员</td></tr>
+</ul>
+<tr><td>2</td><td><code>member_access_invited</code></td><td>发起授权邀请</td></tr>
+</ul>
+<tr><td>3</td><td><code>member_access_accepted</code></td><td>成员接受授权</td></tr>
+</ul>
+<tr><td>4</td><td><code>pricing_viewed</code></td><td>查看套餐页</td></tr>
+</ul>
+<tr><td>5</td><td><code>checkout_started</code></td><td>发起订阅</td></tr>
+</ul>
+<tr><td>6</td><td><code>subscription_started</code></td><td>订阅成功</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>5. Event Naming Rules</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>使用动词过去式或明确状态：</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+domain_object_action
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Examples:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li><code>auth_code_requested</code></li>
+</tbody></table>
+<li><code>signup_completed</code></li>
+</tbody></table>
+<li><code>profile_created</code></li>
+</tbody></table>
+<li><code>record_upload_started</code></li>
+</tbody></table>
+<li><code>record_upload_succeeded</code></li>
+</tbody></table>
+<li><code>record_archived</code></li>
+</tbody></table>
+<li><code>visit_pack_export_failed</code></li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>禁止使用含糊命名：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li><code>click_button</code></li>
+</tbody></table>
+<li><code>submit</code></li>
+</tbody></table>
+<li><code>page_event</code></li>
+</tbody></table>
+<li><code>ai_success</code></li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>6. Global Event Properties</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>每个事件默认带这些字段：</p>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Property</td><td>Type</td><td>Notes</td></tr>
+</ul>
+</ul>
+<tr><td><code>event_id</code></td><td>string</td><td>UUID</td></tr>
+</ul>
+<tr><td><code>event_name</code></td><td>string</td><td>事件名</td></tr>
+</ul>
+<tr><td><code>event_time</code></td><td>ISO datetime</td><td>服务端时间优先</td></tr>
+</ul>
+<tr><td><code>anonymous_id</code></td><td>string</td><td>未登录用户</td></tr>
+</ul>
+<tr><td><code>user_id_hash</code></td><td>string/null</td><td>登录后伪匿名 ID，不用邮箱</td></tr>
+</ul>
+<tr><td><code>session_id</code></td><td>string</td><td>会话级 ID</td></tr>
+</ul>
+<tr><td><code>device_type</code></td><td>enum</td><td>mobile / desktop / tablet</td></tr>
+</ul>
+<tr><td><code>platform</code></td><td>enum</td><td>web / pwa</td></tr>
+</ul>
+<tr><td><code>app_version</code></td><td>string</td><td>发布版本</td></tr>
+</ul>
+<tr><td><code>environment</code></td><td>enum</td><td>production / staging / local</td></tr>
+</ul>
+<tr><td><code>locale</code></td><td>string</td><td>zh-CN 等</td></tr>
+</ul>
+<tr><td><code>utm_source</code></td><td>string/null</td><td>白名单来源</td></tr>
+</ul>
+<tr><td><code>referrer_domain</code></td><td>string/null</td><td>只存域名，不存完整 URL query</td></tr>
+</ul>
+<tr><td><code>result</code></td><td>enum</td><td>success / failure</td></tr>
+</ul>
+<tr><td><code>error_code</code></td><td>string/null</td><td>标准错误码</td></tr>
+</ul>
+<tr><td><code>duration_ms</code></td><td>number/null</td><td>操作耗时</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>7. MVP Event Dictionary</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Auth &amp; Onboarding</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>auth_code_requested</code></td><td>用户请求邮箱验证码</td><td><code>method=email</code>, <code>result</code>, <code>error_code</code></td></tr>
+</ul>
+<tr><td><code>auth_code_verified</code></td><td>验证码校验完成</td><td><code>method=email</code>, <code>result</code>, <code>error_code</code></td></tr>
+</ul>
+<tr><td><code>signup_completed</code></td><td>首次创建账号</td><td><code>method=email</code></td></tr>
+</ul>
+<tr><td><code>login_completed</code></td><td>已有用户登录</td><td><code>method=email</code></td></tr>
+</ul>
+<tr><td><code>profile_create_started</code></td><td>进入本人建档页</td><td><code>entry_source</code></td></tr>
+</ul>
+<tr><td><code>profile_created</code></td><td>创建本人档案成功</td><td><code>has_allergy</code>, <code>has_chronic_condition</code>, <code>focus_tags_count</code></td></tr>
+</ul>
+<tr><td><code>onboarding_task_viewed</code></td><td>查看档案补全任务</td><td><code>completed_task_count</code>, <code>remaining_task_count</code></td></tr>
+</ul>
+<tr><td><code>onboarding_task_completed</code></td><td>完成一个补全任务</td><td><code>task_type</code></td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Records</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>record_upload_started</code></td><td>选择文件并开始上传</td><td><code>member_type</code>, <code>file_mime_group</code>, <code>file_size_bucket</code>, <code>entry_source</code></td></tr>
+</ul>
+<tr><td><code>record_upload_succeeded</code></td><td>文件上传成功</td><td><code>member_type</code>, <code>file_mime_group</code>, <code>file_size_bucket</code>, <code>duration_ms</code></td></tr>
+</ul>
+<tr><td><code>record_upload_failed</code></td><td>文件上传失败</td><td><code>file_mime_group</code>, <code>file_size_bucket</code>, <code>error_code</code>, <code>duration_ms</code></td></tr>
+</ul>
+<tr><td><code>record_classification_started</code></td><td>进入分类表单</td><td><code>record_type_initial</code>, <code>entry_source</code></td></tr>
+</ul>
+<tr><td><code>record_archived</code></td><td>完成归档</td><td><code>record_type</code>, <code>has_record_date</code>, <code>has_hospital</code>, <code>has_department</code>, <code>has_tags</code>, <code>required_fields_completed_count</code></td></tr>
+</ul>
+<tr><td><code>record_updated</code></td><td>修改资料字段</td><td><code>field_group</code>, <code>record_type</code></td></tr>
+</ul>
+<tr><td><code>record_deleted</code></td><td>删除单份资料</td><td><code>record_type</code>, <code>deletion_reason_type</code></td></tr>
+</ul>
+<tr><td><code>record_search_performed</code></td><td>执行搜索</td><td><code>query_length_bucket</code>, <code>filters_count</code>, <code>result_count_bucket</code></td></tr>
+</ul>
+<tr><td><code>timeline_viewed</code></td><td>查看时间线</td><td><code>member_type</code>, <code>filter_type</code>, <code>records_count_bucket</code></td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Do not collect:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>原始搜索词。</li>
+</tbody></table>
+<li>医院名。</li>
+</tbody></table>
+<li>资料标题。</li>
+</tbody></table>
+<li>诊断或检查文本。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Medicines</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>medicine_create_started</code></td><td>进入添加药品</td><td><code>entry_source</code></td></tr>
+</ul>
+<tr><td><code>medicine_created</code></td><td>药品保存成功</td><td><code>has_specification</code>, <code>has_usage_text</code>, <code>has_start_date</code>, <code>has_end_date</code>, <code>has_source_record</code></td></tr>
+</ul>
+<tr><td><code>medicine_reminder_enabled</code></td><td>开启提醒</td><td><code>reminder_frequency_bucket</code>, <code>times_per_day_bucket</code></td></tr>
+</ul>
+<tr><td><code>medicine_reminder_disabled</code></td><td>关闭提醒</td><td><code>reason_type</code></td></tr>
+</ul>
+<tr><td><code>medicine_stopped</code></td><td>停用药品</td><td><code>has_stop_reason</code></td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Do not collect:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>药品名称。</li>
+</tbody></table>
+<li>剂量、用法用量原文。</li>
+</tbody></table>
+<li>疾病或用途备注原文。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Metrics</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>metric_create_started</code></td><td>进入指标记录</td><td><code>metric_type</code></td></tr>
+</ul>
+<tr><td><code>metric_created</code></td><td>指标保存成功</td><td><code>metric_type</code>, <code>source_type</code>, <code>has_note</code>, <code>member_type</code></td></tr>
+</ul>
+<tr><td><code>metric_trend_viewed</code></td><td>查看趋势</td><td><code>metric_type</code>, <code>time_range</code></td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Do not collect:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>具体数值。</li>
+</tbody></table>
+<li>备注原文。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Todos</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>todo_created</code></td><td>创建待办</td><td><code>todo_type</code>, <code>has_due_date</code>, <code>has_reminder</code></td></tr>
+</ul>
+<tr><td><code>todo_completed</code></td><td>完成待办</td><td><code>todo_type</code>, <code>days_to_complete_bucket</code></td></tr>
+</ul>
+<tr><td><code>todo_postponed</code></td><td>延期待办</td><td><code>todo_type</code>, <code>postpone_days_bucket</code></td></tr>
+</ul>
+<tr><td><code>today_viewed</code></td><td>查看今日页</td><td><code>todo_count_bucket</code>, <code>overdue_count_bucket</code>, <code>profile_completion_bucket</code></td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Visit Pack</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>visit_pack_create_started</code></td><td>点击“我要去看医生”</td><td><code>entry_source</code>, <code>member_type</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_reason_added</code></td><td>填写本次就诊目的</td><td><code>reason_length_bucket</code>, <code>has_questions_for_doctor</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_records_selected</code></td><td>选择资料</td><td><code>selected_records_count</code>, <code>record_types_count</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_supplement_added</code></td><td>填写近期情况</td><td><code>supplement_length_bucket</code>, <code>has_symptom_start</code>, <code>has_medication_change</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_previewed</code></td><td>预览资料包</td><td><code>sections_count</code>, <code>included_records_count</code>, <code>included_medicines_count</code>, <code>included_metrics_count</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_export_started</code></td><td>开始导出 PDF</td><td><code>sections_count</code>, <code>included_records_count</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_export_succeeded</code></td><td>PDF 导出成功</td><td><code>duration_ms</code>, <code>file_size_bucket</code>, <code>sections_count</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_export_failed</code></td><td>PDF 导出失败</td><td><code>error_code</code>, <code>duration_ms</code></td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Do not collect:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>就诊目的原文。</li>
+</tbody></table>
+<li>症状描述原文。</li>
+</tbody></table>
+<li>想问医生的问题原文。</li>
+</tbody></table>
+<li>PDF 内容。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Family &amp; Permissions</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>member_created</code></td><td>创建家庭成员</td><td><code>member_type</code>, <code>relationship_type</code>, <code>is_minor</code></td></tr>
+</ul>
+<tr><td><code>member_switched</code></td><td>切换成员</td><td><code>from_member_type</code>, <code>to_member_type</code></td></tr>
+</ul>
+<tr><td><code>member_access_invited</code></td><td>发起授权邀请</td><td><code>role</code>, <code>scope_type</code>, <code>expires_enabled</code></td></tr>
+</ul>
+<tr><td><code>member_access_accepted</code></td><td>接受授权</td><td><code>role</code>, <code>scope_type</code></td></tr>
+</ul>
+<tr><td><code>member_access_revoked</code></td><td>撤销授权</td><td><code>role</code>, <code>scope_type</code>, <code>revoked_by_role</code></td></tr>
+</ul>
+<tr><td><code>privacy_consent_granted</code></td><td>同意敏感信息处理</td><td><code>consent_type</code>, <code>policy_version</code></td></tr>
+</ul>
+<tr><td><code>privacy_consent_withdrawn</code></td><td>撤回同意</td><td><code>consent_type</code>, <code>policy_version</code></td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Data Rights</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>data_export_requested</code></td><td>请求导出</td><td><code>export_scope</code>, <code>includes_original_files</code></td></tr>
+</ul>
+<tr><td><code>data_export_succeeded</code></td><td>导出完成</td><td><code>duration_ms</code>, <code>export_scope</code>, <code>file_size_bucket</code></td></tr>
+</ul>
+<tr><td><code>data_export_failed</code></td><td>导出失败</td><td><code>error_code</code>, <code>export_scope</code></td></tr>
+</ul>
+<tr><td><code>deletion_requested</code></td><td>请求删除资料/账号</td><td><code>deletion_scope</code>, <code>requires_second_factor</code></td></tr>
+</ul>
+<tr><td><code>deletion_completed</code></td><td>删除完成</td><td><code>deletion_scope</code>, <code>duration_bucket</code></td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Subscription</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>pricing_viewed</code></td><td>查看订阅页</td><td><code>entry_source</code>, <code>current_plan</code></td></tr>
+</ul>
+<tr><td><code>plan_selected</code></td><td>点击套餐</td><td><code>plan_type</code>, <code>billing_period</code></td></tr>
+</ul>
+<tr><td><code>checkout_started</code></td><td>发起支付</td><td><code>plan_type</code>, <code>billing_period</code></td></tr>
+</ul>
+<tr><td><code>subscription_started</code></td><td>订阅成功</td><td><code>plan_type</code>, <code>billing_period</code>, <code>trial_used</code></td></tr>
+</ul>
+<tr><td><code>subscription_cancelled</code></td><td>取消订阅</td><td><code>plan_type</code>, <code>reason_type</code></td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>8. Derived Tables</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>User Activation Table</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>每日聚合，按用户一行：</p>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Field</td><td>Definition</td></tr>
+</ul>
+</ul>
+<tr><td><code>user_id_hash</code></td><td>伪匿名用户</td></tr>
+</ul>
+<tr><td><code>signup_date</code></td><td>注册日期</td></tr>
+</ul>
+<tr><td><code>profile_created_at</code></td><td>本人建档时间</td></tr>
+</ul>
+<tr><td><code>first_record_uploaded_at</code></td><td>首份资料上传时间</td></tr>
+</ul>
+<tr><td><code>first_record_archived_at</code></td><td>首份资料归档时间</td></tr>
+</ul>
+<tr><td><code>first_visit_pack_exported_at</code></td><td>首次资料包导出时间</td></tr>
+</ul>
+<tr><td><code>activation_completed</code></td><td>是否完成资料包导出</td></tr>
+</ul>
+<tr><td><code>time_to_first_archive_minutes</code></td><td>注册到首份归档耗时</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Monthly Health Archive Usage</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Field</td><td>Definition</td></tr>
+</ul>
+</ul>
+<tr><td><code>month</code></td><td>月份</td></tr>
+</ul>
+<tr><td><code>active_users</code></td><td>当月活跃用户</td></tr>
+</ul>
+<tr><td><code>visit_pack_active_users</code></td><td>当月导出资料包用户</td></tr>
+</ul>
+<tr><td><code>records_uploaded</code></td><td>上传资料数</td></tr>
+</ul>
+<tr><td><code>records_archived</code></td><td>归档资料数</td></tr>
+</ul>
+<tr><td><code>medicines_created</code></td><td>新增药品数</td></tr>
+</ul>
+<tr><td><code>metrics_created</code></td><td>新增指标数</td></tr>
+</ul>
+<tr><td><code>todos_completed</code></td><td>完成待办数</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>9. Dashboards</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Dashboard 1：MVP Activation</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>回答：用户有没有跑通核心闭环？</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>注册完成数。</li>
+</tbody></table>
+<li>本人建档完成率。</li>
+</tbody></table>
+<li>首份资料上传率。</li>
+</tbody></table>
+<li>首份资料归档率。</li>
+</tbody></table>
+<li>资料包创建率。</li>
+</tbody></table>
+<li>PDF 导出成功率。</li>
+</tbody></table>
+<li>各步骤 P50/P90 耗时。</li>
+</tbody></table>
+<li>各步骤失败错误码 Top 10。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Dashboard 2：Care Loop</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>回答：用户是否持续维护？</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>人均资料数。</li>
+</tbody></table>
+<li>第二份资料上传率。</li>
+</tbody></table>
+<li>药品创建率。</li>
+</tbody></table>
+<li>用药提醒开启率。</li>
+</tbody></table>
+<li>指标记录率。</li>
+</tbody></table>
+<li>待办完成率。</li>
+</tbody></table>
+<li>今日页访问频次。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Dashboard 3：Privacy &amp; Trust</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>回答：隐私优先是否落地？</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>授权创建/撤销次数。</li>
+</tbody></table>
+<li>数据导出请求数和成功率。</li>
+</tbody></table>
+<li>删除请求数和完成率。</li>
+</tbody></table>
+<li>越权拦截次数。</li>
+</tbody></table>
+<li>分享撤销后访问失败次数。</li>
+</tbody></table>
+<li>敏感操作二次验证失败率。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Dashboard 4：Subscription</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>回答：家庭版是否值得做？</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>套餐页访问来源。</li>
+</tbody></table>
+<li>家庭成员创建率。</li>
+</tbody></table>
+<li>授权邀请/接受率。</li>
+</tbody></table>
+<li>套餐选择分布。</li>
+</tbody></table>
+<li>试用转订阅率。</li>
+</tbody></table>
+<li>取消订阅原因。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>10. Implementation Recommendations</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Client vs Server</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>前端埋点适合采集：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>页面进入。</li>
+</tbody></table>
+<li>表单开始。</li>
+</tbody></table>
+<li>用户点击入口。</li>
+</tbody></table>
+<li>前端校验失败。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>后端埋点必须采集：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>登录成功/失败。</li>
+</tbody></table>
+<li>上传成功/失败。</li>
+</tbody></table>
+<li>归档成功。</li>
+</tbody></table>
+<li>PDF 导出成功/失败。</li>
+</tbody></table>
+<li>授权、撤销、删除、导出。</li>
+</tbody></table>
+<li>支付/订阅。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>核心业务指标以后端事件为准，前端事件只能辅助分析流失。</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Event Pipeline</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>MVP 可以先用数据库表或轻量事件表：</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+product_events
+- id
+- event_name
+- user_id_hash
+- anonymous_id
+- session_id
+- properties_json
+- occurred_at
+- received_at
+- environment
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>要求：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>所有 properties 进入白名单校验。</li>
+</tbody></table>
+<li>丢弃禁止字段。</li>
+</tbody></table>
+<li>对邮箱等身份标识只保存哈希或不保存。</li>
+</tbody></table>
+<li>服务端补充 <code>received_at</code>。</li>
+</tbody></table>
+<li>失败事件也要记录，但只记录错误码，不记录请求正文。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Error Codes</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>错误码必须标准化，便于分析：</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+AUTH_CODE_EXPIRED
+AUTH_CODE_INVALID
+AUTH_RATE_LIMITED
+UPLOAD_FILE_TOO_LARGE
+UPLOAD_TYPE_UNSUPPORTED
+UPLOAD_STORAGE_FAILED
+RECORD_PERMISSION_DENIED
+PDF_RENDER_FAILED
+EXPORT_PERMISSION_DENIED
+DELETE_TASK_FAILED
+PAYMENT_FAILED
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>11. QA Checklist for Analytics</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 每个 P0 用户故事至少有 1 个成功事件和 1 个失败事件。</li>
+</tbody></table>
+<li>[ ] Activation Funnel 能从事件直接计算。</li>
+</tbody></table>
+<li>[ ] PDF 导出成功率能从后端事件直接计算。</li>
+</tbody></table>
+<li>[ ] 不采集病历正文、药品名称、诊断名称、指标具体值。</li>
+</tbody></table>
+<li>[ ] 搜索事件不采集原始搜索词。</li>
+</tbody></table>
+<li>[ ] 分享 token、文件 URL、验证码、Cookie、Token 不进入埋点。</li>
+</tbody></table>
+<li>[ ] 所有事件属性经过白名单校验。</li>
+</tbody></table>
+<li>[ ] Staging 和 Production 数据隔离。</li>
+</tbody></table>
+<li>[ ] 用户删除/注销后，分析数据只保留不可识别的聚合数据或按政策处理。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>12. First Sprint Tracking Plan</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>第一阶段不要一次性埋所有事件，先埋核心闭环：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li><code>signup_completed</code></li>
+</tbody></table>
+<li><code>profile_created</code></li>
+</tbody></table>
+<li><code>record_upload_started</code></li>
+</tbody></table>
+<li><code>record_upload_succeeded</code></li>
+</tbody></table>
+<li><code>record_upload_failed</code></li>
+</tbody></table>
+<li><code>record_archived</code></li>
+</tbody></table>
+<li><code>medicine_created</code></li>
+</tbody></table>
+<li><code>metric_created</code></li>
+</tbody></table>
+<li><code>todo_created</code></li>
+</tbody></table>
+<li><code>visit_pack_create_started</code></li>
+</tbody></table>
+<li><code>visit_pack_export_started</code></li>
+</tbody></table>
+<li><code>visit_pack_export_succeeded</code></li>
+</tbody></table>
+<li><code>visit_pack_export_failed</code></li>
+</tbody></table>
+<li><code>data_export_requested</code></li>
+</tbody></table>
+<li><code>deletion_requested</code></li>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>这些事件足够回答 MVP 是否成立。</p>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h2>13. Source Notes</h2>
+</ol>
+</tbody></table>
+</tbody></table>
+</ol>
+<ul>
+<li>《中华人民共和国个人信息保护法》要求个人信息处理遵循合法、正当、必要、诚信原则，并限于实现处理目的的最小范围。</li>
+</tbody></table>
+<li>中国网信网对敏感个人信息的解读明确提到医疗健康信息属于敏感个人信息。</li>
+</tbody></table>
+<li>《网络数据安全管理条例》自 2025-01-01 起施行，正式公开服务前需要纳入数据安全和个人信息处理合规评估。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+</tbody></table>
+<hr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>六、风险预演、数据权限与上线清单</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<blockquote>来源文件：<code>医记_风险预演_数据权限_上线清单_2026-07-10.md</code></blockquote>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h1>医记风险预演、数据权限与上线清单</h1>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Pre-Mortem：如果医记 MVP 上线失败，最可能为什么？</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Risk Summary</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li><strong>Tigers</strong>：7</li>
+</tbody></table>
+<li><strong>Paper Tigers</strong>：3</li>
+</tbody></table>
+<li><strong>Elephants</strong>：3</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Launch-Blocking Tigers</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>#</td><td>Risk</td><td>Likelihood</td><td>Impact</td><td>Mitigation</td><td>Owner</td><td>Deadline</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>用户以为产品会自动识别或给医疗建议，但实际不做 AI/OCR</td><td>High</td><td>High</td><td>全站文案改为“手动整理 + 就诊资料包”；移除 AI 承诺</td><td>Product</td><td>MVP 前</td></tr>
+</ul>
+<tr><td>2</td><td>敏感健康数据存储和跨境/境外服务不符合中国大陆长期公开服务预期</td><td>Medium</td><td>High</td><td>公开推广前评估国内云、ICP备案、第三方服务清单</td><td>Founder/Legal/Eng</td><td>公开前</td></tr>
+</ul>
+<tr><td>3</td><td>家庭成员权限设计不严导致成年成员资料被误看</td><td>Medium</td><td>High</td><td>成年成员必须主动授权；默认拒绝；越权测试覆盖导出/下载</td><td>Engineering</td><td>家庭功能前</td></tr>
+</ul>
+<tr><td>4</td><td>PDF 资料包内容不够完整，用户不能直接给医生看</td><td>Medium</td><td>High</td><td>固定资料包结构；导出前预览核对；封闭测试验证可用性</td><td>Product</td><td>PDF 前</td></tr>
+</ul>
+<tr><td>5</td><td>文件上传后找不到或分类混乱</td><td>Medium</td><td>High</td><td>上传后强制归档反馈；今日页显示待补全资料</td><td>Product/Design</td><td>MVP 前</td></tr>
+</ul>
+<tr><td>6</td><td>删除/导出做不完整，破坏隐私优先原则</td><td>Medium</td><td>High</td><td>数据导出、单份删除、注销入口纳入 P0；删除流程写审计</td><td>Engineering</td><td>MVP 前</td></tr>
+</ul>
+<tr><td>7</td><td>邮件验证码在国内收信不稳定</td><td>Medium</td><td>Medium</td><td>验证主流邮箱；准备短信或微信登录作为 P1 备选</td><td>Engineering</td><td>封测前</td></tr>
+</ul>
+<tr><td>8</td><td>没有埋点导致不知道用户卡在哪里、MVP 是否成立</td><td>High</td><td>High</td><td>上线前完成核心闭环埋点和 Activation Dashboard</td><td>Product/Data/Eng</td><td>MVP 前</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Fast-Follow Tigers</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>#</td><td>Risk</td><td>Likelihood</td><td>Impact</td><td>Planned Response</td><td>Owner</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td>没有 OCR 导致录入成本高</td><td>High</td><td>Medium</td><td>优化手动分类表单；常用字段默认值；后续评估 OCR</td></tr>
+</ul>
+<tr><td>2</td><td>家庭订阅价值不足</td><td>Medium</td><td>Medium</td><td>封测观察家庭成员创建、资料共享、用药提醒使用</td></tr>
+</ul>
+<tr><td>3</td><td>Vercel 上线对中国大陆访问和搜索不稳定</td><td>Medium</td><td>Medium</td><td>公开推广前准备大陆可访问部署方案</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Paper Tigers</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>“没有 AI 就没有价值”：不成立。当前核心价值是安全集中保存、快速查找和就诊前资料包。</li>
+</tbody></table>
+<li>“必须先做 App”：不成立。网页足够验证上传、整理、导出和订阅意愿。</li>
+</tbody></table>
+<li>“功能少用户不会付费”：未必。若资料包解决真实就诊痛点，家庭版仍可验证付费。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Elephants in the Room</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li>旧版文档和原型里 AI/OCR 承诺较多，必须主动降级，否则用户预期会错位。</li>
+</tbody></table>
+<li>“中国大陆用户”与现有 Vercel/Resend 等服务之间可能存在长期生产适配问题，需要明确当前只是验证还是公开商业化。</li>
+</tbody></table>
+<li>医疗健康数据合规成本高，不能等到用户量起来后再补权限、删除、审计和备案。</li>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h2>Data Permission Baseline</h2>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Principles</h3>
+</ol>
+</tbody></table>
+</tbody></table>
+</ol>
+<ul>
+<li>默认拒绝。</li>
+</tbody></table>
+<li>每份病历、药品、指标、待办、资料包都必须有 <code>member_id</code>。</li>
+</tbody></table>
+<li>后端根据资源真实归属鉴权，不接受前端声明的成员归属。</li>
+</tbody></table>
+<li>成年成员资料必须主动授权。</li>
+</tbody></table>
+<li>客服和后台默认无权读取病历正文和原文件。</li>
+</tbody></table>
+<li>删除、导出、授权、分享都必须写审计。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Roles</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Role</td><td>Scope</td><td>Allowed</td></tr>
+</ul>
+</ul>
+<tr><td>SELF</td><td>本人档案</td><td>完整控制本人资料</td></tr>
+</ul>
+<tr><td>GUARDIAN</td><td>未成年人档案</td><td>管理未成年人资料</td></tr>
+</ul>
+<tr><td>MANAGER</td><td>获授权家人</td><td>管理资料、药品、提醒；导出/删除需配置</td></tr>
+</ul>
+<tr><td>CONTRIBUTOR</td><td>协助录入者</td><td>上传和修改资料，不能导出或分享</td></tr>
+</ul>
+<tr><td>VIEWER</td><td>只读家人</td><td>查看授权范围，默认不能下载原件</td></tr>
+</ul>
+<tr><td>SUPPORT</td><td>客服</td><td>默认无医疗资料权限</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>MVP Privacy Center</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>查看隐私政策和服务协议。</li>
+</tbody></table>
+<li>查看敏感健康信息处理说明。</li>
+</tbody></table>
+<li>导出结构化数据和原文件。</li>
+</tbody></table>
+<li>删除单份资料。</li>
+</tbody></table>
+<li>撤销家庭授权。</li>
+</tbody></table>
+<li>注销账号入口。</li>
+</tbody></table>
+<li>查看第三方服务清单。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Launch Checklist</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Product</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 首页主入口改为“今日”和“我要去看医生”。</li>
+</tbody></table>
+<li>[ ] 移除 AI/OCR 作为 MVP 承诺的文案。</li>
+</tbody></table>
+<li>[ ] 所有药品页面显示“不提供用药建议”边界。</li>
+</tbody></table>
+<li>[ ] 就诊资料包 PDF 结构固定且可预览。</li>
+</tbody></table>
+<li>[ ] 免费版和家庭订阅权益不锁死已有数据。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Engineering</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 生产环境验证码不明文展示。</li>
+</tbody></table>
+<li>[ ] 上传文件私有存储，不使用公开 ACL。</li>
+</tbody></table>
+<li>[ ] 每份医疗资源带 <code>member_id</code> 并后端鉴权。</li>
+</tbody></table>
+<li>[ ] 核心闭环埋点已接入：注册、建档、上传、归档、资料包、PDF 导出。</li>
+</tbody></table>
+<li>[ ] 埋点属性白名单已接入，禁止病历正文、药品名称、诊断名、搜索词原文进入分析系统。</li>
+</tbody></table>
+<li>[ ] 越权测试覆盖读取、修改、下载、导出、删除。</li>
+</tbody></table>
+<li>[ ] 审计日志不记录病历正文、验证码、Token、签名 URL。</li>
+</tbody></table>
+<li>[ ] 用户可导出、删除和注销。</li>
+</tbody></table>
+<li>[ ] PDF 导出失败可重试且不会生成脏数据。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Security &amp; Compliance</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 隐私政策和服务协议联系方式替换为真实联系方式。</li>
+</tbody></table>
+<li>[ ] 敏感健康信息单独同意。</li>
+</tbody></table>
+<li>[ ] 成年成员授权和撤销流程可用。</li>
+</tbody></table>
+<li>[ ] 完成第三方服务清单：邮箱、云存储、日志、监控等。</li>
+</tbody></table>
+<li>[ ] 评估 ICP 备案、公安备案和中国大陆部署。</li>
+</tbody></table>
+<li>[ ] 完成个人信息保护影响评估草案。</li>
+</tbody></table>
+<li>[ ] 错误监控脱敏。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>User Testing</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 真实用户完成：注册 -&gt; 建档 -&gt; 上传 -&gt; 分类 -&gt; 添加药品 -&gt; 记录指标 -&gt; 生成 PDF -&gt; 删除。</li>
+</tbody></table>
+<li>[ ] 记录每一步耗时和卡点。</li>
+</tbody></table>
+<li>[ ] 用埋点看板复核每一步转化率和失败错误码。</li>
+</tbody></table>
+<li>[ ] 询问用户：PDF 是否能直接给医生看。</li>
+</tbody></table>
+<li>[ ] 询问用户：是否愿意为家庭版订阅付费。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Go / No-Go</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Go 条件：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 一次完整端到端流程跑通。</li>
+</tbody></table>
+<li>[ ] PDF 资料包可用性达到封测要求。</li>
+</tbody></table>
+<li>[ ] 权限和越权测试通过。</li>
+</tbody></table>
+<li>[ ] 删除和导出能力可用。</li>
+</tbody></table>
+<li>[ ] 隐私政策、服务协议、敏感信息同意文本齐备。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>No-Go 条件：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 仍有 AI/OCR 误导性承诺。</li>
+</tbody></table>
+<li>[ ] 家庭成员数据可能串档。</li>
+</tbody></table>
+<li>[ ] 用户无法删除或导出资料。</li>
+</tbody></table>
+<li>[ ] PDF 资料包不能覆盖本次就诊目的、近期情况、相关资料、当前用药和关键指标。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+</tbody></table>
+<hr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>七、交付物索引</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<blockquote>来源文件：<code>医记_交付物索引_2026-07-10.md</code></blockquote>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h1>医记 PRD 交付物索引</h1>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>本轮交付基于以下输入：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>用户确认的核心需求：帮助用户管理病历和药物；第一优先用户为患者本人；最高频痛点是整理散落在各处、各个医院网站的资料；MVP 暂不做 AI/OCR；隐私优先；成功标准是一次就诊前生成完整资料包。</li>
+</tbody></table>
+<li>旧版资料：<code>医记 PRD V1.1.docx</code>、<code>医记.docx</code>、<code>医记V1.3.md</code>、<code>PRODUCT_BASELINE.md</code>、<code>TECH_ARCHITECTURE_AND_DATA_PERMISSIONS.md</code>、<code>BACKEND_README.md</code>、<code>LAUNCH_CHECKLIST.md</code>。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Files</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li><code>医记_PRD_上线网页MVP_2026-07-10.md</code></li>
+</tbody></table>
+</ol>
+<ul>
+<li>主 PRD。</li>
+</tbody></table>
+<li>定义定位、目标、非目标、P0/P1/P2、用户旅程、开放问题和版本节奏。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li><code>医记_MVP范围与路线图_2026-07-10.md</code></li>
+</tbody></table>
+</ol>
+<ul>
+<li>MVP 范围和结果型路线图。</li>
+</tbody></table>
+<li>明确 In Scope / Out of Scope，以及 Now / Next / Later。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li><code>医记_用户故事与验收标准_2026-07-10.md</code></li>
+</tbody></table>
+</ol>
+<ul>
+<li>面向开发和验收的用户故事。</li>
+</tbody></table>
+<li>覆盖登录、建档、上传、分类、搜索、用药、指标、待办、资料包、授权、删除。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li><code>医记_测试场景_2026-07-10.md</code></li>
+</tbody></table>
+</ol>
+<ul>
+<li>QA 测试场景和覆盖矩阵。</li>
+</tbody></table>
+<li>覆盖 happy path、错误处理、权限和隐私。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li><code>医记_风险预演_数据权限_上线清单_2026-07-10.md</code></li>
+</tbody></table>
+</ol>
+<ul>
+<li>Pre-mortem、数据权限基线、上线检查清单和 Go/No-Go 条件。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li><code>医记_数据指标与埋点方案_2026-07-10.md</code></li>
+</tbody></table>
+</ol>
+<ul>
+<li>数据指标、北极星指标、漏斗、事件字典、事件属性、禁止采集字段、看板和埋点验收清单。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>Key Product Decisions Captured</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>MVP 不做 AI/OCR，避免医疗风险和识别质量风险。</li>
+</tbody></table>
+<li>旧版“就医摘要”升级为“就诊资料包 PDF”。</li>
+</tbody></table>
+<li>首页应围绕“今日”和“我要去看医生”，不是泛泛 Dashboard。</li>
+</tbody></table>
+<li>患者本人闭环优先，家庭版订阅作为下一阶段验证重点。</li>
+</tbody></table>
+<li>中国大陆用户和敏感健康数据合规是正式公开前的硬约束。</li>
+</tbody></table>
+<li>MVP 必须有最小数据埋点，否则无法判断首份资料归档、资料包 PDF 和家庭订阅是否成立。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table></section>
+  </article>
+</main>
+</body>
+</html>

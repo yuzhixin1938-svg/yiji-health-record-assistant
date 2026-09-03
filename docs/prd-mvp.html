@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>医记文档｜主 PRD</title>
+<style>
+:root{--bg:#f7f1e7;--panel:#fffdf8;--ink:#20322c;--muted:#6f7a74;--line:#eadfce;--brand:#176d5c;--soft:#e8f4ee;--shadow:0 18px 50px rgba(75,55,30,.1)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0,#fff8e9 0,#f7f1e7 34%,#edf6f1 100%);color:var(--ink);font:16px/1.75 "PingFang SC","Microsoft YaHei",system-ui,sans-serif}.wrap{width:min(980px,100%);margin:auto;padding:30px 18px 70px}.top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:18px}.back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--brand);text-decoration:none;font-weight:850}.card{border:1px solid var(--line);border-radius:24px;background:rgba(255,253,248,.96);box-shadow:var(--shadow);overflow:hidden}.hero{padding:28px}.eyebrow{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:13px;font-weight:850}h1{margin:12px 0 4px;font-size:clamp(30px,4vw,44px);line-height:1.12;letter-spacing:-.04em}.muted{margin:0;color:var(--muted)}.content{padding:8px 30px 36px}.content h1{font-size:34px}.content h2{margin:30px 0 10px;font-size:25px;line-height:1.28;color:var(--brand)}.content h3{margin:24px 0 8px;font-size:20px}.content h4{margin:18px 0 6px;font-size:17px}.content p{margin:10px 0}.content ul,.content ol{margin:10px 0 14px;padding-left:24px}.content li{margin:6px 0}.content strong{font-weight:850}.content code{padding:2px 6px;border-radius:7px;background:var(--soft);color:#124a3f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.content pre{overflow:auto;padding:16px;border-radius:16px;background:#173e35;color:#eef9f5}.content pre code{padding:0;background:transparent;color:inherit}.content blockquote{margin:14px 0;padding:12px 16px;border-left:4px solid var(--brand);border-radius:0 14px 14px 0;background:#edf7f2;color:#315c50}.content table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}.content td{padding:10px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top}.content tr:last-child td{border-bottom:0}.content td:last-child{border-right:0}.content hr{border:0;border-top:1px solid var(--line);margin:24px 0}@media(max-width:640px){.top{align-items:flex-start;flex-direction:column}.wrap{padding:20px 12px 48px}.hero,.content{padding:20px}.content table{display:block;overflow:auto}.content h1{font-size:28px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a class="back" href="../project-story.html">← 返回项目复盘</a></div>
+  <article class="card">
+    <header class="hero"><span class="eyebrow">医记产品文档</span><h1>主 PRD</h1></header>
+    <section class="content"><h1>医记 PRD：上线网页 MVP</h1>
+<p><strong>版本</strong>：MVP / V1.0 产品定义稿 <strong>日期</strong>：2026-07-10 <strong>状态</strong>：Draft <strong>产品形态</strong>：已上线的移动端优先响应式网页 <strong>核心原则</strong>：隐私优先</p>
+<h2>1. Executive Summary</h2>
+<p>医记是一款帮助患者本人管理病历和药物的网页产品。它解决的核心问题是：用户的病历、检查报告、处方、用药记录和就诊资料散落在相册、纸质文件、医院网站和不同平台里，真正看病时很难快速整理成一份医生能看懂的资料。</p>
+<p>本版本的目标不是做 AI 医生，也不做 OCR 自动识别，而是先把“手动上传、分类整理、日常维护、就诊前生成完整资料包”的闭环跑通。成功标准是：用户在一次就诊前，可以生成一份完整、可导出的就诊资料包。</p>
+<h2>2. Background &amp; Context</h2>
+<p>旧版文档中，医记曾包含 OCR、AI 归类、摘要生成、药品扫描等能力。但当前产品决策明确：MVP 暂不引入 AI/OCR，因为识别能力不稳定且医疗场景风险高。</p>
+<p>因此，新版 PRD 将产品重心调整为：</p>
+<ul>
+<li>用户自己上传原始资料。</li>
+<li>用户自己填写或核对结构化字段。</li>
+<li>系统负责安全保存、分类、搜索、时间线、提醒和导出。</li>
+<li>所有医疗事实必须可追溯到用户录入或原始资料。</li>
+<li>产品不提供诊断、治疗建议、药品替代建议或剂量调整建议。</li>
+</ul>
+<p>旧版 V1.3 的主线仍然保留：</p>
+</ul>
+</ul>
+<pre><code>
+建档 -&gt; 补全 -&gt; 维护 -&gt; 就诊使用
+</ul>
+</code></pre>
+</ul>
+<p>但其中“AI 识别”改为“用户手动录入 / 用户核对归档”。</p>
+</ul>
+</ul>
+<h2>3. Objectives &amp; Success Metrics</h2>
+</ul>
+</ul>
+<h3>Goals</h3>
+</ul>
+</ul>
+<ol>
+<li>让患者本人能够把散落在不同医院网站、相册、纸质材料中的病历资料集中保存和分类。</li>
+<li>让用户能够维护当前用药、健康指标、复查和资料处理待办。</li>
+<li>让用户在就诊前选择相关资料，生成一份完整的 PDF 就诊资料包。</li>
+<li>建立隐私优先的数据权限、授权、删除和导出机制。</li>
+<li>验证订阅会员家庭版是否有付费价值。</li>
+</ol>
+</ol>
+<h3>Non-Goals</h3>
+</ol>
+<li>不做 AI 诊断、疾病概率预测、治疗方案推荐。</li>
+<li>不做 OCR 自动识别作为 MVP 必需能力。</li>
+<li>不自动推荐用药、改变剂量或判断药品替代关系。</li>
+<li>不接入医院 HIS、电子病历平台或医保系统。</li>
+<li>不做医生工作台、问诊社区、药品交易或导流问诊。</li>
+<li>不默认允许家庭成员读取成年人的病历，必须经过明确授权。</li>
+</ol>
+</ol>
+<h3>Success Metrics</h3>
+</ol>
+</ol>
+<table><tbody>
+<tr><td>Metric</td><td>Current</td><td>MVP Target</td><td>Measurement</td></tr>
+</ol>
+</ol>
+<tr><td>首次建档完成率</td><td>待测</td><td>&gt;= 70%</td><td>登录后完成本人档案</td></tr>
+</ol>
+<tr><td>首份病历上传完成率</td><td>待测</td><td>&gt;= 60%</td><td>建档后 24 小时内上传至少 1 份资料</td></tr>
+</ol>
+<tr><td>首次归档时间</td><td>待测</td><td>&lt;= 3 分钟</td><td>从上传到完成分类归档</td></tr>
+</ol>
+<tr><td>就诊资料包生成成功率</td><td>待测</td><td>&gt;= 50%</td><td>上传资料用户中生成资料包比例</td></tr>
+</ol>
+<tr><td>资料包可用性</td><td>待测</td><td>用户认为“能直接给医生看”&gt;= 70%</td><td>封闭测试问卷</td></tr>
+</ol>
+<tr><td>第二份资料上传率</td><td>待测</td><td>&gt;= 25%</td><td>30-60 天内再次上传</td></tr>
+</ol>
+<tr><td>用药提醒使用率</td><td>待测</td><td>&gt;= 20%</td><td>创建药品且设置提醒</td></tr>
+</ol>
+<tr><td>订阅转化率</td><td>待测</td><td>&gt;= 3%</td><td>试用用户转家庭订阅</td></tr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Data Instrumentation</h3>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>MVP 必须同步建设最小埋点能力，否则无法判断产品是否跑通。第一批埋点以核心闭环为准：注册、建档、上传、归档、药品、指标、待办、资料包创建、PDF 导出、数据导出、删除请求。</p>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>埋点不得采集病历正文、药品名称、诊断名称、医院名称原文、指标具体数值、原始搜索词、文件 URL、分享 token、验证码、Cookie 或访问令牌。详细方案见 <code>医记_数据指标与埋点方案_2026-07-10.md</code>。</p>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h2>4. Target Users &amp; Segments</h2>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Primary User</h3>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>患者本人。</p>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Initial Segment</h3>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>20-45 岁、有跨医院就诊、体检、慢病复诊或长期用药经历的用户。他们能独立使用网页、邮箱验证和文件上传，也更可能为家庭版订阅付费。</p>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Secondary Users</h3>
+</ol>
+</tbody></table>
+</tbody></table>
+</ol>
+<ul>
+<li>替父母整理病历和药物的子女。</li>
+</tbody></table>
+<li>替孩子管理病历、用药和复查的父母。</li>
+</tbody></table>
+<li>慢病患者或长期复查人群。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>MVP 以患者本人为第一优先用户，家庭成员能力保留，但不得压过本人闭环。</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>5. Core User Journey</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+邮箱验证登录
+-&gt; 创建本人健康档案
+-&gt; 上传病历、检查报告、处方或其他资料
+-&gt; 选择资料类型、医院、日期、关联问题和所属成员
+-&gt; 添加当前用药和服药提醒
+-&gt; 记录关键指标
+-&gt; 创建复查、用药、资料补全等待办
+-&gt; 通过搜索或时间线持续维护
+-&gt; 就诊前选择相关资料
+-&gt; 补充本次就诊目的和近期情况
+-&gt; 生成并核对就诊资料包
+-&gt; 导出 PDF
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>6. Requirements</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>P0 - Must Have</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>#</td><td>Requirement</td><td>Acceptance Criteria</td></tr>
+</ul>
+</ul>
+<tr><td>P0-1</td><td>邮箱验证登录</td><td>用户可通过邮箱验证码注册/登录；验证码不在生产环境明文展示；可退出登录</td></tr>
+</ul>
+<tr><td>P0-2</td><td>本人健康档案</td><td>用户首次进入后创建本人档案；至少支持姓名/昵称、性别、出生年月、过敏史、长期疾病</td></tr>
+</ul>
+<tr><td>P0-3</td><td>家庭成员管理</td><td>支持创建家庭成员并切换；每份资料必须归属于一个成员；默认以本人为主</td></tr>
+</ul>
+<tr><td>P0-4</td><td>病历上传</td><td>支持图片、PDF、常见文档上传；保存原始文件；记录文件名、类型、上传时间、所属成员</td></tr>
+</ul>
+<tr><td>P0-5</td><td>病历分类</td><td>用户可手动选择资料类型、就诊日期、医院/机构、科室、健康问题标签</td></tr>
+</ul>
+<tr><td>P0-6</td><td>搜索</td><td>支持按成员、资料类型、医院、日期、关键词搜索</td></tr>
+</ul>
+<tr><td>P0-7</td><td>时间线</td><td>按成员展示就诊和资料时间线；支持按类型筛选</td></tr>
+</ul>
+<tr><td>P0-8</td><td>用药管理与提醒</td><td>支持药品名称、规格、用途备注、用法用量原文、开始/结束日期、提醒时间</td></tr>
+</ul>
+<tr><td>P0-9</td><td>指标记录</td><td>支持体重、血压、血糖、心率、体温；每条指标必须有日期和来源</td></tr>
+</ul>
+<tr><td>P0-10</td><td>待办事项</td><td>支持复查、用药、资料补全、资料核对等类型；可完成/延期</td></tr>
+</ul>
+<tr><td>P0-11</td><td>就诊资料包 PDF</td><td>用户选择成员、就诊目的、相关资料和近期情况后生成 PDF</td></tr>
+</ul>
+<tr><td>P0-12</td><td>隐私授权</td><td>敏感健康信息处理、家庭成员访问、导出和分享需要明确授权记录</td></tr>
+</ul>
+<tr><td>P0-13</td><td>数据导出与删除</td><td>用户可导出结构化数据和原始文件；可删除单份资料；可申请账号注销</td></tr>
+</ul>
+<tr><td>P0-14</td><td>安全审计</td><td>登录、上传、查看、修改、删除、导出、授权等关键操作写入审计</td></tr>
+</ul>
+<tr><td>P0-15</td><td>数据埋点</td><td>支持核心闭环漏斗、PDF 导出成功率、错误码和隐私相关操作分析；不得采集医疗正文和直接身份信息</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>P1 - Should Have</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>#</td><td>Requirement</td><td>Acceptance Criteria</td></tr>
+</ul>
+</ul>
+<tr><td>P1-1</td><td>指标趋势</td><td>支持按指标查看简单趋势图和异常备注；不做医学判断</td></tr>
+</ul>
+<tr><td>P1-2</td><td>药品库存</td><td>支持剩余数量、存放位置、有效期、低库存/临期提醒</td></tr>
+</ul>
+<tr><td>P1-3</td><td>限时分享链接</td><td>资料包可生成限时只读链接，支持撤销和访问记录</td></tr>
+</ul>
+<tr><td>P1-4</td><td>家庭成员授权细分</td><td>支持查看者、协助录入者、管理者等不同权限</td></tr>
+</ul>
+<tr><td>P1-5</td><td>订阅套餐页</td><td>展示免费版与家庭订阅权益；不得锁死用户已有数据</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>P2 - Future</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>#</td><td>Requirement</td><td>Notes</td></tr>
+</ul>
+</ul>
+<tr><td>P2-1</td><td>OCR / AI 结构化提取</td><td>仅在合规、稳定、可追溯后作为可插拔能力</td></tr>
+</ul>
+<tr><td>P2-2</td><td>微信登录 / 微信小程序</td><td>网页验证成立后再做</td></tr>
+</ul>
+<tr><td>P2-3</td><td>分享口令或短信验证</td><td>用于高敏感分享</td></tr>
+</ul>
+<tr><td>P2-4</td><td>更多指标类型</td><td>血脂、尿酸、肝肾功能等</td></tr>
+</ul>
+<tr><td>P2-5</td><td>年度健康资料报告</td><td>只能做资料整理，不做诊断或建议</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>7. Solution Overview</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Information Architecture</h3>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+医记
+├── 今日
+│   ├── 当前成员档案状态
+│   ├── 今日待办
+│   ├── 快捷操作：上传资料 / 添加药品 / 记录指标
+│   └── 我要去看医生：生成就诊资料包
+├── 病历资料
+│   ├── 上传
+│   ├── 分类归档
+│   ├── 搜索
+│   └── 时间线
+├── 药品
+│   ├── 当前用药
+│   ├── 服药提醒
+│   └── 停用记录
+├── 指标
+│   ├── 新增记录
+│   └── 基础趋势
+├── 待办
+│   ├── 复查
+│   ├── 用药
+│   ├── 资料补全
+│   └── 资料核对
+├── 家庭成员
+│   ├── 成员档案
+│   └── 授权
+└── 设置
+    ├── 隐私中心
+    ├── 数据导出/删除
+    ├── 订阅
+    └── 协议与隐私政策
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Product Boundary Copy</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>关键页面必须展示一致边界：</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+医记仅用于整理和提醒，不提供诊断、治疗建议或用药调整建议。
+用法用量请以医生处方或本人记录为准。
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>8. Open Questions</h2>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Question</td><td>Owner</td><td>Deadline</td></tr>
+</ul>
+</ul>
+<tr><td>是否继续使用 Vercel 作为正式中国大陆长期生产环境？</td><td>Founder/Product</td><td>上线前</td></tr>
+</ul>
+<tr><td>是否必须迁移到中国大陆云和备案域名后再公开推广？</td><td>Founder/Legal/Engineering</td><td>公开推广前</td></tr>
+</ul>
+<tr><td>邮箱验证是否足够，还是需要手机号/微信登录？</td><td>Product</td><td>封闭测试后</td></tr>
+</ul>
+<tr><td>家庭版成员上限是 3 人还是 7 人？</td><td>Product/Business</td><td>定价页前</td></tr>
+</ul>
+<tr><td>成年家庭成员是否允许管理者导出其全部档案？</td><td>Product/Legal</td><td>家庭授权开发前</td></tr>
+</ul>
+<tr><td>数据删除承诺期限如何写入隐私政策？</td><td>Legal/Engineering</td><td>公开上线前</td></tr>
+</ul>
+<tr><td>PDF 资料包是否包含原始附件，还是只包含摘要索引？</td><td>Product</td><td>PDF 开发前</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>9. Timeline &amp; Phasing</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Phase 0 - 已上线网页梳理</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>明确当前线上版本与 PRD 的差距。</li>
+</tbody></table>
+<li>移除或隐藏 AI/OCR 承诺文案。</li>
+</tbody></table>
+<li>将首页主线调整为“今日”和“我要去看医生”。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Phase 1 - MVP 闭环</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>邮箱登录、本人与家庭成员、病历上传/分类、用药、指标、待办、搜索、时间线、PDF 资料包、隐私授权。</li>
+</tbody></table>
+<li>完成真实用户端到端测试：注册、建档、上传、分类、添加药品、记录指标、生成 PDF、删除。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Phase 2 - 家庭订阅验证</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>家庭成员授权、订阅套餐、容量/成员限制、导出与撤销能力。</li>
+</tbody></table>
+<li>观察是否愿意为家庭版付费。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Phase 3 - 合规与国内化</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>ICP/公安备案评估。</li>
+</tbody></table>
+<li>中国大陆可访问、可搜索、可收信的生产方案。</li>
+</tbody></table>
+<li>敏感个人信息处理影响评估和第三方服务清单。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table></section>
+  </article>
+</main>
+</body>
+</html>

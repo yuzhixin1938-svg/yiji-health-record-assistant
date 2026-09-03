@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>医记文档｜数据埋点</title>
+<style>
+:root{--bg:#f7f1e7;--panel:#fffdf8;--ink:#20322c;--muted:#6f7a74;--line:#eadfce;--brand:#176d5c;--soft:#e8f4ee;--shadow:0 18px 50px rgba(75,55,30,.1)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0,#fff8e9 0,#f7f1e7 34%,#edf6f1 100%);color:var(--ink);font:16px/1.75 "PingFang SC","Microsoft YaHei",system-ui,sans-serif}.wrap{width:min(980px,100%);margin:auto;padding:30px 18px 70px}.top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:18px}.back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--brand);text-decoration:none;font-weight:850}.card{border:1px solid var(--line);border-radius:24px;background:rgba(255,253,248,.96);box-shadow:var(--shadow);overflow:hidden}.hero{padding:28px}.eyebrow{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:13px;font-weight:850}h1{margin:12px 0 4px;font-size:clamp(30px,4vw,44px);line-height:1.12;letter-spacing:-.04em}.muted{margin:0;color:var(--muted)}.content{padding:8px 30px 36px}.content h1{font-size:34px}.content h2{margin:30px 0 10px;font-size:25px;line-height:1.28;color:var(--brand)}.content h3{margin:24px 0 8px;font-size:20px}.content h4{margin:18px 0 6px;font-size:17px}.content p{margin:10px 0}.content ul,.content ol{margin:10px 0 14px;padding-left:24px}.content li{margin:6px 0}.content strong{font-weight:850}.content code{padding:2px 6px;border-radius:7px;background:var(--soft);color:#124a3f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.content pre{overflow:auto;padding:16px;border-radius:16px;background:#173e35;color:#eef9f5}.content pre code{padding:0;background:transparent;color:inherit}.content blockquote{margin:14px 0;padding:12px 16px;border-left:4px solid var(--brand);border-radius:0 14px 14px 0;background:#edf7f2;color:#315c50}.content table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}.content td{padding:10px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top}.content tr:last-child td{border-bottom:0}.content td:last-child{border-right:0}.content hr{border:0;border-top:1px solid var(--line);margin:24px 0}@media(max-width:640px){.top{align-items:flex-start;flex-direction:column}.wrap{padding:20px 12px 48px}.hero,.content{padding:20px}.content table{display:block;overflow:auto}.content h1{font-size:28px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a class="back" href="../project-story.html">← 返回项目复盘</a></div>
+  <article class="card">
+    <header class="hero"><span class="eyebrow">医记产品文档</span><h1>数据埋点</h1></header>
+    <section class="content"><h1>医记数据指标与埋点方案</h1>
+<p><strong>版本</strong>：MVP Draft <strong>日期</strong>：2026-07-10 <strong>原则</strong>：隐私优先、最小必要、只采集产品决策需要的数据</p>
+<h2>1. 为什么需要埋点</h2>
+<p>医记当前最需要回答的不是“用户点击了多少按钮”，而是这些业务问题：</p>
+<ol>
+<li>用户是否能完成从注册到首份资料归档？</li>
+<li>用户是否理解“手动整理 + 就诊资料包”的产品价值？</li>
+<li>用户是否愿意持续维护病历、用药、指标和待办？</li>
+<li>用户是否真的在就诊前生成资料包？</li>
+<li>家庭成员和订阅是否带来增量价值？</li>
+<li>哪些步骤让用户流失、失败或不信任？</li>
+</ol>
+<p>因此，MVP 埋点必须围绕业务闭环设计：</p>
+</ol>
+</ol>
+<pre><code>
+访问 -&gt; 注册/登录 -&gt; 本人建档 -&gt; 上传资料 -&gt; 分类归档
+-&gt; 添加药品/指标/待办 -&gt; 搜索/时间线查看
+-&gt; 生成就诊资料包 -&gt; 导出 PDF -&gt; 留存/订阅
+</ol>
+</code></pre>
+</ol>
+</ol>
+<h2>2. 合规和隐私边界</h2>
+</ol>
+<p>医疗健康信息属于敏感个人信息范畴。埋点不得采集病历正文、药品名称、诊断名称、检查结果原文、医院名称原文、文件名原文、邮箱明文、身份证号、手机号、原始文件 URL、分享 token、验证码、Cookie、访问令牌。</p>
+</ol>
+<p>埋点只允许采集以下类型：</p>
+</ol>
+</ol>
+<ul>
+<li>匿名或伪匿名用户 ID。</li>
+<li>成员数量、资料数量、药品数量、指标数量等计数。</li>
+<li>文件类型、资料类型、操作结果、耗时、错误码等产品行为数据。</li>
+<li>是否完成某步骤、是否开启提醒、是否导出 PDF 等布尔或枚举数据。</li>
+<li>经白名单处理的页面、功能、按钮、套餐类型。</li>
+</ul>
+</ul>
+<h3>禁止采集字段</h3>
+</ul>
+</ul>
+<table><tbody>
+<tr><td>Category</td><td>Examples</td><td>Rule</td></tr>
+</ul>
+</ul>
+<tr><td>病历正文</td><td>主诉、诊断、检查结论、医嘱原文</td><td>禁止</td></tr>
+</ul>
+<tr><td>药品敏感信息</td><td>药品名称、剂量、用法用量原文</td><td>禁止</td></tr>
+</ul>
+<tr><td>原始资料信息</td><td>文件名、文件 URL、图片/PDF 内容、分享 token</td><td>禁止</td></tr>
+</ul>
+<tr><td>直接身份标识</td><td>邮箱明文、手机号、身份证号、姓名</td><td>禁止</td></tr>
+</ul>
+<tr><td>精确健康数值</td><td>血压具体值、血糖具体值、体重具体值</td><td>默认禁止；如确需分析，只采区间或是否填写</td></tr>
+</ul>
+<tr><td>医院/医生</td><td>医院名、科室名、医生名</td><td>默认禁止；如确需分析，只采“是否填写”</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>可采集替代字段</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Need</td><td>Do Not Collect</td><td>Collect Instead</td></tr>
+</ul>
+</ul>
+<tr><td>判断上传了什么资料</td><td>文件名、报告内容</td><td><code>record_type</code>, <code>file_mime_group</code>, <code>file_size_bucket</code></td></tr>
+</ul>
+<tr><td>判断分类质量</td><td>医院名、诊断名</td><td><code>has_hospital</code>, <code>has_record_date</code>, <code>has_tags</code>, <code>required_fields_completed_count</code></td></tr>
+</ul>
+<tr><td>判断用药功能使用</td><td>药品名称、剂量</td><td><code>medicine_created</code>, <code>has_reminder</code>, <code>schedule_frequency_bucket</code></td></tr>
+</ul>
+<tr><td>判断指标功能使用</td><td>具体血压/血糖值</td><td><code>metric_type</code>, <code>has_value=true</code>, <code>source_type</code></td></tr>
+</ul>
+<tr><td>判断资料包可用性</td><td>PDF 内容</td><td><code>visit_pack_sections_count</code>, <code>included_records_count</code>, <code>export_result</code></td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>参考边界：个人信息处理应有明确合理目的、与目的直接相关，并采取对个人权益影响最小的方式；医疗健康信息属于敏感个人信息，应按更高标准处理。正式上线前需由合规律师复核。</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>3. 北极星指标</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>North Star Metric</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p><strong>每月生成过至少 1 次就诊资料包的活跃用户数。</strong></p>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>定义：</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+Monthly Visit-Pack Active Users =
+在自然月内完成 visit_pack_export_succeeded &gt;= 1 的去重用户数
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>为什么不用“上传资料数”作为北极星：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>上传资料只是中间行为。</li>
+</tbody></table>
+<li>医记的最终价值是就诊前可用，而不是存文件。</li>
+</tbody></table>
+<li>资料包能同时验证资料整理、药品、指标、搜索、分类和 PDF 导出是否成立。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Supporting Metrics</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Metric</td><td>Definition</td><td>Target</td></tr>
+</ul>
+</ul>
+<tr><td>首次建档完成率</td><td><code>profile_created / signup_completed</code></td><td>&gt;= 70%</td></tr>
+</ul>
+<tr><td>首份资料归档率</td><td><code>first_record_archived / profile_created</code></td><td>&gt;= 60%</td></tr>
+</ul>
+<tr><td>首次归档耗时</td><td><code>record_archived_at - record_upload_started_at</code></td><td>P50 &lt;= 3 min</td></tr>
+</ul>
+<tr><td>资料包生成率</td><td><code>visit_pack_created / users_with_archived_record</code></td><td>&gt;= 50%</td></tr>
+</ul>
+<tr><td>PDF 导出成功率</td><td><code>visit_pack_export_succeeded / visit_pack_export_started</code></td><td>&gt;= 95%</td></tr>
+</ul>
+<tr><td>第二份资料上传率</td><td>30-60 天内上传第 2 份资料用户占比</td><td>&gt;= 25%</td></tr>
+</ul>
+<tr><td>用药提醒使用率</td><td><code>medicine_reminder_enabled / medicine_created</code></td><td>&gt;= 20%</td></tr>
+</ul>
+<tr><td>家庭成员创建率</td><td>创建 &gt;= 2 个成员的活跃用户占比</td><td>&gt;= 15%</td></tr>
+</ul>
+<tr><td>试用转订阅率</td><td><code>subscription_started / trial_started</code></td><td>&gt;= 3%</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>4. MVP 漏斗</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Activation Funnel</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Event</td><td>Success Definition</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td><code>signup_completed</code></td><td>用户完成邮箱验证并创建会话</td></tr>
+</ul>
+<tr><td>2</td><td><code>profile_created</code></td><td>创建本人健康档案</td></tr>
+</ul>
+<tr><td>3</td><td><code>record_upload_succeeded</code></td><td>首份文件上传成功</td></tr>
+</ul>
+<tr><td>4</td><td><code>record_archived</code></td><td>填写基础分类并归档</td></tr>
+</ul>
+<tr><td>5</td><td><code>visit_pack_created</code></td><td>创建就诊资料包</td></tr>
+</ul>
+<tr><td>6</td><td><code>visit_pack_export_succeeded</code></td><td>PDF 导出成功</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Care Loop Funnel</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Event</td><td>Success Definition</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td><code>medicine_created</code></td><td>添加当前用药</td></tr>
+</ul>
+<tr><td>2</td><td><code>medicine_reminder_enabled</code></td><td>开启服药提醒</td></tr>
+</ul>
+<tr><td>3</td><td><code>metric_created</code></td><td>记录指标</td></tr>
+</ul>
+<tr><td>4</td><td><code>todo_created</code></td><td>创建复查/用药/资料待办</td></tr>
+</ul>
+<tr><td>5</td><td><code>todo_completed</code></td><td>完成待办</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Family Subscription Funnel</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Step</td><td>Event</td><td>Success Definition</td></tr>
+</ul>
+</ul>
+<tr><td>1</td><td><code>member_created</code></td><td>创建家庭成员</td></tr>
+</ul>
+<tr><td>2</td><td><code>member_access_invited</code></td><td>发起授权邀请</td></tr>
+</ul>
+<tr><td>3</td><td><code>member_access_accepted</code></td><td>成员接受授权</td></tr>
+</ul>
+<tr><td>4</td><td><code>pricing_viewed</code></td><td>查看套餐页</td></tr>
+</ul>
+<tr><td>5</td><td><code>checkout_started</code></td><td>发起订阅</td></tr>
+</ul>
+<tr><td>6</td><td><code>subscription_started</code></td><td>订阅成功</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>5. Event Naming Rules</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>使用动词过去式或明确状态：</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+domain_object_action
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Examples:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li><code>auth_code_requested</code></li>
+</tbody></table>
+<li><code>signup_completed</code></li>
+</tbody></table>
+<li><code>profile_created</code></li>
+</tbody></table>
+<li><code>record_upload_started</code></li>
+</tbody></table>
+<li><code>record_upload_succeeded</code></li>
+</tbody></table>
+<li><code>record_archived</code></li>
+</tbody></table>
+<li><code>visit_pack_export_failed</code></li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>禁止使用含糊命名：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li><code>click_button</code></li>
+</tbody></table>
+<li><code>submit</code></li>
+</tbody></table>
+<li><code>page_event</code></li>
+</tbody></table>
+<li><code>ai_success</code></li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>6. Global Event Properties</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>每个事件默认带这些字段：</p>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Property</td><td>Type</td><td>Notes</td></tr>
+</ul>
+</ul>
+<tr><td><code>event_id</code></td><td>string</td><td>UUID</td></tr>
+</ul>
+<tr><td><code>event_name</code></td><td>string</td><td>事件名</td></tr>
+</ul>
+<tr><td><code>event_time</code></td><td>ISO datetime</td><td>服务端时间优先</td></tr>
+</ul>
+<tr><td><code>anonymous_id</code></td><td>string</td><td>未登录用户</td></tr>
+</ul>
+<tr><td><code>user_id_hash</code></td><td>string/null</td><td>登录后伪匿名 ID，不用邮箱</td></tr>
+</ul>
+<tr><td><code>session_id</code></td><td>string</td><td>会话级 ID</td></tr>
+</ul>
+<tr><td><code>device_type</code></td><td>enum</td><td>mobile / desktop / tablet</td></tr>
+</ul>
+<tr><td><code>platform</code></td><td>enum</td><td>web / pwa</td></tr>
+</ul>
+<tr><td><code>app_version</code></td><td>string</td><td>发布版本</td></tr>
+</ul>
+<tr><td><code>environment</code></td><td>enum</td><td>production / staging / local</td></tr>
+</ul>
+<tr><td><code>locale</code></td><td>string</td><td>zh-CN 等</td></tr>
+</ul>
+<tr><td><code>utm_source</code></td><td>string/null</td><td>白名单来源</td></tr>
+</ul>
+<tr><td><code>referrer_domain</code></td><td>string/null</td><td>只存域名，不存完整 URL query</td></tr>
+</ul>
+<tr><td><code>result</code></td><td>enum</td><td>success / failure</td></tr>
+</ul>
+<tr><td><code>error_code</code></td><td>string/null</td><td>标准错误码</td></tr>
+</ul>
+<tr><td><code>duration_ms</code></td><td>number/null</td><td>操作耗时</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>7. MVP Event Dictionary</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Auth &amp; Onboarding</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>auth_code_requested</code></td><td>用户请求邮箱验证码</td><td><code>method=email</code>, <code>result</code>, <code>error_code</code></td></tr>
+</ul>
+<tr><td><code>auth_code_verified</code></td><td>验证码校验完成</td><td><code>method=email</code>, <code>result</code>, <code>error_code</code></td></tr>
+</ul>
+<tr><td><code>signup_completed</code></td><td>首次创建账号</td><td><code>method=email</code></td></tr>
+</ul>
+<tr><td><code>login_completed</code></td><td>已有用户登录</td><td><code>method=email</code></td></tr>
+</ul>
+<tr><td><code>profile_create_started</code></td><td>进入本人建档页</td><td><code>entry_source</code></td></tr>
+</ul>
+<tr><td><code>profile_created</code></td><td>创建本人档案成功</td><td><code>has_allergy</code>, <code>has_chronic_condition</code>, <code>focus_tags_count</code></td></tr>
+</ul>
+<tr><td><code>onboarding_task_viewed</code></td><td>查看档案补全任务</td><td><code>completed_task_count</code>, <code>remaining_task_count</code></td></tr>
+</ul>
+<tr><td><code>onboarding_task_completed</code></td><td>完成一个补全任务</td><td><code>task_type</code></td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Records</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>record_upload_started</code></td><td>选择文件并开始上传</td><td><code>member_type</code>, <code>file_mime_group</code>, <code>file_size_bucket</code>, <code>entry_source</code></td></tr>
+</ul>
+<tr><td><code>record_upload_succeeded</code></td><td>文件上传成功</td><td><code>member_type</code>, <code>file_mime_group</code>, <code>file_size_bucket</code>, <code>duration_ms</code></td></tr>
+</ul>
+<tr><td><code>record_upload_failed</code></td><td>文件上传失败</td><td><code>file_mime_group</code>, <code>file_size_bucket</code>, <code>error_code</code>, <code>duration_ms</code></td></tr>
+</ul>
+<tr><td><code>record_classification_started</code></td><td>进入分类表单</td><td><code>record_type_initial</code>, <code>entry_source</code></td></tr>
+</ul>
+<tr><td><code>record_archived</code></td><td>完成归档</td><td><code>record_type</code>, <code>has_record_date</code>, <code>has_hospital</code>, <code>has_department</code>, <code>has_tags</code>, <code>required_fields_completed_count</code></td></tr>
+</ul>
+<tr><td><code>record_updated</code></td><td>修改资料字段</td><td><code>field_group</code>, <code>record_type</code></td></tr>
+</ul>
+<tr><td><code>record_deleted</code></td><td>删除单份资料</td><td><code>record_type</code>, <code>deletion_reason_type</code></td></tr>
+</ul>
+<tr><td><code>record_search_performed</code></td><td>执行搜索</td><td><code>query_length_bucket</code>, <code>filters_count</code>, <code>result_count_bucket</code></td></tr>
+</ul>
+<tr><td><code>timeline_viewed</code></td><td>查看时间线</td><td><code>member_type</code>, <code>filter_type</code>, <code>records_count_bucket</code></td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Do not collect:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>原始搜索词。</li>
+</tbody></table>
+<li>医院名。</li>
+</tbody></table>
+<li>资料标题。</li>
+</tbody></table>
+<li>诊断或检查文本。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Medicines</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>medicine_create_started</code></td><td>进入添加药品</td><td><code>entry_source</code></td></tr>
+</ul>
+<tr><td><code>medicine_created</code></td><td>药品保存成功</td><td><code>has_specification</code>, <code>has_usage_text</code>, <code>has_start_date</code>, <code>has_end_date</code>, <code>has_source_record</code></td></tr>
+</ul>
+<tr><td><code>medicine_reminder_enabled</code></td><td>开启提醒</td><td><code>reminder_frequency_bucket</code>, <code>times_per_day_bucket</code></td></tr>
+</ul>
+<tr><td><code>medicine_reminder_disabled</code></td><td>关闭提醒</td><td><code>reason_type</code></td></tr>
+</ul>
+<tr><td><code>medicine_stopped</code></td><td>停用药品</td><td><code>has_stop_reason</code></td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Do not collect:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>药品名称。</li>
+</tbody></table>
+<li>剂量、用法用量原文。</li>
+</tbody></table>
+<li>疾病或用途备注原文。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Metrics</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>metric_create_started</code></td><td>进入指标记录</td><td><code>metric_type</code></td></tr>
+</ul>
+<tr><td><code>metric_created</code></td><td>指标保存成功</td><td><code>metric_type</code>, <code>source_type</code>, <code>has_note</code>, <code>member_type</code></td></tr>
+</ul>
+<tr><td><code>metric_trend_viewed</code></td><td>查看趋势</td><td><code>metric_type</code>, <code>time_range</code></td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Do not collect:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>具体数值。</li>
+</tbody></table>
+<li>备注原文。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Todos</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>todo_created</code></td><td>创建待办</td><td><code>todo_type</code>, <code>has_due_date</code>, <code>has_reminder</code></td></tr>
+</ul>
+<tr><td><code>todo_completed</code></td><td>完成待办</td><td><code>todo_type</code>, <code>days_to_complete_bucket</code></td></tr>
+</ul>
+<tr><td><code>todo_postponed</code></td><td>延期待办</td><td><code>todo_type</code>, <code>postpone_days_bucket</code></td></tr>
+</ul>
+<tr><td><code>today_viewed</code></td><td>查看今日页</td><td><code>todo_count_bucket</code>, <code>overdue_count_bucket</code>, <code>profile_completion_bucket</code></td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Visit Pack</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>visit_pack_create_started</code></td><td>点击“我要去看医生”</td><td><code>entry_source</code>, <code>member_type</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_reason_added</code></td><td>填写本次就诊目的</td><td><code>reason_length_bucket</code>, <code>has_questions_for_doctor</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_records_selected</code></td><td>选择资料</td><td><code>selected_records_count</code>, <code>record_types_count</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_supplement_added</code></td><td>填写近期情况</td><td><code>supplement_length_bucket</code>, <code>has_symptom_start</code>, <code>has_medication_change</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_previewed</code></td><td>预览资料包</td><td><code>sections_count</code>, <code>included_records_count</code>, <code>included_medicines_count</code>, <code>included_metrics_count</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_export_started</code></td><td>开始导出 PDF</td><td><code>sections_count</code>, <code>included_records_count</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_export_succeeded</code></td><td>PDF 导出成功</td><td><code>duration_ms</code>, <code>file_size_bucket</code>, <code>sections_count</code></td></tr>
+</ul>
+<tr><td><code>visit_pack_export_failed</code></td><td>PDF 导出失败</td><td><code>error_code</code>, <code>duration_ms</code></td></tr>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>Do not collect:</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>就诊目的原文。</li>
+</tbody></table>
+<li>症状描述原文。</li>
+</tbody></table>
+<li>想问医生的问题原文。</li>
+</tbody></table>
+<li>PDF 内容。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Family &amp; Permissions</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>member_created</code></td><td>创建家庭成员</td><td><code>member_type</code>, <code>relationship_type</code>, <code>is_minor</code></td></tr>
+</ul>
+<tr><td><code>member_switched</code></td><td>切换成员</td><td><code>from_member_type</code>, <code>to_member_type</code></td></tr>
+</ul>
+<tr><td><code>member_access_invited</code></td><td>发起授权邀请</td><td><code>role</code>, <code>scope_type</code>, <code>expires_enabled</code></td></tr>
+</ul>
+<tr><td><code>member_access_accepted</code></td><td>接受授权</td><td><code>role</code>, <code>scope_type</code></td></tr>
+</ul>
+<tr><td><code>member_access_revoked</code></td><td>撤销授权</td><td><code>role</code>, <code>scope_type</code>, <code>revoked_by_role</code></td></tr>
+</ul>
+<tr><td><code>privacy_consent_granted</code></td><td>同意敏感信息处理</td><td><code>consent_type</code>, <code>policy_version</code></td></tr>
+</ul>
+<tr><td><code>privacy_consent_withdrawn</code></td><td>撤回同意</td><td><code>consent_type</code>, <code>policy_version</code></td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Data Rights</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>data_export_requested</code></td><td>请求导出</td><td><code>export_scope</code>, <code>includes_original_files</code></td></tr>
+</ul>
+<tr><td><code>data_export_succeeded</code></td><td>导出完成</td><td><code>duration_ms</code>, <code>export_scope</code>, <code>file_size_bucket</code></td></tr>
+</ul>
+<tr><td><code>data_export_failed</code></td><td>导出失败</td><td><code>error_code</code>, <code>export_scope</code></td></tr>
+</ul>
+<tr><td><code>deletion_requested</code></td><td>请求删除资料/账号</td><td><code>deletion_scope</code>, <code>requires_second_factor</code></td></tr>
+</ul>
+<tr><td><code>deletion_completed</code></td><td>删除完成</td><td><code>deletion_scope</code>, <code>duration_bucket</code></td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Subscription</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Event</td><td>Trigger</td><td>Required Properties</td></tr>
+</ul>
+</ul>
+<tr><td><code>pricing_viewed</code></td><td>查看订阅页</td><td><code>entry_source</code>, <code>current_plan</code></td></tr>
+</ul>
+<tr><td><code>plan_selected</code></td><td>点击套餐</td><td><code>plan_type</code>, <code>billing_period</code></td></tr>
+</ul>
+<tr><td><code>checkout_started</code></td><td>发起支付</td><td><code>plan_type</code>, <code>billing_period</code></td></tr>
+</ul>
+<tr><td><code>subscription_started</code></td><td>订阅成功</td><td><code>plan_type</code>, <code>billing_period</code>, <code>trial_used</code></td></tr>
+</ul>
+<tr><td><code>subscription_cancelled</code></td><td>取消订阅</td><td><code>plan_type</code>, <code>reason_type</code></td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>8. Derived Tables</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>User Activation Table</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>每日聚合，按用户一行：</p>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Field</td><td>Definition</td></tr>
+</ul>
+</ul>
+<tr><td><code>user_id_hash</code></td><td>伪匿名用户</td></tr>
+</ul>
+<tr><td><code>signup_date</code></td><td>注册日期</td></tr>
+</ul>
+<tr><td><code>profile_created_at</code></td><td>本人建档时间</td></tr>
+</ul>
+<tr><td><code>first_record_uploaded_at</code></td><td>首份资料上传时间</td></tr>
+</ul>
+<tr><td><code>first_record_archived_at</code></td><td>首份资料归档时间</td></tr>
+</ul>
+<tr><td><code>first_visit_pack_exported_at</code></td><td>首次资料包导出时间</td></tr>
+</ul>
+<tr><td><code>activation_completed</code></td><td>是否完成资料包导出</td></tr>
+</ul>
+<tr><td><code>time_to_first_archive_minutes</code></td><td>注册到首份归档耗时</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Monthly Health Archive Usage</h3>
+</ul>
+</tbody></table>
+</ul>
+<tr><td>Field</td><td>Definition</td></tr>
+</ul>
+</ul>
+<tr><td><code>month</code></td><td>月份</td></tr>
+</ul>
+<tr><td><code>active_users</code></td><td>当月活跃用户</td></tr>
+</ul>
+<tr><td><code>visit_pack_active_users</code></td><td>当月导出资料包用户</td></tr>
+</ul>
+<tr><td><code>records_uploaded</code></td><td>上传资料数</td></tr>
+</ul>
+<tr><td><code>records_archived</code></td><td>归档资料数</td></tr>
+</ul>
+<tr><td><code>medicines_created</code></td><td>新增药品数</td></tr>
+</ul>
+<tr><td><code>metrics_created</code></td><td>新增指标数</td></tr>
+</ul>
+<tr><td><code>todos_completed</code></td><td>完成待办数</td></tr>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>9. Dashboards</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Dashboard 1：MVP Activation</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>回答：用户有没有跑通核心闭环？</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>注册完成数。</li>
+</tbody></table>
+<li>本人建档完成率。</li>
+</tbody></table>
+<li>首份资料上传率。</li>
+</tbody></table>
+<li>首份资料归档率。</li>
+</tbody></table>
+<li>资料包创建率。</li>
+</tbody></table>
+<li>PDF 导出成功率。</li>
+</tbody></table>
+<li>各步骤 P50/P90 耗时。</li>
+</tbody></table>
+<li>各步骤失败错误码 Top 10。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Dashboard 2：Care Loop</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>回答：用户是否持续维护？</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>人均资料数。</li>
+</tbody></table>
+<li>第二份资料上传率。</li>
+</tbody></table>
+<li>药品创建率。</li>
+</tbody></table>
+<li>用药提醒开启率。</li>
+</tbody></table>
+<li>指标记录率。</li>
+</tbody></table>
+<li>待办完成率。</li>
+</tbody></table>
+<li>今日页访问频次。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Dashboard 3：Privacy &amp; Trust</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>回答：隐私优先是否落地？</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>授权创建/撤销次数。</li>
+</tbody></table>
+<li>数据导出请求数和成功率。</li>
+</tbody></table>
+<li>删除请求数和完成率。</li>
+</tbody></table>
+<li>越权拦截次数。</li>
+</tbody></table>
+<li>分享撤销后访问失败次数。</li>
+</tbody></table>
+<li>敏感操作二次验证失败率。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Dashboard 4：Subscription</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>回答：家庭版是否值得做？</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>套餐页访问来源。</li>
+</tbody></table>
+<li>家庭成员创建率。</li>
+</tbody></table>
+<li>授权邀请/接受率。</li>
+</tbody></table>
+<li>套餐选择分布。</li>
+</tbody></table>
+<li>试用转订阅率。</li>
+</tbody></table>
+<li>取消订阅原因。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>10. Implementation Recommendations</h2>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Client vs Server</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>前端埋点适合采集：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>页面进入。</li>
+</tbody></table>
+<li>表单开始。</li>
+</tbody></table>
+<li>用户点击入口。</li>
+</tbody></table>
+<li>前端校验失败。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>后端埋点必须采集：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>登录成功/失败。</li>
+</tbody></table>
+<li>上传成功/失败。</li>
+</tbody></table>
+<li>归档成功。</li>
+</tbody></table>
+<li>PDF 导出成功/失败。</li>
+</tbody></table>
+<li>授权、撤销、删除、导出。</li>
+</tbody></table>
+<li>支付/订阅。</li>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>核心业务指标以后端事件为准，前端事件只能辅助分析流失。</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Event Pipeline</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>MVP 可以先用数据库表或轻量事件表：</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+product_events
+- id
+- event_name
+- user_id_hash
+- anonymous_id
+- session_id
+- properties_json
+- occurred_at
+- received_at
+- environment
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>要求：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>所有 properties 进入白名单校验。</li>
+</tbody></table>
+<li>丢弃禁止字段。</li>
+</tbody></table>
+<li>对邮箱等身份标识只保存哈希或不保存。</li>
+</tbody></table>
+<li>服务端补充 <code>received_at</code>。</li>
+</tbody></table>
+<li>失败事件也要记录，但只记录错误码，不记录请求正文。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h3>Error Codes</h3>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>错误码必须标准化，便于分析：</p>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<pre><code>
+AUTH_CODE_EXPIRED
+AUTH_CODE_INVALID
+AUTH_RATE_LIMITED
+UPLOAD_FILE_TOO_LARGE
+UPLOAD_TYPE_UNSUPPORTED
+UPLOAD_STORAGE_FAILED
+RECORD_PERMISSION_DENIED
+PDF_RENDER_FAILED
+EXPORT_PERMISSION_DENIED
+DELETE_TASK_FAILED
+PAYMENT_FAILED
+</ul>
+</tbody></table>
+</code></pre>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>11. QA Checklist for Analytics</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<li>[ ] 每个 P0 用户故事至少有 1 个成功事件和 1 个失败事件。</li>
+</tbody></table>
+<li>[ ] Activation Funnel 能从事件直接计算。</li>
+</tbody></table>
+<li>[ ] PDF 导出成功率能从后端事件直接计算。</li>
+</tbody></table>
+<li>[ ] 不采集病历正文、药品名称、诊断名称、指标具体值。</li>
+</tbody></table>
+<li>[ ] 搜索事件不采集原始搜索词。</li>
+</tbody></table>
+<li>[ ] 分享 token、文件 URL、验证码、Cookie、Token 不进入埋点。</li>
+</tbody></table>
+<li>[ ] 所有事件属性经过白名单校验。</li>
+</tbody></table>
+<li>[ ] Staging 和 Production 数据隔离。</li>
+</tbody></table>
+<li>[ ] 用户删除/注销后，分析数据只保留不可识别的聚合数据或按政策处理。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+<h2>12. First Sprint Tracking Plan</h2>
+</ul>
+</tbody></table>
+</tbody></table>
+<p>第一阶段不要一次性埋所有事件，先埋核心闭环：</p>
+</ul>
+</tbody></table>
+</tbody></table>
+</ul>
+<ol>
+<li><code>signup_completed</code></li>
+</tbody></table>
+<li><code>profile_created</code></li>
+</tbody></table>
+<li><code>record_upload_started</code></li>
+</tbody></table>
+<li><code>record_upload_succeeded</code></li>
+</tbody></table>
+<li><code>record_upload_failed</code></li>
+</tbody></table>
+<li><code>record_archived</code></li>
+</tbody></table>
+<li><code>medicine_created</code></li>
+</tbody></table>
+<li><code>metric_created</code></li>
+</tbody></table>
+<li><code>todo_created</code></li>
+</tbody></table>
+<li><code>visit_pack_create_started</code></li>
+</tbody></table>
+<li><code>visit_pack_export_started</code></li>
+</tbody></table>
+<li><code>visit_pack_export_succeeded</code></li>
+</tbody></table>
+<li><code>visit_pack_export_failed</code></li>
+</tbody></table>
+<li><code>data_export_requested</code></li>
+</tbody></table>
+<li><code>deletion_requested</code></li>
+</ol>
+</tbody></table>
+</tbody></table>
+<p>这些事件足够回答 MVP 是否成立。</p>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h2>13. Source Notes</h2>
+</ol>
+</tbody></table>
+</tbody></table>
+</ol>
+<ul>
+<li>《中华人民共和国个人信息保护法》要求个人信息处理遵循合法、正当、必要、诚信原则，并限于实现处理目的的最小范围。</li>
+</tbody></table>
+<li>中国网信网对敏感个人信息的解读明确提到医疗健康信息属于敏感个人信息。</li>
+</tbody></table>
+<li>《网络数据安全管理条例》自 2025-01-01 起施行，正式公开服务前需要纳入数据安全和个人信息处理合规评估。</li>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table>
+</ul>
+</tbody></table></section>
+  </article>
+</main>
+</body>
+</html>

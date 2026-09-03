@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>医记文档｜MVP 与路线图</title>
+<style>
+:root{--bg:#f7f1e7;--panel:#fffdf8;--ink:#20322c;--muted:#6f7a74;--line:#eadfce;--brand:#176d5c;--soft:#e8f4ee;--shadow:0 18px 50px rgba(75,55,30,.1)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0,#fff8e9 0,#f7f1e7 34%,#edf6f1 100%);color:var(--ink);font:16px/1.75 "PingFang SC","Microsoft YaHei",system-ui,sans-serif}.wrap{width:min(980px,100%);margin:auto;padding:30px 18px 70px}.top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:18px}.back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--brand);text-decoration:none;font-weight:850}.card{border:1px solid var(--line);border-radius:24px;background:rgba(255,253,248,.96);box-shadow:var(--shadow);overflow:hidden}.hero{padding:28px}.eyebrow{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:13px;font-weight:850}h1{margin:12px 0 4px;font-size:clamp(30px,4vw,44px);line-height:1.12;letter-spacing:-.04em}.muted{margin:0;color:var(--muted)}.content{padding:8px 30px 36px}.content h1{font-size:34px}.content h2{margin:30px 0 10px;font-size:25px;line-height:1.28;color:var(--brand)}.content h3{margin:24px 0 8px;font-size:20px}.content h4{margin:18px 0 6px;font-size:17px}.content p{margin:10px 0}.content ul,.content ol{margin:10px 0 14px;padding-left:24px}.content li{margin:6px 0}.content strong{font-weight:850}.content code{padding:2px 6px;border-radius:7px;background:var(--soft);color:#124a3f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.content pre{overflow:auto;padding:16px;border-radius:16px;background:#173e35;color:#eef9f5}.content pre code{padding:0;background:transparent;color:inherit}.content blockquote{margin:14px 0;padding:12px 16px;border-left:4px solid var(--brand);border-radius:0 14px 14px 0;background:#edf7f2;color:#315c50}.content table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}.content td{padding:10px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top}.content tr:last-child td{border-bottom:0}.content td:last-child{border-right:0}.content hr{border:0;border-top:1px solid var(--line);margin:24px 0}@media(max-width:640px){.top{align-items:flex-start;flex-direction:column}.wrap{padding:20px 12px 48px}.hero,.content{padding:20px}.content table{display:block;overflow:auto}.content h1{font-size:28px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a class="back" href="../project-story.html">← 返回项目复盘</a></div>
+  <article class="card">
+    <header class="hero"><span class="eyebrow">医记产品文档</span><h1>MVP 与路线图</h1></header>
+    <section class="content"><h1>医记 MVP 范围与结果型路线图</h1>
+<h2>MVP Scope</h2>
+<h3>MVP 一句话</h3>
+<p>医记 MVP 要让患者本人把散落的病历和药物资料整理成一个隐私优先的个人健康档案，并在就诊前生成完整 PDF 资料包。</p>
+<h3>In Scope</h3>
+<ul>
+<li>邮箱验证码登录。</li>
+<li>本人健康档案。</li>
+<li>家庭成员创建和切换。</li>
+<li>病历/检查/处方/图片/PDF 上传。</li>
+<li>手动分类归档。</li>
+<li>搜索和时间线。</li>
+<li>当前用药和用药提醒。</li>
+<li>基础指标记录。</li>
+<li>复查、用药、资料补全、资料核对待办。</li>
+<li>就诊资料包 PDF。</li>
+<li>隐私授权、数据导出、资料删除、账号注销入口。</li>
+<li>家庭订阅会员的基础权益定义。</li>
+</ul>
+</ul>
+<h3>Out of Scope</h3>
+</ul>
+<li>AI/OCR 自动识别。</li>
+<li>AI 诊断、治疗建议、用药建议。</li>
+<li>医院系统接口。</li>
+<li>微信小程序。</li>
+<li>付费问诊或药品购买。</li>
+<li>自动健康风险判断。</li>
+</ul>
+</ul>
+<h2>Outcome-Focused Roadmap</h2>
+</ul>
+<p><strong>Strategic themes</strong>：</p>
+</ul>
+</ul>
+<ol>
+<li>就诊前资料可用。</li>
+<li>隐私优先的数据可信。</li>
+<li>家庭订阅价值验证。</li>
+</ol>
+</ol>
+<h3>Now：上线网页 MVP 闭环</h3>
+</ol>
+</ol>
+<table><tbody>
+<tr><td>Outcome</td><td>Success Metric</td><td>Key Initiatives</td><td>Status</td></tr>
+</ol>
+</ol>
+<tr><td>用户完成本人健康档案并上传首份资料</td><td>首份资料上传完成率 &gt;= 60%</td><td>建档、上传、手动分类、归档反馈</td><td>当前重点</td></tr>
+</ol>
+<tr><td>用户能在看病前生成 PDF 资料包</td><td>资料包生成成功率 &gt;= 50%</td><td>就诊目的、资料选择、近期情况、PDF 导出</td><td>当前重点</td></tr>
+</ol>
+<tr><td>用户相信资料安全可控</td><td>删除/导出入口可用；授权记录完整</td><td>隐私中心、审计、成员数据隔离</td><td>当前重点</td></tr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Next：家庭版订阅验证</h3>
+</ol>
+</tbody></table>
+</ol>
+<tr><td>Outcome</td><td>Success Metric</td><td>Key Initiatives</td><td>Confidence</td></tr>
+</ol>
+</ol>
+<tr><td>家庭成员管理带来付费动机</td><td>试用转订阅 &gt;= 3%</td><td>家庭成员上限、授权、家庭药箱、订阅页</td><td>Medium</td></tr>
+</ol>
+<tr><td>用户持续维护资料</td><td>第二份资料上传率 &gt;= 25%</td><td>待办、资料补全提示、时间线回访</td><td>Medium</td></tr>
+</ol>
+<tr><td>用药提醒形成复访</td><td>用药提醒使用率 &gt;= 20%</td><td>当前用药、提醒、停用记录</td><td>Medium</td></tr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h3>Later：国内化与智能能力</h3>
+</ol>
+</tbody></table>
+</ol>
+<tr><td>Outcome</td><td>Success Metric</td><td>Key Initiatives</td><td>Dependencies</td></tr>
+</ol>
+</ol>
+<tr><td>产品可面向中国大陆公众长期运行</td><td>备案、合规评审、国内服务可用</td><td>ICP/公安备案、国内云、邮件/短信服务</td><td>法务和云服务</td></tr>
+</ol>
+<tr><td>自动结构化降低录入成本</td><td>识别准确率和用户纠错率达标</td><td>OCR/AI 可插拔能力</td><td>合规、供应商、质量验证</td></tr>
+</ol>
+<tr><td>分享更适合真实就诊</td><td>分享撤销成功率 100%</td><td>限时链接、口令、访问记录</td><td>权限与审计</td></tr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+<h2>Transformation Notes</h2>
+</ol>
+</tbody></table>
+</ol>
+<tr><td>Old Feature Framing</td><td>New Outcome Framing</td><td>Why</td></tr>
+</ol>
+</ol>
+<tr><td>OCR 识别病历</td><td>用户能可靠归档资料</td><td>当前不做 AI/OCR，先保证可控闭环</td></tr>
+</ol>
+<tr><td>AI 摘要</td><td>就诊前资料包</td><td>医疗风险更低，用户可核对</td></tr>
+</ol>
+<tr><td>概览 Dashboard</td><td>今日和我要去看医生</td><td>首页要驱动下一步行动</td></tr>
+</ol>
+<tr><td>提醒中心</td><td>待办</td><td>不只提醒服药，也推动资料补全</td></tr>
+</ol>
+<tr><td>家庭病历管理</td><td>先把患者本人闭环跑通</td><td>第一优先用户是患者本人</td></tr>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table>
+</ol>
+</tbody></table></section>
+  </article>
+</main>
+</body>
+</html>

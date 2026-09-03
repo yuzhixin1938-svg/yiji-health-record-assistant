@@ -1,0 +1,1 @@
+ALTER TYPE "MedicalRecordStatus" ADD VALUE IF NOT EXISTS 'DELETED';

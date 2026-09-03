@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145f50">
+  <meta name="description" content="医记是一款面向个人与家庭的健康资料整理工具，帮助用户管理病历、药品、指标和就诊资料包。">
+  <title>医记 · 家庭健康资料整理工具</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header" data-header>
+    <a class="brand" href="#top" aria-label="医记首页">
+      <span class="brand-mark" aria-hidden="true">医</span>
+      <span>医记</span>
+    </a>
+    <nav class="desktop-nav" aria-label="主导航">
+      <a href="#problem">用户问题</a>
+      <a href="#flow">产品闭环</a>
+      <a href="#features">核心能力</a>
+      <a href="#privacy">隐私边界</a>
+      <a href="#pricing">版本</a>
+    </nav>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobileNav" data-menu-button>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span class="sr-only">打开导航</span>
+    </button>
+  </header>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="移动端导航" data-mobile-nav>
+    <a href="#problem">用户问题</a>
+    <a href="#flow">产品闭环</a>
+    <a href="#features">核心能力</a>
+    <a href="#privacy">隐私边界</a>
+    <a href="#pricing">版本</a>
+  </nav>
+
+  <main id="top">
+    <section class="hero section-band">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">个人及家庭医疗资料整理工具</p>
+          <h1>把散落的病历、药品和指标，整理成就诊前真正能用的资料包。</h1>
+          <p class="hero-lead">医记面向 20 到 45 岁的本人和家庭照护者，帮助你建立健康档案、归档病历、维护药箱、记录指标，并在复诊前生成可核对、可导出的就诊资料。</p>
+          <div class="hero-actions" aria-label="主要操作">
+            <a class="btn btn-primary" href="#flow">查看产品流程</a>
+            <a class="btn btn-secondary" href="#features">了解核心能力</a>
+          </div>
+          <dl class="trust-row">
+            <div>
+              <dt>资料主线</dt>
+              <dd>建档 → 补全 → 维护 → 就诊使用</dd>
+            </div>
+            <div>
+              <dt>产品边界</dt>
+              <dd>整理资料，不做诊断或治疗判断</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="hero-visual" aria-label="医记产品界面预览">
+          <div class="phone-shell">
+            <div class="phone-status">
+              <span>林知夏</span>
+              <b>档案 78%</b>
+            </div>
+            <div class="upload-card">
+              <span class="mini-label">今日建议</span>
+              <strong>上传血压随访记录</strong>
+              <p>AI 识别后由你核对，再归档到血压管理。</p>
+              <div class="progress-bar"><span></span></div>
+            </div>
+            <div class="timeline-card">
+              <div class="timeline-item active">
+                <span></span>
+                <div>
+                  <b>复诊资料包</b>
+                  <small>含 6 份病历 · 3 项指标 · 2 种药品</small>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <span></span>
+                <div>
+                  <b>缬沙坦胶囊</b>
+                  <small>库存 12 粒 · 7 天后提醒补充</small>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <span></span>
+                <div>
+                  <b>血压趋势</b>
+                  <small>近 14 天均值 128 / 82 mmHg</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="floating-note note-one">
+            <span>PDF</span>
+            <b>就诊资料包</b>
+          </div>
+          <div class="floating-note note-two">
+            <span>撤销</span>
+            <b>限时分享</b>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="problem">
+      <div class="container split-heading">
+        <div>
+          <p class="eyebrow">用户问题</p>
+          <h2>看病前的焦虑，往往不是没有资料，而是用的时候找不到。</h2>
+        </div>
+        <p>医记先解决一个确定问题：把家庭健康资料整理清楚，让用户在就诊前能拿出医生可读、本人可核对的资料。</p>
+      </div>
+      <div class="container problem-grid">
+        <article class="plain-card">
+          <span class="card-number">01</span>
+          <h3>病历散在各处</h3>
+          <p>检查报告、处方、门诊记录、PDF 和相册照片分散保存，复诊时很难快速找到完整脉络。</p>
+        </article>
+        <article class="plain-card">
+          <span class="card-number">02</span>
+          <h3>家庭药箱靠记忆</h3>
+          <p>药品给谁用、还剩多少、什么时候过期、放在哪里，常常只有临时翻找才知道。</p>
+        </article>
+        <article class="plain-card">
+          <span class="card-number">03</span>
+          <h3>问诊时说不清</h3>
+          <p>医生问起近期指标、用药和检查变化时，用户只能现场翻手机，信息不完整也不连贯。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-mint" id="flow">
+      <div class="container">
+        <div class="section-title">
+          <p class="eyebrow">产品闭环</p>
+          <h2>从建档到就诊使用，每一步都要清楚、可验证。</h2>
+        </div>
+        <div class="flow-line" aria-label="医记产品流程">
+          <article>
+            <span>1</span>
+            <h3>建档</h3>
+            <p>建立本人或家庭成员健康档案，只收集最必要信息。</p>
+          </article>
+          <article>
+            <span>2</span>
+            <h3>补全</h3>
+            <p>上传病历、处方和报告，识别后由用户核对归档。</p>
+          </article>
+          <article>
+            <span>3</span>
+            <h3>维护</h3>
+            <p>持续记录药品、指标、复查和用药提醒。</p>
+          </article>
+          <article>
+            <span>4</span>
+            <h3>就诊使用</h3>
+            <p>生成 PDF 或限时分享链接，交给医生前再次核对。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container section-title">
+        <p class="eyebrow">核心能力</p>
+        <h2>围绕家庭健康资料的四个高频动作设计。</h2>
+      </div>
+      <div class="container feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">病</div>
+          <h3>病历归档</h3>
+          <p>支持门诊记录、检查报告、处方、体检报告、PDF 或照片上传。AI 识别只是辅助，最终由用户核对保存。</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">药</div>
+          <h3>家庭药箱</h3>
+          <p>记录药品名称、规格、用途、数量、存放位置、临期和低库存提醒，避免家庭成员之间混用。</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">指</div>
+          <h3>指标趋势</h3>
+          <p>记录血压、血糖、体重等近期指标，让复诊时能快速回看变化，而不是只依赖口头回忆。</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">包</div>
+          <h3>就诊资料包</h3>
+          <p>按健康问题汇总关键病历、当前用药、近期指标和想问医生的问题，导出 PDF 或生成限时分享。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-deep" id="privacy">
+      <div class="container privacy-grid">
+        <div>
+          <p class="eyebrow dark">隐私与边界</p>
+          <h2>医记做健康资料整理，不替用户做医疗决定。</h2>
+          <p>原始资料、识别字段和摘要都必须允许核对与追溯。用户始终拥有导出、删除、注销和撤销分享的控制权。</p>
+        </div>
+        <ul class="boundary-list">
+          <li>不提供疾病诊断、疾病概率预测或治疗决策。</li>
+          <li>不自动推荐用药、改变剂量或判断药品替代关系。</li>
+          <li>用法用量只记录用户输入或处方原文。</li>
+          <li>分享链接可设置时效，并支持主动撤销。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container split-heading">
+        <div>
+          <p class="eyebrow">版本规划</p>
+          <h2>从个人档案开始，逐步覆盖家庭照护场景。</h2>
+        </div>
+        <p>落地页保留产品原型中的订阅方向：个人版、小家庭版和大家庭版。具体价格可在正式上线前调整。</p>
+      </div>
+      <div class="container pricing-grid">
+        <article class="price-card">
+          <h3>个人版</h3>
+          <p>适合先整理自己的病历、药品和复诊资料。</p>
+          <strong>1 人档案</strong>
+          <a class="btn btn-secondary" href="#top">开始了解</a>
+        </article>
+        <article class="price-card featured">
+          <span class="badge">推荐</span>
+          <h3>小家庭版</h3>
+          <p>适合夫妻、父母和孩子共同管理常用资料。</p>
+          <strong>最多 3 人</strong>
+          <a class="btn btn-primary" href="#top">查看流程</a>
+        </article>
+        <article class="price-card">
+          <h3>大家庭版</h3>
+          <p>适合长期照护老人或多人健康资料管理。</p>
+          <strong>最多 7 人</strong>
+          <a class="btn btn-secondary" href="#top">了解能力</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="brand footer-brand" href="#top">
+          <span class="brand-mark" aria-hidden="true">医</span>
+          <span>医记</span>
+        </a>
+        <p>整理全家的病历和药品，需要时随时查得到。</p>
+      </div>
+      <div class="footer-links">
+        <a href="#problem">用户问题</a>
+        <a href="#features">核心能力</a>
+        <a href="#privacy">隐私边界</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

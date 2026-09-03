@@ -1,0 +1,465 @@
+generator client {
+  provider   = "prisma-client"
+  output     = "../apps/api/src/generated/prisma"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  ACTIVE
+  FROZEN
+  DELETION_PENDING
+  DELETED
+}
+
+enum HouseholdUserStatus {
+  INVITED
+  ACTIVE
+  REVOKED
+}
+
+enum MemberSubjectType {
+  SELF
+  ADULT
+  MINOR
+}
+
+enum MemberAccessRole {
+  SELF
+  GUARDIAN
+  MANAGER
+  CONTRIBUTOR
+  VIEWER
+  SUPPORT
+}
+
+enum AccessStatus {
+  ACTIVE
+  REVOKED
+}
+
+enum MedicalRecordStatus {
+  PENDING_REVIEW
+  ARCHIVED
+  DELETED
+}
+
+enum TodoStatus {
+  OPEN
+  DONE
+}
+
+enum VisitPackStatus {
+  DRAFT
+  GENERATED
+}
+
+enum RecognitionTaskStatus {
+  PENDING_REVIEW
+  REVIEWED
+}
+
+model User {
+  id                 String          @id @default(uuid())
+  status             UserStatus      @default(ACTIVE)
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+  authIdentities     AuthIdentity[]
+  sessions           Session[]
+  ownedHouseholds    Household[]     @relation("HouseholdOwner")
+  householdLinks     HouseholdUser[]
+  subjectProfiles    MemberProfile[] @relation("ProfileSubject")
+  memberAccess       MemberAccess[]  @relation("AccessUser")
+  grantedAccess      MemberAccess[]  @relation("AccessGrantor")
+  sentInvitations    MemberInvitation[] @relation("InvitationSender")
+  uploadedRecords    MedicalRecord[] @relation("RecordUploader")
+  createdMedicines   Medicine[]      @relation("MedicineCreator")
+  createdMetrics     MetricRecord[]  @relation("MetricCreator")
+  createdTodos       TodoItem[]      @relation("TodoCreator")
+  createdVisitPacks  VisitPack[]     @relation("VisitPackCreator")
+  consentReceipts    ConsentReceipt[]
+  auditEvents        AuditEvent[]    @relation("AuditActor")
+
+  @@map("users")
+}
+
+model AuthIdentity {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  provider        String
+  providerSubject String   @map("provider_subject")
+  verifiedAt      DateTime @map("verified_at")
+  createdAt       DateTime @default(now()) @map("created_at")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerSubject])
+  @@index([userId])
+  @@map("auth_identities")
+}
+
+model Session {
+  id           String    @id @default(uuid())
+  userId       String    @map("user_id")
+  tokenHash    String    @unique @map("token_hash")
+  deviceId     String?   @map("device_id")
+  expiresAt    DateTime  @map("expires_at")
+  revokedAt    DateTime? @map("revoked_at")
+  lastUsedAt   DateTime? @map("last_used_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, revokedAt])
+  @@map("sessions")
+}
+
+model Household {
+  id          String          @id @default(uuid())
+  ownerUserId String          @map("owner_user_id")
+  plan        String          @default("PERSONAL")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+  owner       User            @relation("HouseholdOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  users       HouseholdUser[]
+  members     MemberProfile[]
+
+  @@index([ownerUserId])
+  @@map("households")
+}
+
+model HouseholdUser {
+  householdId String              @map("household_id")
+  userId      String              @map("user_id")
+  status      HouseholdUserStatus @default(INVITED)
+  joinedAt    DateTime?           @map("joined_at")
+  createdAt   DateTime            @default(now()) @map("created_at")
+  household   Household           @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([householdId, userId])
+  @@index([userId, status])
+  @@map("household_users")
+}
+
+model MemberProfile {
+  id            String            @id @default(uuid())
+  householdId   String            @map("household_id")
+  subjectUserId String?           @map("subject_user_id")
+  subjectType   MemberSubjectType @map("subject_type")
+  displayName   String            @map("display_name")
+  gender        String?
+  dateOfBirth   DateTime?         @db.Date @map("date_of_birth")
+  healthConcerns Json?            @map("health_concerns")
+  allergyNote   String?           @map("allergy_note")
+  chronicDiseaseNote String?      @map("chronic_disease_note")
+  medicationStatus String?        @map("medication_status")
+  followUpPlanStatus String?      @map("follow_up_plan_status")
+  profileCompletedAt DateTime?    @map("profile_completed_at")
+  createdAt     DateTime          @default(now()) @map("created_at")
+  updatedAt     DateTime          @updatedAt @map("updated_at")
+  household     Household         @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  subjectUser   User?             @relation("ProfileSubject", fields: [subjectUserId], references: [id], onDelete: SetNull)
+  access        MemberAccess[]
+  invitations   MemberInvitation[]
+  medicalRecords MedicalRecord[]
+  medicines     Medicine[]
+  metrics       MetricRecord[]
+  todos         TodoItem[]
+  visitPacks    VisitPack[]
+  consents      ConsentReceipt[]
+  auditEvents   AuditEvent[]
+
+  @@index([householdId])
+  @@index([subjectUserId])
+  @@map("member_profiles")
+}
+
+model MemberAccess {
+  id          String           @id @default(uuid())
+  memberId    String           @map("member_id")
+  userId      String           @map("user_id")
+  role        MemberAccessRole
+  status      AccessStatus     @default(ACTIVE)
+  grantedById String?          @map("granted_by_id")
+  expiresAt   DateTime?        @map("expires_at")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+  member      MemberProfile    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  user        User             @relation("AccessUser", fields: [userId], references: [id], onDelete: Cascade)
+  grantedBy   User?            @relation("AccessGrantor", fields: [grantedById], references: [id], onDelete: SetNull)
+
+  @@unique([memberId, userId])
+  @@index([userId, status])
+  @@map("member_access")
+}
+
+model ConsentReceipt {
+  id               String         @id @default(uuid())
+  userId           String         @map("user_id")
+  memberId         String?        @map("member_id")
+  scope            String
+  policyVersion    String         @map("policy_version")
+  presentedTextHash String        @map("presented_text_hash")
+  grantedAt        DateTime       @map("granted_at")
+  withdrawnAt      DateTime?      @map("withdrawn_at")
+  createdAt        DateTime       @default(now()) @map("created_at")
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  member           MemberProfile? @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@index([userId, scope])
+  @@index([memberId])
+  @@map("consent_receipts")
+}
+
+model SmsVerificationCode {
+  id         String    @id @default(uuid())
+  phoneHash  String    @map("phone_hash")
+  purpose    String
+  codeHash   String    @map("code_hash")
+  attempts   Int       @default(0)
+  expiresAt  DateTime  @map("expires_at")
+  consumedAt DateTime? @map("consumed_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  @@index([phoneHash, purpose, createdAt])
+  @@map("sms_verification_codes")
+}
+
+model MemberInvitation {
+  id              String           @id @default(uuid())
+  memberId        String           @map("member_id")
+  invitedById     String           @map("invited_by_id")
+  inviteePhoneHash String?         @map("invitee_phone_hash")
+  role            MemberAccessRole
+  tokenHash       String           @unique @map("token_hash")
+  expiresAt       DateTime         @map("expires_at")
+  acceptedAt      DateTime?        @map("accepted_at")
+  revokedAt       DateTime?        @map("revoked_at")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  member          MemberProfile    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  invitedBy       User             @relation("InvitationSender", fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@index([memberId])
+  @@index([invitedById])
+  @@index([inviteePhoneHash])
+  @@map("member_invitations")
+}
+
+model MedicalRecord {
+  id              String              @id @default(uuid())
+  memberId        String              @map("member_id")
+  uploadedById    String              @map("uploaded_by_id")
+  title           String
+  recordType      String              @map("record_type")
+  visitDate       DateTime?           @db.Date @map("visit_date")
+  institution     String?
+  healthConcern   String?             @map("health_concern")
+  status          MedicalRecordStatus @default(PENDING_REVIEW)
+  extractedFields Json?               @map("extracted_fields")
+  reviewedAt      DateTime?           @map("reviewed_at")
+  archivedAt      DateTime?           @map("archived_at")
+  createdAt       DateTime            @default(now()) @map("created_at")
+  updatedAt       DateTime            @updatedAt @map("updated_at")
+  member          MemberProfile       @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  uploadedBy      User                @relation("RecordUploader", fields: [uploadedById], references: [id], onDelete: Restrict)
+  files           MedicalRecordFile[]
+  recognitionTasks RecognitionTask[]
+
+  @@index([memberId, status, createdAt])
+  @@index([uploadedById])
+  @@map("medical_records")
+}
+
+model MedicalRecordFile {
+  id             String        @id @default(uuid())
+  recordId       String        @map("record_id")
+  originalName   String        @map("original_name")
+  mimeType       String        @map("mime_type")
+  sizeBytes      Int           @map("size_bytes")
+  storagePath    String        @map("storage_path")
+  fileHash       String        @map("file_hash")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  record         MedicalRecord @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@index([recordId])
+  @@map("medical_record_files")
+}
+
+model RecognitionTask {
+  id            String                @id @default(uuid())
+  recordId      String                @map("record_id")
+  engine        String
+  status        RecognitionTaskStatus @default(PENDING_REVIEW)
+  rawText       String?               @map("raw_text")
+  createdAt     DateTime              @default(now()) @map("created_at")
+  reviewedAt    DateTime?             @map("reviewed_at")
+  record        MedicalRecord         @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  fields        RecognizedField[]
+
+  @@index([recordId, createdAt])
+  @@map("recognition_tasks")
+}
+
+model RecognizedField {
+  id          String          @id @default(uuid())
+  taskId      String          @map("task_id")
+  fieldName   String          @map("field_name")
+  fieldValue  String?         @map("field_value")
+  userValue   String?         @map("user_value")
+  sourceType  String          @map("source_type")
+  sourceText  String?         @map("source_text")
+  pageNumber  Int?            @map("page_number")
+  confidence  Float?
+  createdAt   DateTime        @default(now()) @map("created_at")
+  task        RecognitionTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([fieldName])
+  @@map("recognized_fields")
+}
+
+model Medicine {
+  id                 String               @id @default(uuid())
+  memberId           String               @map("member_id")
+  createdById        String               @map("created_by_id")
+  name               String
+  specification      String?
+  purposeNote        String?              @map("purpose_note")
+  dosageInstruction  String               @map("dosage_instruction")
+  startDate          DateTime?            @db.Date @map("start_date")
+  endDate            DateTime?            @db.Date @map("end_date")
+  currentQuantity    Float?               @map("current_quantity")
+  quantityUnit       String?              @map("quantity_unit")
+  expiresOn          DateTime?            @db.Date @map("expires_on")
+  storageLocation    String?              @map("storage_location")
+  reminderEnabled    Boolean              @default(false) @map("reminder_enabled")
+  stoppedAt          DateTime?            @map("stopped_at")
+  createdAt          DateTime             @default(now()) @map("created_at")
+  updatedAt          DateTime             @updatedAt @map("updated_at")
+  member             MemberProfile        @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  createdBy          User                 @relation("MedicineCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  schedules          MedicationSchedule[]
+
+  @@index([memberId, stoppedAt])
+  @@index([createdById])
+  @@map("medicines")
+}
+
+model MedicationSchedule {
+  id          String    @id @default(uuid())
+  medicineId  String    @map("medicine_id")
+  timeLabel   String    @map("time_label")
+  doseText    String    @map("dose_text")
+  reminderAt  String?   @map("reminder_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  medicine    Medicine  @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+
+  @@index([medicineId])
+  @@map("medication_schedules")
+}
+
+model MetricRecord {
+  id             String         @id @default(uuid())
+  memberId       String         @map("member_id")
+  createdById    String         @map("created_by_id")
+  metricType     String         @map("metric_type")
+  value          Json
+  unit           String
+  measuredAt     DateTime       @map("measured_at")
+  sourceType     String         @map("source_type")
+  sourceRecordId String?        @map("source_record_id")
+  note           String?
+  createdAt      DateTime       @default(now()) @map("created_at")
+  member         MemberProfile  @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  createdBy      User           @relation("MetricCreator", fields: [createdById], references: [id], onDelete: Restrict)
+
+  @@index([memberId, metricType, measuredAt])
+  @@index([createdById])
+  @@map("metric_records")
+}
+
+model TodoItem {
+  id          String        @id @default(uuid())
+  memberId    String        @map("member_id")
+  createdById String        @map("created_by_id")
+  type        String
+  title       String
+  dueAt       DateTime?     @map("due_at")
+  status      TodoStatus    @default(OPEN)
+  sourceType  String?       @map("source_type")
+  sourceId    String?       @map("source_id")
+  metadata    Json?
+  completedAt DateTime?     @map("completed_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  member      MemberProfile @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  createdBy   User          @relation("TodoCreator", fields: [createdById], references: [id], onDelete: Restrict)
+
+  @@index([memberId, status, dueAt])
+  @@index([createdById])
+  @@map("todo_items")
+}
+
+model VisitPack {
+  id                String          @id @default(uuid())
+  memberId          String          @map("member_id")
+  createdById       String          @map("created_by_id")
+  title             String
+  visitReason       String          @map("visit_reason")
+  recentSymptoms    String?         @map("recent_symptoms")
+  questions         String?
+  selectedRecordIds Json            @map("selected_record_ids")
+  status            VisitPackStatus @default(DRAFT)
+  content           Json?
+  generatedAt       DateTime?       @map("generated_at")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  member            MemberProfile   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  createdBy         User            @relation("VisitPackCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  shares            VisitPackShare[]
+
+  @@index([memberId, status, createdAt])
+  @@index([createdById])
+  @@map("visit_packs")
+}
+
+model VisitPackShare {
+  id             String    @id @default(uuid())
+  visitPackId    String    @map("visit_pack_id")
+  tokenHash      String    @unique @map("token_hash")
+  expiresAt      DateTime  @map("expires_at")
+  revokedAt      DateTime? @map("revoked_at")
+  accessCount    Int       @default(0) @map("access_count")
+  lastAccessedAt DateTime? @map("last_accessed_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  visitPack      VisitPack @relation(fields: [visitPackId], references: [id], onDelete: Cascade)
+
+  @@index([visitPackId, revokedAt, expiresAt])
+  @@map("visit_pack_shares")
+}
+
+model AuditEvent {
+  id           String         @id @default(uuid())
+  actorUserId  String?        @map("actor_user_id")
+  memberId     String?        @map("member_id")
+  action       String
+  resourceType String?        @map("resource_type")
+  resourceId   String?        @map("resource_id")
+  result       String
+  reasonCode   String?        @map("reason_code")
+  requestId    String         @map("request_id")
+  ipPrefix     String?        @map("ip_prefix")
+  deviceId     String?        @map("device_id")
+  metadata     Json?
+  createdAt    DateTime       @default(now()) @map("created_at")
+  actor        User?          @relation("AuditActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+  member       MemberProfile? @relation(fields: [memberId], references: [id], onDelete: SetNull)
+
+  @@index([actorUserId, createdAt])
+  @@index([memberId, createdAt])
+  @@index([requestId])
+  @@map("audit_events")
+}

@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#176d5c">
+<title>医记</title>
+<style>
+:root{--bg:#efe7d9;--paper:#fffaf2;--card:#fffdf8;--ink:#142b25;--muted:#776f64;--line:#e6dac8;--brand:#176d5c;--brand2:#0f5448;--soft:#e8f5ef;--warn:#fff5dd;--danger:#c34a42;--shadow:0 14px 40px rgba(42,57,48,.10)}
+*{box-sizing:border-box}html{background:#dce5df}body{margin:0;background:#dce5df;color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+.phone{width:min(100vw,393px);min-height:100vh;margin:0 auto;background:var(--bg);box-shadow:0 20px 70px rgba(17,45,38,.18);position:relative;overflow:hidden}.content{padding:18px 14px 112px}.page{display:none}.page.active{display:block}.page>*+*{margin-top:18px}.head{padding:8px 2px 16px}.head small{display:block;color:var(--muted);margin-bottom:5px}.head h1{margin:0;font-size:25px;line-height:1.15;letter-spacing:-.03em}.head p{margin:7px 0 0;color:var(--muted);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}.hidden{display:none!important}.primary{border:0;background:var(--brand);color:white;border-radius:16px;padding:13px 16px;font-weight:800}.ghost{border:1px solid var(--line);background:#fffdf8;border-radius:16px;padding:11px 14px;font-weight:700}.link{border:0;background:transparent;color:var(--brand);font-weight:800}.danger{border:1px solid #efc7c3;background:#fff7f6;color:var(--danger);border-radius:16px;padding:11px 14px;font-weight:800}.muted{color:var(--muted)}.row{display:flex;align-items:center;gap:10px}.spread{display:flex;align-items:center;justify-content:space-between;gap:10px}.stack{display:grid;gap:12px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:12px}.warn{padding:12px;border:1px solid #ecd3a0;border-radius:16px;background:var(--warn);color:#66542d}.icon-btn{display:grid;place-items:center;border:1px solid var(--line);background:#fffdf8;border-radius:14px;width:42px;height:42px;padding:0;font-size:22px;font-weight:900;line-height:1}.icon-btn svg{width:20px;height:20px;display:block}.headbar{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.choice{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);border-radius:18px;background:#fff;padding:14px;text-align:left;font-weight:800}.choice small{display:block;color:var(--muted);font-weight:500}.search-sheet{display:grid;gap:12px}.pill-row{display:flex;gap:8px;overflow:auto;padding-bottom:2px}.pill{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-weight:800;color:var(--muted)}.pill.active{background:var(--brand);border-color:var(--brand);color:white}.dotmark{width:8px;height:8px;margin:13px 14px 0 0;border-radius:50%;background:var(--brand);flex:0 0 auto}
+.login{position:fixed;inset:0;z-index:80;display:grid;place-items:end center;background:rgba(20,43,37,.42);padding:0}.login.hidden{display:none}.login-panel{width:min(100vw,430px);padding:22px 18px 26px;border-radius:26px 26px 0 0;background:var(--paper)}.field{margin:12px 0}.field label{display:block;margin-bottom:6px;color:#5d655f;font-size:13px;font-weight:800}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:15px;background:#fff;padding:12px;outline:0}.field textarea{min-height:92px;resize:vertical}.check{display:flex;gap:8px;align-items:flex-start;color:var(--muted);font-size:13px}.actions{display:flex;gap:9px;margin-top:14px}.actions button{flex:1}
+.hero{padding:24px 22px;background:linear-gradient(145deg,#15725f,#0f4f43);color:white}.hero p{margin:8px 0 20px;color:#d5eee7}.hero .light{width:100%;border:0;border-radius:17px;background:white;color:var(--brand2);padding:14px;font-weight:900}.quick{padding:15px}.quick .row{align-items:flex-start}.quick h3{margin:0 0 3px;font-size:17px}.simple-list{padding:18px}.simple-list h3{margin:0 0 12px}.item{display:flex;gap:11px;padding:13px 0;border-top:1px solid var(--line)}.item:first-of-type{border-top:0}.ico{display:grid;place-items:center;flex:0 0 auto;width:36px;height:36px;border-radius:13px;background:var(--soft);color:var(--brand);font-weight:900}.item b,.item small{display:block}.item small{color:var(--muted)}
+.toolbar{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}.search{grid-column:1/-1;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:16px;background:#fff;padding:10px 12px}.search input{width:100%;border:0;outline:0;background:transparent}.toolbar select{width:100%;border:1px solid var(--line);border-radius:16px;background:#fff;padding:10px}
+.record{padding:15px}.record h3{margin:8px 0 5px;font-size:17px;word-break:break-word}.record p{margin:0;color:var(--muted)}.record-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.record-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:13px}.record-actions button{min-width:0;padding:8px 4px;border-radius:13px;font-size:12px;white-space:nowrap}.empty{padding:28px 18px;text-align:center;color:var(--muted)}
+.timeline{padding:6px 0;overflow:hidden}.event{position:relative;display:grid;grid-template-columns:46px 16px minmax(0,1fr);gap:7px;padding:9px 0 18px}.event:not(:last-child):after{content:"";position:absolute;left:53px;top:31px;bottom:-4px;width:1px;background:var(--line)}.event time{font-size:11px;color:var(--muted);word-break:break-word}.dot{z-index:1;width:11px;height:11px;margin-top:5px;border:3px solid #fff;border-radius:50%;background:var(--brand);box-shadow:0 0 0 2px #9fd4c7}.event h4{margin:0 0 3px;word-break:break-word}.event p{margin:0;color:var(--muted);font-size:13px;word-break:break-word}
+.sheet{position:fixed;inset:0;z-index:70;display:none;align-items:end;background:rgba(20,43,37,.45)}.sheet.open{display:flex}.sheet-panel{width:min(100vw,393px);max-height:92vh;overflow:auto;margin:0 auto;background:var(--paper);border-radius:26px 26px 0 0;padding:18px}.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.sheet-head h2{margin:0;font-size:20px}.x{display:grid;place-items:center;border:0;background:#efe9df;border-radius:12px;width:38px;height:38px;padding:0;font-size:24px;line-height:1}.upload-box{border:1px dashed #9cb9af;border-radius:18px;background:#fbf8f0;text-align:center;padding:24px 12px}.upload-box .big{font-size:34px}
+.ocr-table{display:grid;gap:8px}.ocr-row{padding:10px;border:1px solid var(--line);border-radius:14px;background:#fff}.ocr-row b,.ocr-row small{display:block}.ocr-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.ocr-summary div{padding:10px;border-radius:14px;background:var(--soft);color:var(--brand);font-weight:900;text-align:center}.keyword-list{display:flex;flex-wrap:wrap;gap:7px}.keyword{border:1px solid #cfe0d9;background:#f4fbf8;border-radius:999px;padding:7px 10px;color:var(--brand);font-weight:800}.form-section{padding:13px 0;border-top:1px solid var(--line)}.form-section:first-of-type{border-top:0;padding-top:0}.form-section h4{margin:0 0 10px;font-size:17px}.form-section .hint{margin:-5px 0 10px;color:var(--muted);font-size:13px}.field textarea.tall{min-height:118px}
+.file-strip{display:flex;gap:8px;overflow:auto;padding:2px 0 4px}.file-chip{flex:0 0 auto;max-width:142px;border:1px solid var(--line);background:#fff;border-radius:16px;padding:10px 12px;text-align:left;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.file-add{flex:0 0 auto;width:44px;height:44px;border:1px dashed #9cb9af;border-radius:16px;background:#f4fbf8;color:var(--brand);font-size:24px;font-weight:900}
+.pack-preview{padding:16px}.pack-preview h3{margin:0 0 8px}.step-note{padding:10px 12px;border-radius:14px;background:var(--soft);color:var(--brand);font-weight:800}.section{padding-top:13px;margin-top:13px;border-top:1px solid var(--line)}.section h4{margin:0 0 6px}.section ul{margin:0;padding-left:20px;color:#4f5c56}.privacy-grid{display:grid;gap:10px}.privacy{padding:15px}.privacy h3{margin:0 0 6px}
+.bottom{position:fixed;left:50%;bottom:0;z-index:50;display:grid;grid-template-columns:repeat(3,1fr);width:min(100vw,393px);transform:translateX(-50%);padding:7px 4px calc(7px + env(safe-area-inset-bottom));border-top:1px solid #e1d6c6;background:rgba(255,252,246,.96);backdrop-filter:blur(16px)}.bottom button{border:0;background:transparent;color:#6f675c;font-size:13px;font-weight:900;padding:6px 0}.bottom i{display:block;font-style:normal;font-size:24px;line-height:1.05;margin-bottom:2px}.bottom button.active{color:var(--brand);font-weight:1000}.floating{position:fixed;left:50%;bottom:66px;z-index:49;width:min(calc(100vw - 28px),365px);transform:translateX(-50%);transition:.2s}.floating.hidden{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(12px)}.floating button{width:100%;box-shadow:0 14px 28px rgba(23,109,92,.22)}
+@media(min-width:394px){.login-panel,.sheet-panel{border-radius:26px;margin-bottom:0}}
+</style>
+</head>
+<body>
+<main class="phone">
+  <div class="content">
+    <section class="page" id="home"></section>
+    <section class="page active" id="records"></section>
+    <section class="page" id="timeline"></section>
+    <section class="page" id="pack"></section>
+    <section class="page" id="todos"></section>
+    <section class="page" id="settings"></section>
+  </div>
+  <div class="floating"><button class="primary" id="mainUpload">上传病历资料</button></div>
+  <nav class="bottom" id="nav"></nav>
+</main>
+
+<div class="login" id="login">
+  <div class="login-panel">
+    <h2 style="margin:0 0 6px">登录医记</h2>
+    <p class="muted" style="margin:0 0 12px">用邮箱验证码登录。你的资料只保存在你的账户下。</p>
+    <div class="field"><label>邮箱</label><input id="email" type="email" placeholder="请输入邮箱"></div>
+    <div class="field"><label>验证码</label><input id="code" inputmode="numeric" placeholder="邮箱收到的验证码"></div>
+    <label class="check"><input id="agree" type="checkbox"> <span>我已阅读并同意 <a href="/terms.html" target="_blank">服务协议</a> 和 <a href="/privacy.html" target="_blank">隐私政策</a></span></label>
+    <div class="actions"><button class="ghost" id="sendCode">获取验证码</button><button class="primary" id="loginBtn">登录</button></div>
+    <button class="link" id="clearLogin" style="margin-top:10px">清除本机登录</button>
+    <p class="muted" id="loginStatus"></p>
+  </div>
+</div>
+
+<div class="sheet" id="sheet"><div class="sheet-panel"><div class="sheet-head"><h2 id="sheetTitle">操作</h2><button class="x" id="closeSheet">×</button></div><div id="sheetBody"></div></div></div>
+<div id="toast" style="position:fixed;left:50%;bottom:128px;z-index:90;transform:translateX(-50%) translateY(20px);opacity:0;transition:.2s;padding:10px 14px;border-radius:999px;background:#173e35;color:white;max-width:360px;text-align:center"></div>
+
+<script>
+const API=localStorage.getItem('yiji.apiBase')||(location.protocol==='file:'||location.hostname==='127.0.0.1'||location.hostname==='localhost'?'https://yijijiankang.cn/v1':'/v1');
+const TOKEN_KEY='yiji.real.token';
+const PROFILE_KEY='yiji.profile.local';
+const OCR_TEST_KEY='yiji.ocr.tests';
+let token=localStorage.getItem(TOKEN_KEY)||'', records=[], todos=[], timelineItems=[], timelineLoaded=false, currentPage='records', pendingUpload=null, currentPackId='', currentShare=null, timelineFilter='', profile=JSON.parse(localStorage.getItem(PROFILE_KEY)||'{"avatar":"我","name":"本人","desc":"当前正在整理我的病历"}');
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(text){const t=$('#toast');t.textContent=text;t.style.opacity='1';t.style.transform='translateX(-50%)';clearTimeout(window.__toast);window.__toast=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)'},2300)}
+function saveProfile(){localStorage.setItem(PROFILE_KEY,JSON.stringify(profile))}
+function getOcrTests(){return JSON.parse(localStorage.getItem(OCR_TEST_KEY)||'[]')}
+function saveOcrTests(rows){localStorage.setItem(OCR_TEST_KEY,JSON.stringify(rows))}
+function authHeaders(extra={}){return token?{...extra,Authorization:`Bearer ${token}`}:{...extra}}
+async function api(path,opt={}){const r=await fetch(API+path,{...opt,headers:authHeaders(opt.headers||{})});const text=await r.text();let body=null;try{body=text?JSON.parse(text):null}catch{body={message:text}}if(!r.ok)throw new Error(body?.message||body?.error?.message||body?.error||text||`HTTP ${r.status}`);return body}
+async function apiJson(path,body,method='POST'){return api(path,{method,headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})}
+function absoluteApiUrl(path){return `${API.startsWith('http')?API:location.origin+API}${path}`}
+function reportClientError(type,message,userAction=''){fetch(`${API}/monitoring/client-error`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type,message:String(message||'').slice(0,600),page:location.pathname||'app.html',userAction})}).catch(()=>{})}
+window.addEventListener('error',e=>reportClientError('window_error',e.message,'browser'));
+window.addEventListener('unhandledrejection',e=>reportClientError('promise_rejection',e.reason?.message||e.reason,'browser'));
+function showLogin(){ $('#login').classList.remove('hidden') } function hideLogin(){ $('#login').classList.add('hidden') }
+function requireLogin(){if(!token){showLogin();throw new Error('请先登录')}}
+function openSheet(title,html){$('#sheetTitle').textContent=title;$('#sheetBody').innerHTML=html;$('#sheet').classList.add('open')}
+function closeSheet(){pendingUpload=null;$('#sheet').classList.remove('open')}
+
+const tabs=[['records','📁','病历'],['todos','✓','待办'],['settings','👤','我的']];
+function renderNav(){ $('#nav').innerHTML=tabs.map(([id,ico,label])=>`<button class="${(id===currentPage||(['home','timeline'].includes(currentPage)&&id==='records')||(currentPage==='pack'&&id==='todos'))?'active':''}" data-page="${id}"><i>${ico}</i>${label}</button>`).join(''); $$('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.page))}
+function go(page){currentPage=page;$$('.page').forEach(p=>p.classList.toggle('active',p.id===page));$('#mainUpload').parentElement.classList.add('hidden');renderNav();renderPage()}
+
+async function sendCode(){if(!$('#agree').checked)throw new Error('请先同意服务协议和隐私政策');const email=$('#email').value.trim();if(!email)throw new Error('请输入邮箱');const r=await apiJson('/auth/email/send',{email});if(r.mockCode)$('#code').value=r.mockCode;toast('验证码已发送')}
+async function login(){if(!$('#agree').checked)throw new Error('请先同意服务协议和隐私政策');const r=await apiJson('/auth/email/verify',{email:$('#email').value.trim(),code:$('#code').value.trim(),deviceId:'app-html'});token=r.accessToken;localStorage.setItem(TOKEN_KEY,token);hideLogin();await refresh();toast('登录成功')}
+async function ensureProfileIfNeeded(error){if(!String(error.message).includes('本人健康档案'))throw error;await apiJson('/onboarding/profile',{displayName:'我',gender:'未填写',healthConcerns:['整理病历'],allergyNote:'未填写',chronicDiseaseNote:'未填写'});return refresh()}
+async function refresh(){if(!token){timelineItems=[];timelineLoaded=false;renderPage();showLogin();return}try{const [recordRows,todoRows,timeline]=await Promise.all([api('/records'),api('/todos'),api('/records/timeline')]);records=recordRows;todos=todoRows;timelineItems=timeline?.items||[];timelineLoaded=true;hideLogin();renderPage()}catch(e){await ensureProfileIfNeeded(e).catch(err=>{showLogin();$('#loginStatus').textContent=err.message})}}
+async function refreshAgentTodos(){if(!token)return;try{await apiJson('/agent/todos/refresh',{});todos=await api('/todos')}catch(e){reportClientError('agent_todos_refresh_failed',e.message,'refresh agent todos')}}
+
+function cleanValue(v){const s=String(v||'').trim();return ['未记录','未分类','无'].includes(s)?'':s}
+function recordDate(r){return String(r.visitDate||'').slice(0,10)}
+function sortDate(r){return String(r.visitDate||r.createdAt||'').slice(0,10)}
+function categoryOf(r){return cleanValue(String(r.healthConcern||'').split('｜')[0])}
+function noteOf(r){return cleanValue(String(r.healthConcern||'').split('｜').slice(1).join('｜'))}
+function institutionOf(r){return cleanValue(r.institution)}
+function filesOf(r){return r.files||[]}
+function fileOf(r){return r.files?.[0]}
+function statusText(s){return {PENDING_REVIEW:'待核对',ARCHIVED:'已归档'}[s]||s||''}
+function metaText(...parts){return parts.filter(Boolean).join(' · ')}
+function concernText(cat,note){return cat||note?[cat,note].join('｜'):undefined}
+
+function renderPage(){renderNav();$('#mainUpload').parentElement.classList.add('hidden'); if(currentPage==='home')renderHome(); if(currentPage==='records')renderRecords(); if(currentPage==='timeline')renderTimeline(); if(currentPage==='pack')renderPack(); if(currentPage==='todos')renderTodos(); if(currentPage==='settings')renderSettings()}
+function renderHome(){
+  go('records');
+}
+function looksBadTitle(value){const s=String(value||'').trim();return !s||/^[a-f0-9]{16,}$/i.test(s)||/^[0-9a-f-]{24,}$/i.test(s)||/^IMG_|^DSC_|^\d{8,}/i.test(s)}
+function hasImageEvidence(text){return /(CT|MRI|DR|X光|X线|B超|超声|影像号|放射|片号|片子|影像检查|影像诊断|影像表现)/i.test(String(text||''))}
+function recordTypeLabel(type,rawText=''){const label={OTHER:'其他',CHECK_REPORT:'检查报告',OUTPATIENT_RECORD:'门诊记录',PRESCRIPTION:'处方',IMAGE:'影像资料',INPATIENT_RECORD:'住院资料',PHYSICAL_EXAM:'体检报告'}[type]||type||'';return label==='影像资料'&&!hasImageEvidence(rawText)?'其他':label}
+function suggestedTitleFromRecord(r){return suggestedTitle({title:r.title,recordType:r.recordType,category:categoryOf(r),institution:institutionOf(r),date:recordDate(r),rawText:latestTask(r)?.rawText})}
+function suggestedTitle({title='',recordType='',category='',institution='',date='',rawText=''}={}){
+  if(!looksBadTitle(title))return cleanValue(title);
+  const text=String([category,institution,rawText].join(' '));
+  const inferred=/牙|口腔|齿|龋|根管|洁牙/.test(text)?'牙科':/胃|肠|腹|消化|胃镜|肠镜/.test(text)?'胃肠':/体检|血常规|尿常规|肝功能|肾功能/.test(text)?'体检':category||'就医';
+  const type=recordTypeLabel(recordType,rawText);
+  return `${inferred}${type&&type!=='其他'?type:'病历资料'}${date?`（${date}）`:''}`;
+}
+function recordMetaLine(r){return metaText(recordDate(r)||'时间待补充',recordTypeLabel(r.recordType,latestTask(r)?.rawText)||'资料',categoryOf(r),institutionOf(r))}
+function recordNeedsInfo(r){return !recordDate(r)||!categoryOf(r)||!institutionOf(r)}
+function timelineCategoryOf(item){return cleanValue(String(item.healthConcern||'').split('｜')[0])}
+function recordForTimeline(item){return records.find(r=>r.id===(item.recordIds?.[0]||item.id))}
+function timelineSource(){return timelineLoaded?timelineItems:records.map(r=>({id:r.id,date:recordDate(r)||sortDate(r),happened:suggestedTitleFromRecord(r),healthConcern:r.healthConcern,recordType:r.recordType,institution:r.institution,recordIds:[r.id],fileCount:filesOf(r).length,canAddToVisitPack:true}))}
+function timelineMetaLine(item){
+  const record=recordForTimeline(item);
+  return record?recordMetaLine(record):metaText(item.date||'时间待补充',recordTypeLabel(item.recordType)||'资料',timelineCategoryOf(item),cleanValue(item.institution),item.fileCount?`${item.fileCount} 份原件`:'');
+}
+function timelineActions(item){
+  const record=recordForTimeline(item);
+  if(record)return recordMiniActions(record);
+  const id=item.recordIds?.[0]||item.id,inPack=packSet.has(id);
+  return item.canAddToVisitPack?`<button class="${inPack?'primary':'ghost'}" data-pack="${esc(id)}">${inPack?'已加入':'加入包'}</button>`:'';
+}
+function timelineHtml(limit=4,cat=''){
+  const data=timelineSource().filter(item=>!cat||timelineCategoryOf(item)===cat).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,limit);
+  return data.map(item=>{const record=recordForTimeline(item),note=record?noteOf(record):'',title=record?suggestedTitleFromRecord(record):cleanValue(item.happened)||'就医记录';return `<div class="event"><time>${esc(item.date||'补时间')}</time><span class="dot"></span><div><h4>${esc(title)}</h4><p>${esc(timelineMetaLine(item))}</p>${record&&looksBadTitle(record.title)?'<p class="muted">原文件名识别不清，已先生成一个可读标题，请在编辑里确认。</p>':''}${note?`<p>${esc(note)}</p>`:''}<div class="record-actions">${timelineActions(item)}</div></div></div>`}).join('')||`<div class="empty">${cat?'这个分类下还没有资料':'还没有资料，点击上方添加。'}</div>`;
+}
+function recordMiniActions(r){const f=fileOf(r),inPack=packSet.has(r.id),count=filesOf(r).length;return `${f?`<button class="ghost" data-original="${esc(r.id)}" data-file="${esc(f.id)}">原件${count>1?` ${count}`:''}</button>`:''}<button class="ghost" data-edit="${esc(r.id)}">编辑</button><button class="${inPack?'primary':'ghost'}" data-pack="${esc(r.id)}">${inPack?'已加入':'加入包'}</button><button class="danger" data-delete="${esc(r.id)}">删除</button>`}
+function renderRecords(){
+  const cats=[...new Set(timelineSource().map(timelineCategoryOf).filter(Boolean))];
+  if(timelineFilter&&!cats.includes(timelineFilter))timelineFilter='';
+  $('#records').innerHTML=`<div class="head headbar"><div><h1>我的病历</h1></div><button class="icon-btn" id="searchToggle" aria-label="搜索">${searchIcon()}</button></div>
+  <article class="card hero"><h2 style="margin:0">添加病历资料</h2><p>拍照、选相册或手动填写。</p><button class="light" id="recordsUpload">添加</button></article>
+  <article class="card simple-list"><div class="spread"><h3>病历资料</h3><button class="icon-btn" id="addTimeline">＋</button></div>${cats.length?`<div class="pill-row" id="timelineCats"><button class="pill ${timelineFilter===''?'active':''}" data-cat="">全部</button>${cats.map(c=>`<button class="pill ${timelineFilter===c?'active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('')}</div>`:''}<div class="timeline" id="recordList">${timelineHtml(30,timelineFilter)}</div></article>`;
+  $('#recordsUpload').onclick=startUpload; $('#addTimeline').onclick=startManualRecord;
+  $('#searchToggle').onclick=openSearch;
+  $$('#timelineCats .pill').forEach(b=>b.onclick=()=>{timelineFilter=b.dataset.cat||'';renderRecords()});
+  bindRecordActions('#recordList');
+}
+function filterRecords(){
+  const q=$('#search')?.value.trim().toLowerCase()||'', type=$('.pill.active')?.dataset.type||'';
+  const data=records.filter(r=>(!q||[suggestedTitleFromRecord(r),r.institution,r.healthConcern,recordTypeLabel(r.recordType,latestTask(r)?.rawText)].join(' ').toLowerCase().includes(q))&&(type==='__todo'?(!recordDate(r)||!categoryOf(r)||!institutionOf(r)):(!type||r.recordType===type))).sort((a,b)=>String(sortDate(b)).localeCompare(String(sortDate(a))));
+  $('#searchResult').innerHTML=data.map(recordCard).join('')||`<div class="empty">${records.length?'没有找到':'还没有资料'}</div>`;
+  bindRecordActions('#searchResult');
+}
+function bindRecordActions(scope){
+  $$(`${scope} [data-original]`).forEach(b=>b.onclick=()=>openOriginal(b.dataset.original,b.dataset.file));
+  $$(`${scope} [data-edit]`).forEach(b=>b.onclick=()=>editRecord(b.dataset.edit));
+  $$(`${scope} [data-pack]`).forEach(b=>b.onclick=()=>{togglePack(b.dataset.pack);renderPage()});
+  $$(`${scope} [data-delete]`).forEach(b=>b.onclick=()=>deleteRecord(b.dataset.delete));
+}
+function openSearch(){
+  const types=['','__todo',...new Set(records.map(r=>r.recordType).filter(Boolean))];
+  openSheet('搜索病历',`<div class="search-sheet"><label class="search">${searchIcon()}<input id="search" placeholder="搜索资料、医院或分类"></label><div class="pill-row">${types.map((x,i)=>`<button class="pill ${i===0?'active':''}" data-type="${esc(x)}">${esc(x==='__todo'?'待补信息':(recordTypeLabel(x)||'全部'))}</button>`).join('')}</div><div id="searchResult"></div></div>`);
+  $('#search').oninput=filterRecords; $$('.pill').forEach(b=>b.onclick=()=>{$$('.pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');filterRecords()}); filterRecords(); $('#search').focus();
+}
+function searchIcon(){return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>'}
+const packSet=new Set(JSON.parse(localStorage.getItem('yiji.pack.selected')||'[]'));
+function savePackSet(){localStorage.setItem('yiji.pack.selected',JSON.stringify([...packSet]))}
+function togglePack(id){packSet.has(id)?packSet.delete(id):packSet.add(id);savePackSet();toast(packSet.has(id)?'已加入资料包':'已移出资料包')}
+function recordCard(r){const f=fileOf(r),inPack=packSet.has(r.id),count=filesOf(r).length;return `<article class="card record"><div class="spread">${categoryOf(r)?`<span class="tag">${esc(categoryOf(r))}</span>`:'<span></span>'}<span class="muted">${esc(statusText(r.status))}</span></div><h3>${esc(suggestedTitleFromRecord(r))}</h3><p>${esc(recordMetaLine(r))}</p>${looksBadTitle(r.title)?'<p class="muted">标题需要确认</p>':''}${noteOf(r)?`<p>${esc(noteOf(r))}</p>`:''}<div class="record-actions">${f?`<button class="ghost" data-original="${esc(r.id)}" data-file="${esc(f.id)}">原件${count>1?` ${count}`:''}</button>`:'<button class="ghost" disabled>无原件</button>'}<button class="ghost" data-edit="${esc(r.id)}">编辑</button><button class="${inPack?'primary':'ghost'}" data-pack="${esc(r.id)}">${inPack?'已加入':'加入包'}</button><button class="danger" data-delete="${esc(r.id)}">删除</button></div></article>`}
+async function openOriginal(recordId,fileId){try{const r=await fetch(`${API}/records/${recordId}/files/${fileId}/original`,{headers:authHeaders()});if(!r.ok)throw new Error(await r.text());const blob=await r.blob();const url=URL.createObjectURL(blob);const opened=window.open(url,'_blank','noopener');if(!opened){const a=document.createElement('a');a.href=url;a.download='医记原始资料';a.click()}setTimeout(()=>URL.revokeObjectURL(url),60000)}catch(e){toast('原件暂时打不开，请稍后重试')}}
+async function deleteRecord(id){const r=records.find(x=>x.id===id),name=suggestedTitleFromRecord(r||{});if(!confirm(`确定删除「${name}」吗？删除后病历列表里不会再显示。`))return;try{await api(`/records/${id}`,{method:'DELETE'});packSet.delete(id);savePackSet();closeSheet();await refresh();renderPage();toast('已删除')}catch(e){toast('删除失败，请稍后重试')}}
+
+function renderTimeline(){
+  $('#timeline').innerHTML=`<div class="head"><h1>就医时间线</h1><p>已归档资料会按就诊时间排列。</p></div><article class="card timeline">${timelineHtml(20)}</article>`;
+  bindRecordActions('#timeline');
+}
+function renderTodos(){
+  const pending=records.filter(r=>r.status==='PENDING_REVIEW');
+  const selectedCount=records.filter(r=>packSet.has(r.id)).length;
+  const needInfo=records.filter(recordNeedsInfo);
+  const hasPackDraft=selectedCount>0;
+  const system=[
+    ...pending.map(r=>({title:`请核对《${r.title}》`,sub:'上传后还没确认，核对后才会进入病历。',action:'records'})),
+    ...needInfo.map(r=>({title:`完善《${r.title}》`,sub:'补上时间、分类或医院，复诊时更好找。',action:'records'})),
+    ...(!records.length?[{title:'上传第一份报告',sub:'把病历、报告、处方或照片先放进来。',action:'records'}]:[]),
+    ...(hasPackDraft?[{title:`待导出 ${selectedCount} 份资料`,sub:'已加入资料包，补充近期情况和想问的问题后导出。',action:'pack'}]:[]),
+    ...(records.length&&!hasPackDraft?[{title:'建议生成就诊资料包',sub:'复诊前可先选资料，整理成一份 PDF。',action:'pack'}]:[]),
+    ...todos.filter(t=>t.status==='OPEN').map(t=>({title:t.title||'看医生提醒',sub:String(t.dueAt||'').slice(0,10)?`${String(t.dueAt).slice(5,10)} 看医生提醒`:'请设置提醒日期',action:'todo'}))
+  ];
+  $('#todos').innerHTML=`<div class="head"><h1>待办</h1></div>
+  <article class="card hero"><h2 style="margin:0">就诊资料包</h2><p>${records.length?'复诊前，把相关病历整理成一份 PDF。':'先添加病历，再生成资料包。'}</p><button class="light" id="todoPack">${records.length?'生成资料包':'去添加病历'}</button></article>
+  <article class="card simple-list"><h3>待处理</h3>${system.map((t,i)=>`<div class="item" data-todo-action="${esc(t.action)}"><span class="ico">✓</span><div><b>${esc(t.title)}</b><small>${esc(t.sub)}</small></div></div>`).join('')||'<div class="empty">暂无待办</div>'}<div class="actions"><button class="primary" id="newTodo">添加看医生提醒</button></div></article>`;
+  $('#newTodo').onclick=startTodo; $('#todoPack').onclick=()=>records.length?go('pack'):go('records');
+  $$('[data-todo-action]').forEach(x=>x.onclick=()=>{const a=x.dataset.todoAction;if(a==='pack')go('pack');if(a==='records')go('records')});
+}
+function renderSettings(){
+  $('#settings').innerHTML=`<div class="head"><h1>我的</h1></div><div class="privacy-grid">
+    <article class="card hero"><div class="row"><span class="ico" style="background:#c8efe4;color:#0f5448">${esc(profile.avatar||'我')}</span><div><h2 style="margin:0">当前档案</h2><p style="margin:4px 0 0">${esc(profile.name||'本人')}</p></div></div></article>
+    <article class="card simple-list"><h3>病人档案</h3><div class="item"><span class="ico">${esc(profile.avatar||'我')}</span><div><b>${esc(profile.name||'本人')}</b><small>${esc(profile.desc||'')}</small></div></div><div class="actions"><button class="ghost" id="switchPatient">切换病人</button><button class="ghost" id="editProfile">编辑资料</button></div></article>
+    <article class="card simple-list"><h3>账号</h3><div class="item"><span class="ico">@</span><div><b>邮箱验证码登录</b><small>可以退出当前设备，也可以退出所有设备。</small></div></div><div class="actions"><button class="ghost" id="logout">退出登录</button><button class="ghost" id="logoutAll">退出所有设备</button></div></article>
+    <article class="card simple-list"><h3>提醒设置</h3><div class="item"><span class="ico">铃</span><div><b>看医生提醒</b><small>只提醒复诊、补资料、上传报告和生成资料包</small></div></div></article>
+    <article class="card simple-list"><h3>存储空间</h3><div class="item"><span class="ico">云</span><div><b>病历原件</b><small>查看已用空间和原件保存状态</small></div></div></article>
+    <article class="card simple-list"><h3>帮助与反馈</h3><div class="item"><span class="ico">问</span><div><b>使用帮助</b><small>了解如何上传、整理和导出病历</small></div></div><div class="item"><span class="ico">言</span><div><b>问题反馈</b><small>识别不准、上传失败或导出异常可以反馈</small></div></div><div class="item"><span class="ico">邮</span><div><b>联系邮箱</b><small><a href="mailto:support@yijijiankang.cn">support@yijijiankang.cn</a></small></div></div><div class="item" id="ocrTestEntry"><span class="ico">测</span><div><b>OCR 测试记录</b><small>上传测试后，记录识别是否准确</small></div></div></article>
+    <article class="card simple-list"><h3>隐私</h3>
+      <div class="item"><span class="dotmark"></span><div><b>资料怎么保存</b><small>原件和整理后的字段保存在你的账户下，默认不公开。</small></div></div>
+      <div class="item"><span class="dotmark"></span><div><b>OCR 会看什么</b><small>只读取你上传文件里的文字，帮你填名称、时间、医院和分类。</small></div></div>
+      <div class="item"><span class="dotmark"></span><div><b>埋点不收什么</b><small>不采集病历正文、诊断名称、药品名称和 OCR 原文。</small></div></div>
+      <div class="item"><span class="dotmark"></span><div><b>不会用于什么</b><small>不会把病历用于广告推荐，也不会拿去训练模型。</small></div></div>
+      <div class="item"><span class="dotmark"></span><div><b>你能做什么</b><small>可以导出全部资料、删除单条病历，也可以申请删除账号。</small></div></div>
+      <div class="actions"><button class="ghost" onclick="window.open('/privacy.html','_blank')">隐私政策</button><button class="ghost" onclick="window.open('/terms.html','_blank')">服务协议</button></div>
+    </article>
+    <article class="card simple-list"><h3>资料管理</h3><div class="item"><span class="ico">出</span><div><b>导出全部资料</b><small>下载一份 JSON 备份，包含病历字段和原件下载路径。</small></div></div><div class="item"><span class="ico">删</span><div><b>删除资料和账号</b><small>申请删除后有 15 天冷静期，期间重新登录会自动撤销；到期后清理账号和原件。</small></div></div><div class="actions"><button class="ghost" id="exportAccount">导出全部资料</button><button class="danger" id="deleteAccount">申请删除账号</button></div></article>
+  </div>`;
+  $('#logout').onclick=logoutCurrent;
+  $('#logoutAll').onclick=logoutAllDevices;
+  $('#exportAccount').onclick=exportAccountData;
+  $('#deleteAccount').onclick=requestAccountDeletion;
+  $('#switchPatient').onclick=()=>toast('当前先使用本人，多人档案后续开放');
+  $('#editProfile').onclick=editProfile;
+  $('#ocrTestEntry').onclick=openOcrTestPage;
+}
+function clearLocalSession(){token='';localStorage.removeItem(TOKEN_KEY);records=[];todos=[];showLogin();renderPage()}
+async function logoutCurrent(){try{await api('/auth/logout',{method:'POST'})}catch(e){}clearLocalSession();toast('已退出登录')}
+async function logoutAllDevices(){if(!confirm('确定退出所有设备吗？其他手机或电脑也需要重新登录。'))return;try{await api('/auth/sessions',{method:'DELETE'});toast('已退出所有设备')}catch(e){toast('退出所有设备失败，请稍后重试')}clearLocalSession()}
+async function exportAccountData(){
+  try{const r=await fetch(`${API}/account/export`,{headers:authHeaders()});if(!r.ok)throw new Error(await r.text());const blob=await r.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='医记-全部资料.json';a.click();URL.revokeObjectURL(url);toast('已导出全部资料')}catch(e){toast('导出失败，请稍后重试')}
+}
+async function requestAccountDeletion(){
+  if(!confirm('确定申请删除账号吗？提交后会退出所有设备。15 天内重新登录会自动撤销；到期后清理账号和原件。请先导出重要资料。'))return;
+  try{await api('/account/deletion-request',{method:'POST'});toast('已提交删除申请')}catch(e){toast('提交失败，请稍后重试')}
+  clearLocalSession();
+}
+function editProfile(){
+  openSheet('编辑个人资料',`<div class="stack">
+    <div class="field"><label>头像文字</label><input id="pAvatar" maxlength="2" value="${esc(profile.avatar||'我')}" placeholder="如：我、小夏"></div>
+    <div class="field"><label>名字</label><input id="pName" value="${esc(profile.name||'本人')}" placeholder="请输入名字"></div>
+    <div class="field"><label>情况描述</label><textarea id="pDesc" placeholder="如：主要整理胃病、牙齿、体检资料">${esc(profile.desc||'')}</textarea></div>
+    <button class="primary" id="saveProfileBtn" style="width:100%">保存</button>
+  </div>`);
+  $('#saveProfileBtn').onclick=()=>{profile={avatar:$('#pAvatar').value.trim().slice(0,2)||'我',name:$('#pName').value.trim()||'本人',desc:$('#pDesc').value.trim()};saveProfile();closeSheet();renderSettings();toast('已保存')};
+}
+function openOcrTestPage(){
+  const rows=getOcrTests();
+  openSheet('OCR 测试记录',`<div class="stack">
+    <div class="warn">这里记录测试结果，只保存在本机浏览器。不要填身份证号、手机号等敏感信息。</div>
+    <article class="card simple-list"><h3>批量上传测试</h3><p class="muted">一次选择多张图片或整个文件夹，只测试识别效果，不进入正式病历。</p><div class="actions"><button class="primary" id="batchOcrPick">选择多份资料</button><button class="ghost" id="batchOcrFolder">选择文件夹</button></div><div id="batchOcrStatus" class="stack" style="margin-top:12px"></div></article>
+    <div class="field"><label>选择已上传资料</label><select id="testRecord"><option value="">手动填写文件名</option>${records.map(r=>`<option value="${esc(r.id)}">${esc(r.title)}</option>`).join('')}</select></div>
+    <div class="field"><label>文件名</label><input id="testFileName" placeholder="如：胃镜报告.jpg"></div>
+    <div class="grid2"><div class="field"><label>文件类型</label><select id="testFormat"><option>image</option><option>pdf</option><option>other</option></select></div><div class="field"><label>来源</label><select id="testSource"><option>camera</option><option>album</option><option>file</option><option>manual</option></select></div></div>
+    <div class="grid2"><div class="field"><label>资料类型</label><select id="testType">${['检查报告','门诊记录','处方','影像资料','住院资料','体检报告','其他'].map(x=>`<option>${x}</option>`).join('')}</select></div><div class="field"><label>图片质量</label><select id="testQuality"><option>clear</option><option>normal</option><option>blur</option><option>tilted</option><option>reflection</option></select></div></div>
+    <div class="grid2"><div class="field"><label>原件保存成功</label><select id="testSaved"><option value="yes">是</option><option value="no">否</option></select></div><div class="field"><label>OCR 可读</label><select id="testReadable"><option value="yes">是</option><option value="no">否</option></select></div></div>
+    ${ocrCompareFields()}
+    <div class="grid2"><div class="field"><label>修改字段数</label><input id="testCorrections" type="number" min="0" value="0"></div><div class="field"><label>流程完成</label><select id="testFlow"><option value="yes">是</option><option value="no">否</option></select></div></div>
+    <div class="field"><label>备注</label><textarea id="testNotes" placeholder="比如：日期识别错、医院没识别"></textarea></div>
+    <div class="actions"><button class="primary" id="saveOcrTest">保存记录</button><button class="ghost" id="exportOcrCsv">导出 CSV</button><button class="danger" id="clearOcrTests">清空</button></div>
+    <article class="card simple-list"><h3>已记录 ${rows.length} 份</h3>${rows.slice(-5).reverse().map(r=>`<div class="item"><span class="ico">测</span><div><b>${esc(r.file_name||r.file_id)}</b><small>${esc(r.record_type)} · ${esc(r.ocr_readable==='yes'?'可读':'不可读')}</small></div></div>`).join('')||'<div class="empty">还没有测试记录</div>'}</article>
+  </div>`);
+  $('#testRecord').onchange=fillOcrTestFromRecord;
+  $('#batchOcrPick').onclick=startBatchOcrTest;
+  $('#batchOcrFolder').onclick=startBatchOcrFolderTest;
+  $('#saveOcrTest').onclick=saveOcrTestRecord;
+  $('#exportOcrCsv').onclick=exportOcrCsv;
+  $('#clearOcrTests').onclick=()=>{if(confirm('确定清空本机 OCR 测试记录吗？不会删除正式病历。')){saveOcrTests([]);openOcrTestPage();toast('已清空')}};
+}
+function ocrCompareFields(){
+  return [
+    ['title','资料名称'],
+    ['record_type','资料类型'],
+    ['visit_date','就诊时间'],
+    ['institution','医院/机构'],
+    ['department','医生/科室'],
+    ['category','分类'],
+  ].map(([key,label])=>`<article class="card simple-list"><h3>${label}</h3><div class="field"><label>人工标准答案</label><input id="expected_${key}"></div><div class="field"><label>OCR/页面结果</label><input id="actual_${key}"></div><div class="field"><label>结果判断</label><select id="${key}_result"><option value="">未判断</option><option value="correct">完全正确</option><option value="partial">大体可用</option><option value="wrong">识别错误</option><option value="missing">没识别出</option></select></div></article>`).join('');
+}
+function fillOcrTestFromRecord(){
+  const r=records.find(x=>x.id===$('#testRecord').value); if(!r)return;
+  $('#testFileName').value=r.title||'';
+  $('#testType').value=r.recordType||$('#testType').value;
+  $('#actual_title').value=r.title||'';
+  $('#actual_record_type').value=r.recordType||'';
+  $('#actual_visit_date').value=recordDate(r)||'';
+  $('#actual_institution').value=institutionOf(r)||'';
+  $('#actual_category').value=categoryOf(r)||'';
+}
+function saveOcrTestRecord(){
+  const row={
+    file_id:$('#testRecord').value||String(Date.now()),
+    file_name:$('#testFileName').value.trim(),
+    file_format:$('#testFormat').value,
+    record_source:$('#testSource').value,
+    record_type:$('#testType').value,
+    image_quality:$('#testQuality').value,
+    upload_saved:$('#testSaved').value,
+    ocr_readable:$('#testReadable').value,
+    expected_title:$('#expected_title').value.trim(),
+    actual_title:$('#actual_title').value.trim(),
+    title_result:$('#title_result').value,
+    expected_record_type:$('#expected_record_type').value.trim(),
+    actual_record_type:$('#actual_record_type').value.trim(),
+    record_type_result:$('#record_type_result').value,
+    expected_visit_date:$('#expected_visit_date').value.trim(),
+    actual_visit_date:$('#actual_visit_date').value.trim(),
+    visit_date_result:$('#visit_date_result').value,
+    expected_institution:$('#expected_institution').value.trim(),
+    actual_institution:$('#actual_institution').value.trim(),
+    institution_result:$('#institution_result').value,
+    expected_department:$('#expected_department').value.trim(),
+    actual_department:$('#actual_department').value.trim(),
+    department_result:$('#department_result').value,
+    expected_category:$('#expected_category').value.trim(),
+    actual_category:$('#actual_category').value.trim(),
+    category_result:$('#category_result').value,
+    manual_corrections_count:$('#testCorrections').value||'0',
+    flow_completed:$('#testFlow').value,
+    notes:$('#testNotes').value.trim(),
+  };
+  const rows=getOcrTests();
+  rows.push(row); saveOcrTests(rows); toast('测试记录已保存'); openOcrTestPage();
+}
+function startBatchOcrTest(){requireLogin();const input=document.createElement('input');input.type='file';input.multiple=true;input.accept='image/*,.pdf';input.onchange=runBatchOcrTest;input.click()}
+function startBatchOcrFolderTest(){requireLogin();const input=document.createElement('input');input.type='file';input.multiple=true;input.accept='image/*,.pdf';input.setAttribute('webkitdirectory','');input.onchange=runBatchOcrTest;input.click()}
+async function runBatchOcrTest(e){
+  const files=[...(e.target.files||[])]; if(!files.length)return;
+  const status=$('#batchOcrStatus'); status.innerHTML=`<div class="warn">准备测试 ${files.length} 份资料。测试结果只保存在本机。</div>`;
+  const rows=getOcrTests();
+  for(let i=0;i<files.length;i++){
+    const file=files[i], item=document.createElement('div');
+    item.className='ocr-row'; item.innerHTML=`<b>${esc(file.name)}</b><small>识别中 ${i+1}/${files.length}</small>`; status.appendChild(item);
+    try{
+      const form=new FormData(); form.append('file',file); form.append('recognitionMode','standard');
+      const result=await api('/records/recognition/test',{method:'POST',body:form});
+      const row=ocrTestRowFromResult(file,result);
+      rows.push(row); saveOcrTests(rows);
+      item.innerHTML=`<b>${esc(row.actual_title||file.name)}</b><small>${esc(row.actual_record_type||'未识别')} · ${row.ocr_readable==='yes'?'可读':'不可读'} · ${esc(row.notes)}</small>`;
+    }catch(err){
+      const row={file_id:`batch-${Date.now()}-${i}`,file_name:file.name,file_format:file.type.includes('pdf')?'pdf':file.type.startsWith('image/')?'image':'other',record_source:'batch_test',record_type:'',image_quality:'unknown',upload_saved:'no',ocr_readable:'no',expected_title:'',actual_title:'',title_result:'',expected_record_type:'',actual_record_type:'',record_type_result:'',expected_visit_date:'',actual_visit_date:'',visit_date_result:'',expected_institution:'',actual_institution:'',institution_result:'',expected_department:'',actual_department:'',department_result:'',expected_category:'',actual_category:'',category_result:'',manual_corrections_count:'',flow_completed:'no',notes:`测试失败：${err.message||err}`};
+      rows.push(row); saveOcrTests(rows);
+      item.innerHTML=`<b>${esc(file.name)}</b><small>失败：${esc(err.message||err)}</small>`;
+    }
+  }
+  toast('批量 OCR 测试完成');
+}
+function ocrField(fields,name){return cleanValue((fields||[]).find(f=>f.fieldName===name)?.fieldValue)}
+function ocrProblemReason(r,raw,type){
+  if(r.reliable===false)return r.message||'识别可信度低';
+  if(!raw||raw.length<30)return '识别文字太少，无法判断资料类型';
+  if(!type||type==='未识别')return '文字可读，但缺少处方、门诊、报告、体检等类型关键词';
+  return '已识别，请人工核对';
+}
+function ocrTestRowFromResult(file,result){
+  const r=result.recognition||{}, fields=r.fields||[], raw=r.rawText||'', type=recordTypeLabel(r.recordType,raw)||ocrField(fields,'recordType'), title=suggestedTitle({title:r.title,recordType:type,category:r.healthConcern,date:r.visitDate,rawText:raw});
+  const readable=r.reliable===true&&type&&type!=='未识别';
+  const condition=pickLines(raw,[/主诉|现病史|病史|症状|不适|疼|痛|肿|出血|诊断|印象|口腔|牙|龋|根管|胃|腹|发热/],3);
+  const advice=pickLines(raw,[/医嘱|建议|处理|治疗|复查|随访|用药|服药|检查|注意|观察|根管|拔牙|修复|洁牙|处方/],3);
+  const reason=ocrProblemReason(r,raw,type);
+  return {file_id:`batch-${Date.now()}-${Math.random().toString(16).slice(2)}`,file_name:file.name,file_format:file.type.includes('pdf')?'pdf':file.type.startsWith('image/')?'image':'other',record_source:'batch_test',record_type:type||'',image_quality:'unknown',upload_saved:'yes',ocr_readable:readable?'yes':'no',expected_title:'',actual_title:title||'',title_result:'',expected_record_type:'',actual_record_type:type||'',record_type_result:'',expected_visit_date:'',actual_visit_date:r.visitDate||ocrField(fields,'visitDate')||'',visit_date_result:'',expected_institution:'',actual_institution:r.institution||ocrField(fields,'institution')||'',institution_result:'',expected_department:'',actual_department:'',department_result:'',expected_category:'',actual_category:r.healthConcern||ocrField(fields,'healthConcern')||'',category_result:'',manual_corrections_count:'',flow_completed:readable?'yes':'no',notes:`原因：${reason}；引擎：${r.engine||'未知'}；可信度：${Math.round((r.confidence||0)*100)}%；${condition?`病情：${condition.slice(0,80)}；`:''}${advice?`建议：${advice.slice(0,80)}；`:''}原文长度：${raw.length}`};
+}
+function exportOcrCsv(){
+  const rows=getOcrTests(); if(!rows.length){toast('还没有测试记录');return}
+  const headers=['file_id','file_name','file_format','record_source','record_type','image_quality','upload_saved','ocr_readable','expected_title','actual_title','title_result','expected_record_type','actual_record_type','record_type_result','expected_visit_date','actual_visit_date','visit_date_result','expected_institution','actual_institution','institution_result','expected_department','actual_department','department_result','expected_category','actual_category','category_result','manual_corrections_count','flow_completed','notes'];
+  const csv=[headers.join(','),...rows.map(r=>headers.map(h=>csvCell(r[h])).join(','))].join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}), url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download='ocr-accuracy-results.csv'; a.click(); URL.revokeObjectURL(url);
+}
+function csvCell(v){const s=String(v??'');return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}
+
+async function startUpload(){
+  requireLogin(); pendingUpload=null;
+  openSheet('添加病历资料',`<div class="stack">
+    <div class="stack" id="uploadChoices">
+      <button class="choice" id="cameraPick"><span class="ico">📷</span><span>拍照上传<small>可连续补拍同一次就诊资料</small></span></button>
+      <button class="choice" id="albumPick"><span class="ico">相</span><span>从相册选择<small>可一次选择多张照片</small></span></button>
+      <button class="choice" id="filePick"><span class="ico">文</span><span>选择文件<small>可一次选择多个 PDF、图片或报告</small></span></button>
+      <button class="choice" id="manualPick"><span class="ico">✎</span><span>手动填写<small>没有文件时也能记录</small></span></button>
+    </div>
+    <div id="ocrResult"></div>
+  </div>`);
+  $('#cameraPick').onclick=()=>chooseFile('camera');
+  $('#albumPick').onclick=()=>chooseFile('album');
+  $('#filePick').onclick=()=>chooseFile('file');
+  $('#manualPick').onclick=startManualRecord;
+}
+function chooseFile(mode='file'){const input=document.createElement('input');input.type='file';input.multiple=true;input.accept=mode==='file'?'image/*,.pdf,.doc,.docx,.txt':'image/*';if(mode==='camera')input.setAttribute('capture','environment');input.onchange=uploadFiles;input.click()}
+async function uploadFiles(e){
+  const files=[...(e.target.files||[])]; if(!files.length)return;
+  try{$('#uploadChoices')?.classList.add('hidden');$('#sheetTitle').textContent='识别结果';$('#ocrResult').innerHTML=`<div class="warn">正在保存并识别 ${files.length} 份原件：${esc(files.map(f=>f.name).join('、'))}</div>`;const form=new FormData();files.forEach(file=>form.append('files',file));form.append('recognitionMode','standard');pendingUpload=await api('/records/upload',{method:'POST',body:form});await refreshAgentTodos();renderOcrReview(pendingUpload);toast(`已保存 ${files.length} 份原件，请核对`)}catch(err){$('#sheetTitle').textContent='添加病历资料';$('#uploadChoices')?.classList.remove('hidden');$('#ocrResult').innerHTML=`<div class="warn">这次没有传上去。可以重新选择，或先手动填写。</div><button class="primary" id="fallbackManual" style="width:100%;margin-top:10px">手动填写</button>`;$('#fallbackManual').onclick=startManualRecord}}
+function latestTask(record){return record.recognitionTasks?.[0]}
+function fieldMap(task){const out={};(task?.fields||[]).forEach(f=>out[f.fieldName]=f);return out}
+function fieldValue(f){return cleanValue(f?.fieldValue)}
+function fieldSource(f){if(!fieldValue(f)||f?.sourceType==='unrecognized')return '<span class="tag">待补充</span>';if(f.sourceType==='filename')return '<span class="tag">来自文件名</span>';if(f.sourceType==='user_input')return '<span class="tag">手动填写</span>';return '<span class="tag">待核对</span>'}
+function keywords(text){return [...new Set(String(text||'').match(/[\u4e00-\u9fa5A-Za-z0-9]{2,12}/g)||[])].filter(x=>!['识别不清','未能可靠识别','请手动填写','普通'].some(k=>x.includes(k))).slice(0,16)}
+function splitSavedNote(note){const s=String(note||'');return {condition:(s.match(/病情描述：([\s\S]*?)(?:\n诊疗建议：|$)/)?.[1]||(!s.includes('诊疗建议：')?s:'' )).trim(),advice:(s.match(/诊疗建议：([\s\S]*)/)?.[1]||'').trim()}}
+function rawLines(text){return String(text||'').split(/\r?\n|。|；|;/).map(x=>x.trim()).filter(x=>x.length>=4)}
+function pickLines(text,patterns,limit=4){const lines=rawLines(text).filter(line=>patterns.some(p=>p.test(line)));return [...new Set(lines)].slice(0,limit).join('\n')}
+function extractedCondition(record){const saved=splitSavedNote(noteOf(record));if(saved.condition)return saved.condition;const raw=latestTask(record)?.rawText||'';return pickLines(raw,[/主诉|现病史|病史|症状|不适|疼|痛|肿|出血|诊断|印象|口腔|牙|龋|根管|胃|腹|发热/],5)}
+function extractedAdvice(record){const saved=splitSavedNote(noteOf(record));if(saved.advice)return saved.advice;const raw=latestTask(record)?.rawText||'';return pickLines(raw,[/医嘱|建议|处理|治疗|复查|随访|用药|服药|检查|注意|观察|根管|拔牙|修复|洁牙|处方/],5)}
+function ocrReviewCard(record){
+  const task=latestTask(record), fm=fieldMap(task), raw=task?.rawText||'', keys=keywords(raw);
+  if(!task)return `<article class="card simple-list"><h3>识别结果</h3><p class="muted">这条是手动添加的，没有 OCR 结果。</p></article>`;
+  const hasCandidate=raw&&raw.length>=30&&!['未能可靠识别','可信度低','失败','图片里的文字不够清楚'].some(x=>raw.includes(x));
+  const fields=['title','visitDate','institution','healthConcern'];
+  const recognized=fields.filter(k=>fieldValue(fm[k])).length, missing=fields.length-recognized;
+  return `<article class="card simple-list"><h3>识别结果</h3><div class="warn">已识别出部分内容，请按原件核对后保存。</div><div class="ocr-summary"><div>${recognized} 项待核对</div><div>${missing} 项待补充</div></div>${hasCandidate?'<p class="muted">下面内容可能有错字，确认无误后再保存。</p>':'<p class="muted">这份原件文字不够清楚，可以先手动填写关键信息。</p>'}<div class="ocr-table">${fields.map(k=>`<div class="ocr-row"><div class="spread"><b>${esc(fieldName(k))}</b>${fieldSource(fm[k])}</div><small>${esc(fieldValue(fm[k])||'')}</small></div>`).join('')}</div>${keys.length?`<div class="field"><label>可选关键词</label><p class="muted" style="margin:0 0 8px">先点病情或建议输入框，再点关键词补进去。</p><div class="keyword-list">${keys.map(k=>`<button class="keyword" data-key="${esc(k)}" type="button">${esc(k)}</button>`).join('')}</div></div>`:''}</article>`;
+}
+let keywordTarget='#fCondition';
+function bindOcrHelpers(record){$$('.keyword').forEach(b=>b.onclick=()=>insertKeyword(b.dataset.key));['#fCondition','#fAdvice','#fCat','#fTitle'].forEach(id=>$(id)?.addEventListener('focus',()=>keywordTarget=id));if(looksBadTitle($('#fTitle')?.value))$('#fTitle').value=suggestedTitleFromRecord(record)}
+function renderOcrReview(record){
+  $('#ocrResult').innerHTML=`<div class="stack" style="margin-top:14px">${ocrReviewCard(record)}${recordForm(record)}</div>`;
+  bindOcrHelpers(record); $('#saveArchive').onclick=saveArchive;
+}
+function originalFilesCard(record){
+  const files=filesOf(record);
+  return `<article class="card simple-list"><div class="spread"><h3>原件</h3><span class="muted">${files.length} 份</span></div><div class="file-strip">${files.map((f,i)=>`<button class="file-chip" data-original="${esc(record.id)}" data-file="${esc(f.id)}">${i+1}. ${esc(f.originalName||'原件')}</button>`).join('')}<button class="file-add" id="addOriginalFile" aria-label="添加原件">＋</button></div><p class="muted" style="margin:8px 0 0">同一次就诊的照片、PDF 或报告都放在这里。</p></article>`;
+}
+function chooseMoreFiles(recordId){const input=document.createElement('input');input.type='file';input.multiple=true;input.accept='image/*,.pdf,.doc,.docx,.txt';input.onchange=(e)=>addOriginalFiles(recordId,[...(e.target.files||[])]);input.click()}
+async function addOriginalFiles(recordId,files){
+  if(!files.length)return;
+  try{$('#addOriginalFile').disabled=true;$('#addOriginalFile').textContent='…';const form=new FormData();files.forEach(file=>form.append('files',file));form.append('recognitionMode','standard');const updated=await api(`/records/${recordId}/files`,{method:'POST',body:form});pendingUpload=updated;await refresh();editRecord(recordId);toast(`已添加 ${files.length} 份原件`)}catch(e){toast('添加原件失败，请稍后重试')}finally{const b=$('#addOriginalFile');if(b){b.disabled=false;b.textContent='＋'}}}
+function fieldName(k){return {title:'资料名称',recordType:'资料类型',visitDate:'就诊时间',institution:'医院/机构',healthConcern:'分类'}[k]||k}
+function recordForm(record){const task=latestTask(record),fm=fieldMap(task);const val=k=>esc(fieldValue(fm[k]));const type=recordTypeLabel(fieldValue(fm.recordType),task?.rawText);return `<article class="card simple-list"><h3>核对信息</h3><section class="form-section"><h4>基础信息</h4><div class="field"><label>资料名称 *</label><input id="fTitle" value="${val('title')}" placeholder="如：牙科门诊病历"></div><div class="field"><label>资料类型 *</label><select id="fType"><option value="">选择类型</option>${['检查报告','门诊记录','处方','影像资料','住院资料','体检报告','其他'].map(x=>`<option ${type===x?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>就诊医院或机构</label><input id="fOrg" value="${val('institution')}" placeholder="可不填"></div><div class="field"><label>就诊科室</label><input id="fDoctor" placeholder="如：口腔科"></div><div class="field"><label>就诊日期</label><input id="fDate" type="date" value="${esc(fieldValue(fm.visitDate))}"></div></section><section class="form-section"><h4>病情描述</h4><p class="hint">只整理病历里能看见的信息，不做诊断。</p><div class="field"><label>分类</label><input id="fCat" value="${val('healthConcern')}" placeholder="如：胃疼、牙齿、体检"></div><div class="field"><label>病情描述</label><textarea class="tall" id="fCondition" placeholder="如：牙痛、复诊、检查结果等">${esc(extractedCondition(record))}</textarea></div></section><section class="form-section"><h4>诊疗建议</h4><p class="hint">填写病历或报告中写到的医嘱、建议、复查安排。</p><div class="field"><label>诊疗建议</label><textarea class="tall" id="fAdvice" placeholder="如：复查、用药、进一步检查等">${esc(extractedAdvice(record))}</textarea></div></section><button class="primary" id="saveArchive" style="width:100%">保存到病历</button></article>`}
+function insertKeyword(k){const target=$(keywordTarget)||$('#fCondition')||$('#fCat');target.value=(target.value?target.value+'，':'')+k;target.focus()}
+async function saveArchive(){
+  if(!pendingUpload)throw new Error('请先上传文件');
+  const title=$('#fTitle').value.trim(),recordType=$('#fType').value,visitDate=$('#fDate').value,org=$('#fOrg').value.trim(),doctor=$('#fDoctor').value.trim(),cat=$('#fCat').value.trim(),condition=$('#fCondition')?.value.trim()||'',advice=$('#fAdvice')?.value.trim()||'',note=[condition&&`病情描述：${condition}`,advice&&`诊疗建议：${advice}`].filter(Boolean).join('\n');
+  if(!title||!recordType){toast('请填写资料名称和类型');return}
+  await apiJson(`/records/${pendingUpload.id}/review`,{title,recordType,visitDate:visitDate||undefined,institution:metaText(org,doctor)||undefined,healthConcern:concernText(cat,note)},'PATCH');
+  await api(`/records/${pendingUpload.id}/archive`,{method:'POST'});
+  await refreshAgentTodos();
+  closeSheet(); await refresh(); go('records'); toast('已归档并进入时间线');
+}
+async function rerunRecognition(id){if(!confirm('确定重新识别这份资料吗？新的识别结果会覆盖当前自动识别字段，原件仍会保留。'))return;try{$('#rerunOcr').disabled=true;$('#rerunOcr').textContent='识别中';const updated=await api(`/records/${id}/recognition/rerun`,{method:'POST'});pendingUpload=updated;$('#editOcrBlock').innerHTML=ocrReviewCard(updated);const form=$('#editOcrBlock').nextElementSibling;if(form)form.outerHTML=recordForm(updated);$('#fTitle').value=suggestedTitleFromRecord(updated);$('#fType').value=recordTypeLabel(updated.recordType,latestTask(updated)?.rawText)||'';$('#fDate').value=recordDate(updated)||'';const inst=String(institutionOf(updated)||'').split(' · ');$('#fOrg').value=inst[0]||'';$('#fDoctor').value=inst[1]||'';$('#fCat').value=categoryOf(updated);bindOcrHelpers(updated);$('#saveArchive').onclick=saveArchive;await refresh();toast('已重新识别，请核对')}catch(e){toast('重新识别失败，请稍后重试')}finally{const b=$('#rerunOcr');if(b){b.disabled=false;b.textContent='重新识别'}}}
+function editRecord(id){const r=records.find(x=>x.id===id); if(!r)return; pendingUpload=r; openSheet('编辑资料',`<div class="stack"><div class="actions"><button class="ghost" id="rerunOcr">重新识别</button><button class="danger" id="deleteInEdit">删除资料</button></div>${originalFilesCard(r)}<div id="editOcrBlock">${ocrReviewCard(r)}</div>${recordForm(r)}</div>`);$('#fTitle').value=suggestedTitleFromRecord(r);$('#fType').value=recordTypeLabel(r.recordType,latestTask(r)?.rawText)||'';$('#fDate').value=recordDate(r)||'';const inst=String(institutionOf(r)||'').split(' · ');$('#fOrg').value=inst[0]||'';$('#fDoctor').value=inst[1]||'';$('#fCat').value=categoryOf(r);bindOcrHelpers(r);bindRecordActions('.sheet-panel');$('#saveArchive').onclick=saveArchive;$('#rerunOcr').onclick=()=>rerunRecognition(r.id);$('#deleteInEdit').onclick=()=>deleteRecord(r.id);$('#addOriginalFile').onclick=()=>chooseMoreFiles(r.id)}
+function startManualRecord(){requireLogin();pendingUpload=null;openSheet('添加病历资料',recordForm({recognitionTasks:[{fields:[]}]}));$('#saveArchive').onclick=async()=>{const title=$('#fTitle').value.trim(),recordType=$('#fType').value,visitDate=$('#fDate').value,org=$('#fOrg').value.trim(),doctor=$('#fDoctor').value.trim(),cat=$('#fCat').value.trim(),condition=$('#fCondition')?.value.trim()||'',advice=$('#fAdvice')?.value.trim()||'',note=[condition&&`病情描述：${condition}`,advice&&`诊疗建议：${advice}`].filter(Boolean).join('\n');if(!title||!recordType){toast('请填写资料名称和类型');return}await apiJson('/records',{title,recordType,visitDate:visitDate||undefined,institution:metaText(org,doctor)||undefined,healthConcern:concernText(cat,note)});await refreshAgentTodos();closeSheet();await refresh();go('records');toast('已加入时间线')}}
+
+function renderPack(){
+  const selected=records.filter(r=>packSet.has(r.id));
+  if(!records.length){
+    $('#pack').innerHTML=`<div class="head"><h1>资料包</h1></div><article class="card empty"><h3>还没有可导出的资料</h3><p>先添加病历资料，之后再来生成资料包。</p><button class="primary" id="packAddRecord">添加病历</button></article>`;
+    $('#packAddRecord').onclick=()=>go('records');
+    return;
+  }
+  $('#pack').innerHTML=`<div class="head"><h1>资料包</h1></div><article class="card simple-list">
+    <div class="step-note">1 / 5 先说明这次为什么去看医生</div>
+    <div class="field"><label>就诊目的</label><select id="pPurpose"><option>准备复诊</option><option>转院/换医院</option><option>体检后整理</option><option>报销或留档</option><option>其他</option></select></div>
+    <div class="step-note">2 / 5 选择要带上的时间范围</div>
+    <div class="field"><label>时间范围</label><select id="pRange"><option>近 3 个月</option><option>近 1 年</option><option>全部时间</option></select></div>
+    <div class="step-note">3 / 5 选择相关资料</div>
+    <div class="field"><label>相关资料</label><div class="stack">${records.map(r=>`<label class="check"><input type="checkbox" value="${esc(r.id)}" ${packSet.has(r.id)?'checked':''}> <span>${esc(r.title)}<br><small class="muted">${esc(recordMetaLine(r))}</small></span></label>`).join('')}</div></div>
+    <div class="step-note">4 / 5 补充最近情况和想问的问题</div>
+    <div class="field"><label>近期情况</label><textarea id="pRecent" placeholder="最近哪里不舒服、持续多久、有没有变化"></textarea></div>
+    <div class="field"><label>想问医生的问题</label><textarea id="pQuestions" placeholder="如：是否需要复查、哪些报告要重点看"></textarea></div>
+    <div class="step-note">5 / 5 选择是否附上原始病历</div>
+    <div class="field"><label>原始资料</label><select id="pOriginal"><option value="no">只导出整理后的资料包</option><option value="yes">把原始病历一起放进 PDF</option></select></div>
+    <div class="actions"><button class="primary" id="previewPack">生成预览</button><button class="ghost" id="exportPdf">导出 PDF</button><button class="ghost" id="sharePack">分享链接</button></div>
+  </article><article class="card pack-preview" id="packPreview" style="display:none"></article><article class="card simple-list" id="sharePanel" style="display:none"></article>`;
+  $$('#pack input[type=checkbox]').forEach(x=>x.onchange=()=>{x.checked?packSet.add(x.value):packSet.delete(x.value);savePackSet()});
+  $('#previewPack').onclick=previewPack; $('#exportPdf').onclick=exportPackPdf; $('#sharePack').onclick=createPackShare;
+}
+function packContent(){
+  const selected=records.filter(r=>packSet.has(r.id));
+  return {selected,purpose:$('#pPurpose').value,range:$('#pRange').value,recent:$('#pRecent').value.trim()||'未补充',questions:$('#pQuestions').value.trim()||'未补充',includeOriginals:$('#pOriginal').value==='yes'};
+}
+function previewPack(){
+  const p=packContent(); if(!p.selected.length){toast('请先选择资料');return}
+  $('#packPreview').style.display='block';
+  $('#packPreview').innerHTML=`<h3>预览</h3><p class="muted">${esc(p.range)} · ${p.selected.length} 份资料</p>
+  <div class="section"><h4>就诊目的</h4><p>${esc(p.purpose)}</p></div>
+  <div class="section"><h4>近期情况</h4><p>${esc(p.recent)}</p></div>
+  <div class="section"><h4>就医时间线</h4><ul>${p.selected.slice().sort((a,b)=>String(sortDate(b)).localeCompare(String(sortDate(a)))).map(r=>`<li>${esc(recordMetaLine(r))}：${esc(r.title)}</li>`).join('')}</ul></div>
+  <div class="section"><h4>关键资料清单</h4><ul>${p.selected.map(r=>`<li>${esc(r.title)}${institutionOf(r)?`（${esc(institutionOf(r))}）`:''}</li>`).join('')}</ul></div>
+  <div class="section"><h4>想问医生的问题</h4><p>${esc(p.questions)}</p></div>
+  <div class="section"><h4>原始病历</h4><p>${p.includeOriginals?'导出时会把已选择资料的原始病历一起放进 PDF。':'本次只导出整理后的资料包，不附原始病历。'}</p></div>
+  <div class="section"><p class="muted">说明：资料包只整理你上传和填写的内容，不提供诊断、治疗或用药建议。</p></div>`;
+}
+async function createGeneratedPack(){
+  const p=packContent(); if(!p.selected.length){toast('请先选择资料');return null}
+  const pack=await apiJson('/visit-packs',{title:'就诊资料包',visitReason:p.purpose,recentSymptoms:`${p.recent}\n\n原始资料：${p.includeOriginals?'附上原始病历':'不附原始病历'}`,questions:p.questions,selectedRecordIds:p.selected.map(r=>r.id),includeOriginalFiles:p.includeOriginals,attachmentMode:p.includeOriginals?'embed_pdf':'none'});
+  const generated=await api(`/visit-packs/${pack.id}/generate`,{method:'POST'});
+  currentPackId=generated.id;
+  return generated;
+}
+async function exportPackPdf(){
+  const generated=await createGeneratedPack(); if(!generated)return; previewPack();
+  await refreshAgentTodos();
+  const r=await fetch(`${API}/visit-packs/${currentPackId}/export.pdf`,{headers:authHeaders()}); if(!r.ok)throw new Error(await r.text());
+  const blob=await r.blob(), url=URL.createObjectURL(blob), a=document.createElement('a'); a.href=url; a.download='医记就诊资料包.pdf'; a.click(); URL.revokeObjectURL(url); toast('PDF 已导出');
+}
+async function createPackShare(){
+  const generated=await createGeneratedPack(); if(!generated)return; previewPack();
+  const expiresAt=new Date(Date.now()+7*86400000).toISOString();
+  const share=await apiJson(`/visit-packs/${currentPackId}/shares`,{expiresAt});
+  currentShare={id:share.id,url:absoluteApiUrl(share.sharePath),expiresAt:share.expiresAt};
+  renderSharePanel(); toast('分享链接已生成');
+}
+function renderSharePanel(){
+  const panel=$('#sharePanel'); if(!panel||!currentShare){if(panel)panel.style.display='none';return}
+  panel.style.display='block';
+  panel.innerHTML=`<h3>分享链接</h3><p class="muted">7 天内可打开。撤回后对方不能再看。</p><div class="field"><input id="shareUrl" readonly value="${esc(currentShare.url)}"></div><div class="actions"><button class="primary" id="copyShare">复制</button><button class="ghost" id="openShare">打开</button><button class="danger" id="revokeShare">撤回</button></div>`;
+  $('#copyShare').onclick=copyShareUrl; $('#openShare').onclick=()=>window.open(currentShare.url,'_blank','noopener'); $('#revokeShare').onclick=revokePackShare;
+}
+async function copyShareUrl(){
+  const url=currentShare?.url; if(!url)return;
+  try{await navigator.clipboard.writeText(url)}catch(e){const input=$('#shareUrl');input.select();document.execCommand('copy')}
+  toast('链接已复制');
+}
+async function revokePackShare(){
+  if(!currentPackId||!currentShare)return;
+  if(!confirm('确定撤回这个分享链接吗？撤回后对方不能再打开。'))return;
+  await api(`/visit-packs/${currentPackId}/shares/${currentShare.id}/revoke`,{method:'POST'});
+  currentShare=null; renderSharePanel(); toast('分享链接已撤回');
+}
+function startTodo(){requireLogin();openSheet('添加看医生提醒',`<div class="field"><label>待办类型</label><select id="tType"><option value="follow_up">复诊提醒</option><option value="record_review">资料补全</option><option value="upload_report">上传报告</option><option value="visit_pack">生成资料包</option></select></div><div class="field"><label>提醒时间</label><input id="tAt" type="datetime-local"></div><div class="field"><label>标题</label><input id="tTitle" value="看医生前整理资料"></div><button class="primary" id="saveTodo" style="width:100%">保存</button>`);$('#tAt').value=new Date(Date.now()+7*86400000-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16);$('#saveTodo').onclick=async()=>{await apiJson('/todos',{type:$('#tType').value,title:$('#tTitle').value,dueAt:new Date($('#tAt').value).toISOString(),metadata:{source:'app-clean'}});closeSheet();await refresh();go('todos');toast('待办已保存')}}
+
+$('#mainUpload').onclick=()=>startUpload().catch(e=>toast(e.message)); $('#closeSheet').onclick=closeSheet; $('#sheet').onclick=e=>{if(e.target.id==='sheet')closeSheet()};
+$('#sendCode').onclick=()=>sendCode().catch(e=>toast(e.message)); $('#loginBtn').onclick=()=>login().catch(e=>toast(e.message)); $('#clearLogin').onclick=()=>{token='';localStorage.removeItem(TOKEN_KEY);showLogin()};
+renderNav(); renderPage(); refresh();
+</script>
+</body>
+</html>

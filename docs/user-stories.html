@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>医记文档｜用户故事</title>
+<style>
+:root{--bg:#f7f1e7;--panel:#fffdf8;--ink:#20322c;--muted:#6f7a74;--line:#eadfce;--brand:#176d5c;--soft:#e8f4ee;--shadow:0 18px 50px rgba(75,55,30,.1)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0,#fff8e9 0,#f7f1e7 34%,#edf6f1 100%);color:var(--ink);font:16px/1.75 "PingFang SC","Microsoft YaHei",system-ui,sans-serif}.wrap{width:min(980px,100%);margin:auto;padding:30px 18px 70px}.top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:18px}.back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--brand);text-decoration:none;font-weight:850}.card{border:1px solid var(--line);border-radius:24px;background:rgba(255,253,248,.96);box-shadow:var(--shadow);overflow:hidden}.hero{padding:28px}.eyebrow{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:13px;font-weight:850}h1{margin:12px 0 4px;font-size:clamp(30px,4vw,44px);line-height:1.12;letter-spacing:-.04em}.muted{margin:0;color:var(--muted)}.content{padding:8px 30px 36px}.content h1{font-size:34px}.content h2{margin:30px 0 10px;font-size:25px;line-height:1.28;color:var(--brand)}.content h3{margin:24px 0 8px;font-size:20px}.content h4{margin:18px 0 6px;font-size:17px}.content p{margin:10px 0}.content ul,.content ol{margin:10px 0 14px;padding-left:24px}.content li{margin:6px 0}.content strong{font-weight:850}.content code{padding:2px 6px;border-radius:7px;background:var(--soft);color:#124a3f;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.content pre{overflow:auto;padding:16px;border-radius:16px;background:#173e35;color:#eef9f5}.content pre code{padding:0;background:transparent;color:inherit}.content blockquote{margin:14px 0;padding:12px 16px;border-left:4px solid var(--brand);border-radius:0 14px 14px 0;background:#edf7f2;color:#315c50}.content table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}.content td{padding:10px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top}.content tr:last-child td{border-bottom:0}.content td:last-child{border-right:0}.content hr{border:0;border-top:1px solid var(--line);margin:24px 0}@media(max-width:640px){.top{align-items:flex-start;flex-direction:column}.wrap{padding:20px 12px 48px}.hero,.content{padding:20px}.content table{display:block;overflow:auto}.content h1{font-size:28px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a class="back" href="../project-story.html">← 返回项目复盘</a></div>
+  <article class="card">
+    <header class="hero"><span class="eyebrow">医记产品文档</span><h1>用户故事</h1></header>
+    <section class="content"><h1>医记用户故事与验收标准</h1>
+<p><strong>Format</strong>：User Stories <strong>Source</strong>：新版 PRD + 旧版医记文档 + 用户确认需求</p>
+<h2>Stories</h2>
+<h3>Story 1：邮箱登录</h3>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 用邮箱验证码登录医记，<strong>so that</strong> 我可以安全访问自己的健康资料。</p>
+<p>Acceptance Criteria:</p>
+<ul>
+<li>[ ] 用户输入邮箱后可收到验证码。</li>
+<li>[ ] 验证码过期、错误、重复使用时有明确提示。</li>
+<li>[ ] 生产环境不展示测试验证码。</li>
+<li>[ ] 用户可退出当前会话。</li>
+</ul>
+<p>Priority: P0 | Effort: M | Dependencies: 邮件服务、会话管理</p>
+</ul>
+</ul>
+<h3>Story 2：创建本人健康档案</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 首次进入时创建本人健康档案，<strong>so that</strong> 后续资料都能归到正确的人名下。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 首次登录后引导创建本人档案。</li>
+<li>[ ] 必填项尽量少，过敏史和长期疾病可选。</li>
+<li>[ ] 完成后进入档案补全任务页。</li>
+<li>[ ] 后续上传资料默认归属本人。</li>
+</ul>
+<p>Priority: P0 | Effort: M | Dependencies: 成员模型</p>
+</ul>
+</ul>
+<h3>Story 3：上传病历资料</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 上传病历、报告、处方、PDF 或照片，<strong>so that</strong> 我不用在各个医院网站和相册里反复查找。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 支持图片和 PDF 上传。</li>
+<li>[ ] 上传后保存原始文件和文件哈希。</li>
+<li>[ ] 用户可填写资料类型、医院、日期、科室、标签。</li>
+<li>[ ] 上传失败、文件过大、格式不支持时有明确提示。</li>
+</ul>
+<p>Priority: P0 | Effort: L | Dependencies: 文件存储、权限鉴权</p>
+</ul>
+</ul>
+<h3>Story 4：手动分类归档</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 手动把资料分类归档，<strong>so that</strong> 即使没有 AI/OCR 也能形成可查的病历库。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 支持门诊记录、检查报告、处方、体检报告、其他资料。</li>
+<li>[ ] 用户可修改分类和关联健康问题。</li>
+<li>[ ] 保存后显示“已归档到谁的哪个分类”。</li>
+<li>[ ] 每次修改保留审计记录。</li>
+</ul>
+<p>Priority: P0 | Effort: M | Dependencies: 资料模型、审计</p>
+</ul>
+</ul>
+<h3>Story 5：搜索和时间线</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 按关键词、医院、日期、类型搜索资料，并按时间线查看，<strong>so that</strong> 就诊前能快速找到相关材料。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 支持按成员筛选。</li>
+<li>[ ] 支持关键词搜索标题、医院、备注。</li>
+<li>[ ] 时间线按日期倒序展示。</li>
+<li>[ ] 可按资料类型筛选。</li>
+</ul>
+<p>Priority: P0 | Effort: M | Dependencies: 病历资料</p>
+</ul>
+</ul>
+<h3>Story 6：添加当前用药</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 记录正在使用的药品和服药要求，<strong>so that</strong> 看病时能准确告诉医生当前用药。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 支持药品名称、规格、用途备注、用法用量原文。</li>
+<li>[ ] 用法用量只能由用户填写或来自处方原文。</li>
+<li>[ ] 支持开始日期、结束日期、停用。</li>
+<li>[ ] 页面提示医记不提供用药建议。</li>
+</ul>
+<p>Priority: P0 | Effort: M | Dependencies: 药品模型</p>
+</ul>
+</ul>
+<h3>Story 7：用药提醒</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 为药品设置服药提醒，<strong>so that</strong> 我能按计划服药。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 用户可设置每天一次或多次提醒时间。</li>
+<li>[ ] 用户可关闭提醒。</li>
+<li>[ ] 提醒只基于用户输入，不自动推断剂量。</li>
+<li>[ ] 今日页展示当天用药待办。</li>
+</ul>
+<p>Priority: P0 | Effort: M | Dependencies: 待办/提醒</p>
+</ul>
+</ul>
+<h3>Story 8：记录关键指标</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 记录血压、血糖、体重、心率、体温，<strong>so that</strong> 就诊前能展示近期状态。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 每条指标包含类型、数值、单位、日期、来源。</li>
+<li>[ ] 来源可选手动记录、检查报告、体检报告、门诊记录。</li>
+<li>[ ] 不自动判断异常或给出医学建议。</li>
+<li>[ ] 可按时间查看历史记录。</li>
+</ul>
+<p>Priority: P0 | Effort: M | Dependencies: 指标模型</p>
+</ul>
+</ul>
+<h3>Story 9：待办事项</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 管理复查、用药和资料补全待办，<strong>so that</strong> 我知道下一步要处理什么。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 支持复查、用药、资料补全、资料核对类型。</li>
+<li>[ ] 今日页展示优先级最高的待办。</li>
+<li>[ ] 待办可完成、延期、取消。</li>
+<li>[ ] 系统可创建资料缺失类待办，但不做医学判断。</li>
+</ul>
+<p>Priority: P0 | Effort: M | Dependencies: 首页、资料、药品、指标</p>
+</ul>
+</ul>
+<h3>Story 10：生成就诊资料包 PDF</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 就诊前选择相关资料并生成 PDF，<strong>so that</strong> 我可以直接交给医生查看。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 用户选择就诊成员和本次就诊目的。</li>
+<li>[ ] 用户选择要包含的病历、指标和当前用药。</li>
+<li>[ ] 用户填写近期情况和想问医生的问题。</li>
+<li>[ ] PDF 包含本次目的、近期情况、相关资料列表、当前用药、关键指标、过敏史、原始资料索引。</li>
+<li>[ ] 用户生成前可预览和核对。</li>
+</ul>
+<p>Priority: P0 | Effort: L | Dependencies: 病历、药品、指标、PDF 导出</p>
+</ul>
+</ul>
+<h3>Story 11：隐私授权</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 明确控制谁能看我的资料，<strong>so that</strong> 家庭管理不会侵犯我的隐私。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 敏感健康信息处理有单独同意记录。</li>
+<li>[ ] 成年成员授权必须主动确认。</li>
+<li>[ ] 默认客服和后台不能读取病历正文或原文件。</li>
+<li>[ ] 撤销授权后立即失效。</li>
+</ul>
+<p>Priority: P0 | Effort: L | Dependencies: 权限模型、审计</p>
+</ul>
+</ul>
+<h3>Story 12：数据导出和删除</h3>
+</ul>
+<p><strong>As a</strong> 患者本人，<strong>I want</strong> 导出和删除我的资料，<strong>so that</strong> 我始终拥有数据控制权。</p>
+</ul>
+<p>Acceptance Criteria:</p>
+</ul>
+<li>[ ] 用户可下载结构化数据和原始文件。</li>
+<li>[ ] 用户可删除单份资料。</li>
+<li>[ ] 用户可申请注销账号。</li>
+<li>[ ] 删除过程撤销相关分享和会话。</li>
+<li>[ ] 删除结果写入必要审计，不保留病历正文。</li>
+</ul>
+<p>Priority: P0 | Effort: L | Dependencies: 文件存储、异步任务、审计</p>
+</ul>
+</ul>
+<h2>Story Map</h2>
+</ul>
+<p>Must-have:</p>
+</ul>
+<li>登录 -&gt; 本人建档 -&gt; 上传资料 -&gt; 分类归档 -&gt; 搜索/时间线 -&gt; 资料包 PDF</li>
+<li>添加药品 -&gt; 用药提醒 -&gt; 今日待办</li>
+<li>记录指标 -&gt; 资料包引用</li>
+<li>隐私授权 -&gt; 数据导出/删除</li>
+</ul>
+<p>Should-have:</p>
+</ul>
+<li>药品库存、临期提醒、指标趋势、限时分享、家庭授权细分。</li>
+</ul>
+<p>Nice-to-have:</p>
+</ul>
+<li>OCR/AI、微信登录、小程序、年度报告、更多指标。</li>
+</ul>
+</ul>
+</ul></section>
+  </article>
+</main>
+</body>
+</html>

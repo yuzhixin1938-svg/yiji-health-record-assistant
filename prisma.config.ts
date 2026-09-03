@@ -1,0 +1,15 @@
+import "dotenv/config";
+import { defineConfig } from "prisma/config";
+
+const databaseUrl =
+  process.env.DATABASE_URL ?? "postgresql://yiji:yiji_local_only@localhost:5432/yiji?schema=public";
+
+export default defineConfig({
+  schema: "prisma/schema.prisma",
+  migrations: {
+    path: "prisma/migrations",
+  },
+  datasource: {
+    url: databaseUrl,
+  },
+});
